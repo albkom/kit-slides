@@ -1,6 +1,10 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 
+const props = defineProps({
+  slideNumber: { type: Number, default: null },
+})
+
 const SLIDE_W = 1280
 const SLIDE_H = 720
 
@@ -36,6 +40,7 @@ onUnmounted(() => {
   <div ref="outer" class="slide-outer">
     <div class="slide-inner" :style="{ transform: `scale(${scale})` }">
       <slot />
+      <span v-if="props.slideNumber !== null" class="slide-number">{{ props.slideNumber }}</span>
     </div>
   </div>
 </template>

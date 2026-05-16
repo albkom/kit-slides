@@ -17,7 +17,7 @@ const props = defineProps({
 
 const slides = computed(() => [
   { c: markRaw(SlideCover), p: { week: props.currentWeek.week, year: props.currentWeek.year } },
-  { c: markRaw(SlideKpi),   p: { summary: props.summary, week: props.currentWeek.week, year: props.currentWeek.year } },
+  { c: markRaw(SlideKpi),   p: { summary: props.summary, channels: props.channels, week: props.currentWeek.week, year: props.currentWeek.year } },
   { c: markRaw(SlideChart), p: { channels: props.channels, week: props.currentWeek.week, year: props.currentWeek.year } },
   { c: markRaw(SlideTable), p: { categories: props.categories, week: props.currentWeek.week, year: props.currentWeek.year } },
   { c: markRaw(SlideMap),   p: { geoData: props.geoData, week: props.currentWeek.week, year: props.currentWeek.year } },
@@ -38,7 +38,7 @@ function printPdf() { window.print() }
         :key="i"
         class="slide-page"
       >
-        <Slide>
+        <Slide :slide-number="i + 1">
           <component :is="s.c" v-bind="s.p" />
         </Slide>
       </div>

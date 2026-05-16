@@ -1,8 +1,6 @@
 @use 'tokens' as *;
 
 .slide-cover {
-  background: linear-gradient(135deg, $brand-dark 0%, $brand-primary 60%, #2d7dd2 100%);
-  color: white;
   align-items: center;
   justify-content: center;
   padding: 0;

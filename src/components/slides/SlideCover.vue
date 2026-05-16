@@ -17,7 +17,7 @@ const generatedDate = computed(() =>
   <div class="slide slide-cover">
     <div class="cover-content">
       <div class="badge">Report Settimanale</div>
-      <h1 class="title">KPI Dashboard</h1>
+      <h1 class="title">Titolo Slideshow</h1>
       <p class="subtitle">Settimana {{ week }} · {{ year }}</p>
       <div class="divider" />
       <p class="generated">Generato il {{ generatedDate }}</p>

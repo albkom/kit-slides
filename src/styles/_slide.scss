@@ -19,6 +19,8 @@
   width: 100%;
   height: 100%;
   background: $surface;
+  background-image: radial-gradient(circle, #ccccacaa 1px, transparent 1px);
+  background-size: 15px 15px;
   display: flex;
   flex-direction: column;
   padding: $slide-padding;
@@ -34,3 +36,14 @@
 
 .slide-title { font-size: 1.8rem; font-weight: 700; color: $brand-dark; }
 .slide-meta  { font-size: 0.9rem; color: $text-secondary; font-weight: 500; }
+
+.slide-number {
+  position: absolute;
+  bottom: 1rem;
+  right: 1.2rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: $text-secondary;
+  pointer-events: none;
+}
+
