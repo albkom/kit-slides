@@ -1,1 +1,4 @@
 /* kpi-report uses kit defaults — override CSS custom properties here to customize. */
+:root {
+--font-stack: "Roboto", system-ui, -apple-system, sans-serif;
+}

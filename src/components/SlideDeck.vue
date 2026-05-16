@@ -20,7 +20,7 @@ function printPdf() { window.print() }
         :key="i"
         class="slide-page"
       >
-        <Slide :slide-number="i + 1">
+        <Slide :slide-number="i + 1" :total-slides="slides.length">
           <component :is="s.component" v-bind="s.props" />
         </Slide>
       </div>

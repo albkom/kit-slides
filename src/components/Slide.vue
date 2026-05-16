@@ -3,6 +3,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 const props = defineProps({
   slideNumber: { type: Number, default: null },
+  totalSlides: { type: Number, default: null },
 })
 
 const SLIDE_W = 1280
@@ -40,7 +41,7 @@ onUnmounted(() => {
   <div ref="outer" class="slide-outer">
     <div class="slide-inner" :style="{ transform: `scale(${scale})` }">
       <slot />
-      <span v-if="props.slideNumber !== null" class="slide-number">{{ props.slideNumber }}</span>
+      <span v-if="props.slideNumber !== null" class="slide-number">{{ props.slideNumber }}<template v-if="props.totalSlides !== null"> / {{ props.totalSlides }}</template></span>
     </div>
   </div>
 </template>
