@@ -1,0 +1,503 @@
+// ───────────────────────────────────────────────────────────────────────────────
+// Tokens
+// ───────────────────────────────────────────────────────────────────────────────
+$brand-primary: #185fa5;
+$brand-accent:  #1d9e75;
+$brand-dark:    #0c447c;
+$brand-light:   #e6f1fb;
+
+$text-primary:   #1a1a1a;
+$text-secondary: #6b7280;
+$surface:        #f8f8f7;
+$border:         rgba(0, 0, 0, 0.08);
+
+$status-ok:      #1d9e75;
+$status-ok-bg:   #e6f7f1;
+$status-warn:    #d97706;
+$status-warn-bg: #fef3c7;
+$status-bad:     #dc2626;
+$status-bad-bg:  #fee2e2;
+
+$slide-w: 1280px;
+$slide-h: 720px;
+$slide-padding: 3rem;
+$slide-radius: 12px;
+
+$font-stack: "Segoe UI", system-ui, -apple-system, sans-serif;
+
+// ───────────────────────────────────────────────────────────────────────────────
+// Reset & base
+// ───────────────────────────────────────────────────────────────────────────────
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #app {
+  height: 100%;
+  font-family: $font-stack;
+  background: #e5e7eb;
+  color: $text-primary;
+}
+
+code {
+  background: rgba(0, 0, 0, 0.07);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+}
+
+// ───────────────────────────────────────────────────────────────────────────────
+// App shell / loading
+// ───────────────────────────────────────────────────────────────────────────────
+.app { height: 100vh; overflow: hidden; }
+
+.state-screen {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: $text-secondary;
+
+  &.error { color: $text-primary; }
+
+  .error-icon  { font-size: 3rem; }
+  .error-title { font-size: 1.3rem; font-weight: 700; color: $status-bad; }
+  .error-detail {
+    font-family: monospace;
+    font-size: 0.9rem;
+    background: $status-bad-bg;
+    color: #991b1b;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+  }
+  .error-hint  { font-size: 0.85rem; }
+
+  .spinner {
+    width: 40px; height: 40px;
+    border: 3px solid $border;
+    border-top-color: $brand-primary;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+// ───────────────────────────────────────────────────────────────────────────────
+// Deck
+// ───────────────────────────────────────────────────────────────────────────────
+.deck {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.stage {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.slide-page {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  &.active { display: flex; }
+}
+
+.controls {
+  height: 56px;
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.btn-primary {
+  background: $brand-primary;
+  border: none;
+  color: white;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.45rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover { background: $brand-dark; }
+}
+
+// ───────────────────────────────────────────────────────────────────────────────
+// Slide (the scaled 1280×720 stage)
+// ───────────────────────────────────────────────────────────────────────────────
+.slide-outer {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.slide-inner {
+  position: absolute;
+  top: 0; left: 0;
+  width: $slide-w;
+  height: $slide-h;
+  transform-origin: top left;
+}
+
+// Common per-slide chrome
+.slide {
+  width: 100%;
+  height: 100%;
+  background: $surface;
+  display: flex;
+  flex-direction: column;
+  padding: $slide-padding;
+  gap: 1.5rem;
+}
+
+.slide-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.slide-title { font-size: 1.8rem; font-weight: 700; color: $brand-dark; }
+.slide-meta  { font-size: 0.9rem; color: $text-secondary; font-weight: 500; }
+
+// ───────────────────────────────────────────────────────────────────────────────
+// Cover
+// ───────────────────────────────────────────────────────────────────────────────
+.slide-cover {
+  background: linear-gradient(135deg, $brand-dark 0%, $brand-primary 60%, #2d7dd2 100%);
+  color: white;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  flex-direction: row; // override .slide
+
+  .cover-content {
+    text-align: center;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .badge {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.35rem 1rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .title    { font-size: 4.5rem; font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
+  .subtitle { font-size: 1.6rem; font-weight: 400; opacity: 0.85; }
+
+  .divider {
+    width: 60px; height: 3px;
+    background: $brand-accent;
+    border-radius: 2px;
+    margin: 0.5rem 0;
+  }
+
+  .generated { font-size: 0.9rem; opacity: 0.65; }
+
+  .cover-deco {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 80px solid rgba(255, 255, 255, 0.06);
+    right: -150px; top: -150px;
+    pointer-events: none;
+  }
+}
+
+// ───────────────────────────────────────────────────────────────────────────────
+// KPI slide
+// ───────────────────────────────────────────────────────────────────────────────
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  flex: 1;
+  align-content: center;
+}
+
+.kpi-card {
+  background: white;
+  border-radius: $slide-radius;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  border: 1px solid $border;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+
+  .kpi-header { display: flex; align-items: center; gap: 0.5rem; }
+  .kpi-icon   { font-size: 1.1rem; }
+  .kpi-label  {
+    font-size: 0.8rem; font-weight: 600;
+    color: $text-secondary;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .kpi-value  { font-size: 2rem; font-weight: 700; color: $text-primary; line-height: 1; }
+  .kpi-footer { display: flex; align-items: center; gap: 0.4rem; }
+  .kpi-vs     { font-size: 0.72rem; color: $text-secondary; }
+}
+
+// ───────────────────────────────────────────────────────────────────────────────
+// Chart slide
+// ───────────────────────────────────────────────────────────────────────────────
+.chart-wrapper {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+// ───────────────────────────────────────────────────────────────────────────────
+// Table slide
+// ───────────────────────────────────────────────────────────────────────────────
+.table-wrapper {
+  flex: 1;
+  overflow: hidden;
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+
+  thead tr { border-bottom: 2px solid $brand-primary; }
+  th {
+    padding: 0.7rem 1rem;
+    text-align: left;
+    font-size: 0.75rem; font-weight: 700;
+    color: $text-secondary;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  tbody tr {
+    border-bottom: 1px solid $border;
+    &:last-child { border-bottom: none; }
+    &:hover      { background: $brand-light; }
+  }
+  td { padding: 0.85rem 1rem; vertical-align: middle; }
+
+  .col-cat   { width: 35%; }
+  .col-num   { width: 18%; text-align: right; font-variant-numeric: tabular-nums; }
+  .col-delta { width: 14%; text-align: center; }
+  .col-stato { width: 15%; text-align: center; }
+  .cat-name  { font-weight: 600; color: $text-primary; }
+}
+
+// ───────────────────────────────────────────────────────────────────────────────
+// Map slide
+// ───────────────────────────────────────────────────────────────────────────────
+.slide-map {
+  flex-direction: row;
+  gap: 1.5rem;
+
+  .map-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .map-frame {
+    flex: 1;
+    min-height: 0;
+    background: white;
+    border: 1px solid $border;
+    border-radius: 8px;
+    padding: 0.6rem;
+    position: relative;
+    overflow: hidden;
+
+    svg { width: 100%; height: 100%; display: block; }
+  }
+
+  .legend {
+    flex-shrink: 0;
+    display: flex; align-items: center; gap: 0.5rem;
+    height: 18px;
+
+    .legend-bar {
+      flex: 1; height: 8px; border-radius: 4px;
+      background: linear-gradient(to right, $brand-light, $brand-dark);
+    }
+    .legend-label {
+      font-size: 0.72rem;
+      color: $text-secondary;
+      font-variant-numeric: tabular-nums;
+      min-width: 40px;
+
+      &.end { text-align: right; }
+    }
+  }
+
+  .top5 {
+    flex: 0 0 280px;
+    background: white;
+    border: 1px solid $border;
+    border-radius: $slide-radius;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+
+    h3 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: $text-secondary;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    ol {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      flex: 1;
+    }
+
+    li {
+      display: grid;
+      grid-template-columns: 22px 1fr auto;
+      align-items: center;
+      gap: 0.6rem;
+      padding-bottom: 0.55rem;
+      border-bottom: 1px solid $border;
+
+      &:last-child { border-bottom: none; }
+
+      .rank {
+        width: 22px; height: 22px;
+        display: flex; align-items: center; justify-content: center;
+        background: $brand-light;
+        color: $brand-dark;
+        border-radius: 50%;
+        font-size: 0.72rem;
+        font-weight: 700;
+      }
+      .name {
+        font-size: 0.88rem;
+        color: $text-primary;
+        font-weight: 500;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .value {
+        font-size: 0.85rem;
+        color: $brand-primary;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+      }
+    }
+
+    .empty {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      color: $text-secondary;
+      font-style: italic;
+      font-size: 0.85rem;
+    }
+  }
+
+  .tooltip {
+    position: absolute;
+    pointer-events: none;
+    background: white;
+    border: 1px solid $border;
+    border-radius: 8px;
+    padding: 0.4rem 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    display: flex; flex-direction: column;
+    gap: 0.1rem;
+    z-index: 10;
+
+    .tt-name  { font-size: 0.75rem; font-weight: 700; color: $text-primary; }
+    .tt-value { font-size: 0.72rem; color: $brand-primary; font-variant-numeric: tabular-nums; }
+  }
+}
+
+// ───────────────────────────────────────────────────────────────────────────────
+// Badges
+// ───────────────────────────────────────────────────────────────────────────────
+.delta-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+
+  .arrow { font-size: 0.65rem; }
+
+  &.up      { color: $status-ok;  background: $status-ok-bg; }
+  &.down    { color: $status-bad; background: $status-bad-bg; }
+  &.neutral { color: $text-secondary; background: $border; }
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+
+  &.in_target    { color: $status-ok;   background: $status-ok-bg; }
+  &.attenzione   { color: $status-warn; background: $status-warn-bg; }
+  &.sotto_target { color: $status-bad;  background: $status-bad-bg; }
+}
+
+// ───────────────────────────────────────────────────────────────────────────────
+// Print
+// ───────────────────────────────────────────────────────────────────────────────
+@media print {
+  @page { size: A4 landscape; margin: 0; }
+
+  html, body, #app { background: white; height: auto; overflow: visible; }
+
+  .app, .deck { height: auto; overflow: visible; }
+
+  .controls { display: none !important; }
+
+  .stage {
+    position: static;
+    overflow: visible;
+    height: auto;
+  }
+
+  .slide-page {
+    position: relative;
+    display: flex !important;
+    inset: auto;
+    width: 297mm;
+    height: 210mm;
+    page-break-after: always;
+    break-after: page;
+    page-break-inside: avoid;
+    break-inside: avoid;
+
+    &:last-child {
+      page-break-after: auto;
+      break-after: auto;
+    }
+  }
+}

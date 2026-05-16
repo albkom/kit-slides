@@ -1,56 +1,41 @@
 <script setup>
-import { computed } from 'vue'
-import { SLIDE_W, SLIDE_H } from '../composables/useSlideScale.js'
+import { ref, onMounted, onUnmounted } from 'vue'
 
-const props = defineProps({
-  scale: { type: Number, required: true },
+const SLIDE_W = 1280
+const SLIDE_H = 720
+
+const outer = ref(null)
+const scale = ref(1)
+let ro = null
+
+function update() {
+  if (!outer.value) return
+  const w = outer.value.clientWidth
+  const h = outer.value.clientHeight
+  if (w === 0 || h === 0) return
+  scale.value = Math.min(w / SLIDE_W, h / SLIDE_H)
+}
+
+onMounted(() => {
+  ro = new ResizeObserver(update)
+  ro.observe(outer.value)
+  update()
+  // Recompute on print transitions — Chrome resizes the viewport for @page.
+  window.addEventListener('beforeprint', update)
+  window.addEventListener('afterprint', update)
 })
 
-const outerStyle = computed(() => ({
-  position: 'relative',
-  width: `${SLIDE_W * props.scale}px`,
-  height: `${SLIDE_H * props.scale}px`,
-  overflow: 'hidden',
-  flexShrink: '0',
-}))
-
-const innerStyle = computed(() => ({
-  position: 'absolute',
-  top: '0',
-  left: '0',
-  width: `${SLIDE_W}px`,
-  height: `${SLIDE_H}px`,
-  transform: `scale(${props.scale})`,
-  transformOrigin: 'top left',
-}))
+onUnmounted(() => {
+  ro?.disconnect()
+  window.removeEventListener('beforeprint', update)
+  window.removeEventListener('afterprint', update)
+})
 </script>
 
 <template>
-  <div class="slide-outer" :style="outerStyle">
-    <div class="slide-inner" :style="innerStyle">
+  <div ref="outer" class="slide-outer">
+    <div class="slide-inner" :style="{ transform: `scale(${scale})` }">
       <slot />
     </div>
   </div>
 </template>
-
-<style scoped>
-@media print {
-  /*
-   * Force each slide to fill exactly one A4 landscape page.
-   * The transform on .slide-inner (inline, JS-computed to ~0.877) already
-   * fits the 1280×720 content into A4; the outer just needs to be page-sized
-   * so page-break-after fires reliably.
-   */
-  .slide-outer {
-    position: relative !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    overflow: hidden !important;
-    page-break-after: always !important;
-    break-after: page !important;
-    /* Avoid Chrome splitting the slide mid-content */
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-  }
-}
-</style>
