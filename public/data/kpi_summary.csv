@@ -1,0 +1,4 @@
+week,year,fatturato,fatturato_prev,ordini,ordini_prev,tasso_conversione,tasso_conversione_prev,ticket_medio,ticket_medio_prev
+18,2026,284500,261200,1842,1710,3.2,2.9,154.45,152.80
+19,2026,301200,284500,1976,1842,3.5,3.2,152.43,154.45
+20,2026,318750,301200,2104,1976,3.8,3.5,151.50,152.43

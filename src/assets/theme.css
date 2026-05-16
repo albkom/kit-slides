@@ -1,0 +1,62 @@
+:root {
+  --brand-primary: #185fa5;
+  --brand-accent: #1d9e75;
+  --brand-dark: #0c447c;
+  --brand-light: #e6f1fb;
+
+  --slide-width: 1280px;
+  --slide-height: 720px;
+  --slide-padding: 3rem;
+  --slide-radius: 12px;
+
+  --text-primary: #1a1a1a;
+  --text-secondary: #6b7280;
+  --surface: #f8f8f7;
+  --border: rgba(0, 0, 0, 0.08);
+
+  --status-ok: #1d9e75;
+  --status-ok-bg: #e6f7f1;
+  --status-warn: #d97706;
+  --status-warn-bg: #fef3c7;
+  --status-bad: #dc2626;
+  --status-bad-bg: #fee2e2;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  font-family:
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    sans-serif;
+  background: #e5e7eb;
+  color: var(--text-primary);
+}
+
+.slide {
+  min-height: 100%;
+  border: solid 1px var(--text-primary);
+}
+
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+
+  html,
+  body,
+  #app {
+    background: white;
+  }
+}

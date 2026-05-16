@@ -1,0 +1,19 @@
+week,year,categoria,fatturato,ordini,fatturato_prev,ordini_prev,target_fatturato,stato
+18,2026,Abbigliamento,84200,612,79100,580,82000,in_target
+18,2026,Elettronica,71300,198,74800,210,75000,sotto_target
+18,2026,Casa & Giardino,52100,380,48900,355,50000,in_target
+18,2026,Sport,38400,270,36200,252,40000,attenzione
+18,2026,Libri & Media,22100,180,21400,172,22000,in_target
+18,2026,Beauty,16400,202,14900,185,16000,in_target
+19,2026,Abbigliamento,89100,648,84200,612,85000,in_target
+19,2026,Elettronica,75600,208,71300,198,75000,in_target
+19,2026,Casa & Giardino,54800,402,52100,380,53000,in_target
+19,2026,Sport,40100,284,38400,270,40000,in_target
+19,2026,Libri & Media,23800,192,22100,180,24000,attenzione
+19,2026,Beauty,17800,242,16400,202,18000,attenzione
+20,2026,Abbigliamento,94500,692,89100,648,90000,in_target
+20,2026,Elettronica,79200,218,75600,208,80000,attenzione
+20,2026,Casa & Giardino,58400,428,54800,402,56000,in_target
+20,2026,Sport,41800,298,40100,284,42000,attenzione
+20,2026,Libri & Media,24900,204,23800,192,25000,attenzione
+20,2026,Beauty,19950,264,17800,242,18000,in_target
