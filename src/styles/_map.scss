@@ -1,5 +1,3 @@
-@use 'tokens' as *;
-
 .slide-map {
   flex-direction: row;
   gap: 1.5rem;
@@ -16,7 +14,7 @@
     flex: 1;
     min-height: 0;
     background: white;
-    border: 1px solid $border;
+    border: 1px solid var(--border);
     border-radius: 8px;
     padding: 0.6rem;
     position: relative;
@@ -32,11 +30,11 @@
 
     .legend-bar {
       flex: 1; height: 8px; border-radius: 4px;
-      background: linear-gradient(to right, $brand-light, $brand-dark);
+      background: linear-gradient(to right, var(--brand-light), var(--brand-dark));
     }
     .legend-label {
       font-size: 0.72rem;
-      color: $text-secondary;
+      color: var(--text-secondary);
       font-variant-numeric: tabular-nums;
       min-width: 40px;
 
@@ -47,8 +45,8 @@
   .top5 {
     flex: 0 0 280px;
     background: white;
-    border: 1px solid $border;
-    border-radius: $slide-radius;
+    border: 1px solid var(--border);
+    border-radius: var(--slide-radius);
     padding: 1.25rem;
     display: flex;
     flex-direction: column;
@@ -57,7 +55,7 @@
     h3 {
       font-size: 0.8rem;
       font-weight: 700;
-      color: $text-secondary;
+      color: var(--text-secondary);
       text-transform: uppercase;
       letter-spacing: 0.06em;
     }
@@ -76,22 +74,22 @@
       align-items: center;
       gap: 0.6rem;
       padding-bottom: 0.55rem;
-      border-bottom: 1px solid $border;
+      border-bottom: 1px solid var(--border);
 
       &:last-child { border-bottom: none; }
 
       .rank {
         width: 22px; height: 22px;
         display: flex; align-items: center; justify-content: center;
-        background: $brand-light;
-        color: $brand-dark;
+        background: var(--brand-light);
+        color: var(--brand-dark);
         border-radius: 50%;
         font-size: 0.72rem;
         font-weight: 700;
       }
       .name {
         font-size: 0.88rem;
-        color: $text-primary;
+        color: var(--text-primary);
         font-weight: 500;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -99,7 +97,7 @@
       }
       .value {
         font-size: 0.85rem;
-        color: $brand-primary;
+        color: var(--brand-primary);
         font-weight: 600;
         font-variant-numeric: tabular-nums;
       }
@@ -108,7 +106,7 @@
     .empty {
       flex: 1;
       display: flex; align-items: center; justify-content: center;
-      color: $text-secondary;
+      color: var(--text-secondary);
       font-style: italic;
       font-size: 0.85rem;
     }
@@ -118,7 +116,7 @@
     position: absolute;
     pointer-events: none;
     background: white;
-    border: 1px solid $border;
+    border: 1px solid var(--border);
     border-radius: 8px;
     padding: 0.4rem 0.75rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
@@ -126,7 +124,7 @@
     gap: 0.1rem;
     z-index: 10;
 
-    .tt-name  { font-size: 0.75rem; font-weight: 700; color: $text-primary; }
-    .tt-value { font-size: 0.72rem; color: $brand-primary; font-variant-numeric: tabular-nums; }
+    .tt-name  { font-size: 0.75rem; font-weight: 700; color: var(--text-primary); }
+    .tt-value { font-size: 0.72rem; color: var(--brand-primary); font-variant-numeric: tabular-nums; }
   }
 }

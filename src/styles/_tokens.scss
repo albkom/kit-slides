@@ -1,23 +1,25 @@
-$brand-primary: #185fa5;
-$brand-accent:  #931d9e;
-$brand-dark:    #7c0c4b;
-$brand-light:   #e6f1fb;
+:root {
+  --brand-primary: #185fa5;
+  --brand-accent:  #931d9e;
+  --brand-dark:    #7c0c4b;
+  --brand-light:   #e6f1fb;
 
-$text-primary:   #1a1a1a;
-$text-secondary: #6b7280;
-$surface:        #f8f8f7;
-$border:         rgba(0, 0, 0, 0.08);
+  --text-primary:   #1a1a1a;
+  --text-secondary: #6b7280;
+  --surface:        #f8f8f7;
+  --border:         rgba(0, 0, 0, 0.08);
 
-$status-ok:      #1d9e75;
-$status-ok-bg:   #e6f7f1;
-$status-warn:    #d97706;
-$status-warn-bg: #fef3c7;
-$status-bad:     #dc2626;
-$status-bad-bg:  #fee2e2;
+  --status-ok:      #1d9e75;
+  --status-ok-bg:   #e6f7f1;
+  --status-warn:    #d97706;
+  --status-warn-bg: #fef3c7;
+  --status-bad:     #dc2626;
+  --status-bad-bg:  #fee2e2;
 
-$slide-w: 1280px;
-$slide-h: 720px;
-$slide-padding: 3rem;
-$slide-radius: 12px;
+  --slide-w: 1280px;
+  --slide-h: 720px;
+  --slide-padding: 3rem;
+  --slide-radius: 12px;
 
-$font-stack: "Roboto", system-ui, -apple-system, sans-serif;
+  --font-stack: "Roboto", system-ui, -apple-system, sans-serif;
+}

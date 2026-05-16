@@ -1,7 +1,8 @@
 <script setup>
 import { computed } from 'vue'
-import { SlideDeck, useKpiData } from '../../index.js'
+import { SlideDeck } from '../../index.js'
 import { buildSlides } from './deck.js'
+import { useKpiData } from './useKpiData.js'
 
 const {
   currentWeek, summary, channels, categories, geoData, isLoading, error,
@@ -33,7 +34,7 @@ const slides = computed(() =>
       <p class="error-title">Errore nel caricamento dei dati</p>
       <p class="error-detail">{{ error }}</p>
       <p class="error-hint">
-        Assicurati che i file CSV siano presenti in <code>examples/kpi-report/public/data/</code>
+        Assicurati che i file CSV siano presenti in <code>decks/kpi-report/public/data/</code>
       </p>
     </div>
 

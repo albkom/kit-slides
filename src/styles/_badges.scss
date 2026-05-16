@@ -1,5 +1,3 @@
-@use 'tokens' as *;
-
 .delta-badge {
   display: inline-flex;
   align-items: center;
@@ -11,9 +9,9 @@
 
   .arrow { font-size: 0.65rem; }
 
-  &.up      { color: $status-ok;  background: $status-ok-bg; }
-  &.down    { color: $status-bad; background: $status-bad-bg; }
-  &.neutral { color: $text-secondary; background: $border; }
+  &.up      { color: var(--status-ok);  background: var(--status-ok-bg); }
+  &.down    { color: var(--status-bad); background: var(--status-bad-bg); }
+  &.neutral { color: var(--text-secondary); background: var(--border); }
 }
 
 .status-badge {
@@ -24,7 +22,7 @@
   font-weight: 600;
   white-space: nowrap;
 
-  &.in_target    { color: $status-ok;   background: $status-ok-bg; }
-  &.attenzione   { color: $status-warn; background: $status-warn-bg; }
-  &.sotto_target { color: $status-bad;  background: $status-bad-bg; }
+  &.in_target    { color: var(--status-ok);   background: var(--status-ok-bg); }
+  &.attenzione   { color: var(--status-warn); background: var(--status-warn-bg); }
+  &.sotto_target { color: var(--status-bad);  background: var(--status-bad-bg); }
 }

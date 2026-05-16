@@ -113,7 +113,6 @@ kit-slides/
 │       └── kpi_by_category.csv
 ├── src/
 │   ├── assets/theme.css          ← CSS variables del tema
-│   ├── composables/useKpiData.js ← fetch + parse CSV
 │   ├── components/
 │   │   ├── SlideDeck.vue         ← contenitore con navigazione
 │   │   ├── slides/

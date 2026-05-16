@@ -1,16 +1,42 @@
 version: '3'
 
+# Pass the deck name with NAME=... (e.g. `task dev NAME=my-talk`).
+# Defaults to `kpi-report` when omitted.
+vars:
+  NAME: '{{.NAME | default "kpi-report"}}'
+
 tasks:
+  install:
+    desc: Install dependencies
+    cmd: pnpm install
+
+  new:
+    desc: Scaffold a new deck from templates/starter (NAME=<deck-folder>)
+    preconditions:
+      - sh: '[ -n "{{.NAME}}" ] && [ "{{.NAME}}" != "kpi-report" ]'
+        msg: 'Provide a NAME, e.g. `task new NAME=my-talk` (and avoid reserved names)'
+      - sh: '[ ! -d "decks/{{.NAME}}" ]'
+        msg: 'decks/{{.NAME}} already exists'
+    cmds:
+      - cp -r templates/starter decks/{{.NAME}}
+      - 'echo Created decks/{{.NAME}}. Run: task dev NAME={{.NAME}}'
+
   dev:
-    desc: Start development server
+    desc: Start dev server for a deck (NAME=<deck-folder>, default kpi-report)
+    env:
+      KIT_DECK: '{{.NAME}}'
     cmd: pnpm dev
 
   dev:pdf:
-    desc: Start development server in PDF mode
+    desc: Dev server with PDF auto-export (NAME=<deck-folder>)
+    env:
+      KIT_DECK: '{{.NAME}}'
     cmd: pnpm dev:pdf
 
   build:
-    desc: Build for production
+    desc: Build a deck for production (NAME=<deck-folder>)
+    env:
+      KIT_DECK: '{{.NAME}}'
     cmd: pnpm build
 
   preview:
@@ -20,7 +46,3 @@ tasks:
   pdf:
     desc: Export slides to PDF
     cmd: pnpm pdf
-
-  install:
-    desc: Install dependencies
-    cmd: pnpm install
