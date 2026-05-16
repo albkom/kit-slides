@@ -1,0 +1,30 @@
+@use 'tokens' as *;
+
+.delta-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+
+  .arrow { font-size: 0.65rem; }
+
+  &.up      { color: $status-ok;  background: $status-ok-bg; }
+  &.down    { color: $status-bad; background: $status-bad-bg; }
+  &.neutral { color: $text-secondary; background: $border; }
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+
+  &.in_target    { color: $status-ok;   background: $status-ok-bg; }
+  &.attenzione   { color: $status-warn; background: $status-warn-bg; }
+  &.sotto_target { color: $status-bad;  background: $status-bad-bg; }
+}

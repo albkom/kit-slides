@@ -1,0 +1,26 @@
+version: '3'
+
+tasks:
+  dev:
+    desc: Start development server
+    cmd: pnpm dev
+
+  dev:pdf:
+    desc: Start development server in PDF mode
+    cmd: pnpm dev:pdf
+
+  build:
+    desc: Build for production
+    cmd: pnpm build
+
+  preview:
+    desc: Preview production build
+    cmd: pnpm preview
+
+  pdf:
+    desc: Export slides to PDF
+    cmd: pnpm pdf
+
+  install:
+    desc: Install dependencies
+    cmd: pnpm install

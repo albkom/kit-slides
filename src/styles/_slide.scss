@@ -1,0 +1,36 @@
+@use 'tokens' as *;
+
+.slide-outer {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.slide-inner {
+  position: absolute;
+  top: 0; left: 0;
+  width: $slide-w;
+  height: $slide-h;
+  transform-origin: top left;
+}
+
+.slide {
+  width: 100%;
+  height: 100%;
+  background: $surface;
+  display: flex;
+  flex-direction: column;
+  padding: $slide-padding;
+  gap: 1.5rem;
+}
+
+.slide-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.slide-title { font-size: 1.8rem; font-weight: 700; color: $brand-dark; }
+.slide-meta  { font-size: 0.9rem; color: $text-secondary; font-weight: 500; }

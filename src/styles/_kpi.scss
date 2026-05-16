@@ -1,0 +1,31 @@
+@use 'tokens' as *;
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  flex: 1;
+  align-content: center;
+}
+
+.kpi-card {
+  background: white;
+  border-radius: $slide-radius;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  border: 1px solid $border;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+
+  .kpi-header { display: flex; align-items: center; gap: 0.5rem; }
+  .kpi-icon   { font-size: 1.1rem; }
+  .kpi-label  {
+    font-size: 0.8rem; font-weight: 600;
+    color: $text-secondary;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .kpi-value  { font-size: 2rem; font-weight: 700; color: $text-primary; line-height: 1; }
+  .kpi-footer { display: flex; align-items: center; gap: 0.4rem; }
+  .kpi-vs     { font-size: 0.72rem; color: $text-secondary; }
+}

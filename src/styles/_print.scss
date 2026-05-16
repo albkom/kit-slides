@@ -1,0 +1,46 @@
+@use 'tokens' as *;
+
+@media print {
+  @page { size: 1280px 720px; margin: 0; }
+
+  html, body, #app { background: white; height: auto; overflow: visible; }
+
+  .app, .deck { height: auto; overflow: visible; }
+
+  .toolbar { display: none !important; }
+
+  .stage {
+    position: static;
+    overflow: visible;
+    height: auto;
+  }
+
+  .slide-page {
+    position: relative;
+    display: flex !important;
+    inset: auto;
+    width: 1280px;
+    height: 720px;
+    page-break-after: always;
+    break-after: page;
+    page-break-inside: avoid;
+    break-inside: avoid;
+
+    &:last-child {
+      page-break-after: auto;
+      break-after: auto;
+    }
+  }
+
+  .slide-outer {
+    width: 1280px;
+    height: 720px;
+    overflow: visible;
+  }
+
+  .slide-inner {
+    transform: none !important;
+    width: 1280px;
+    height: 720px;
+  }
+}
