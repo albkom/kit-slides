@@ -3,10 +3,20 @@ import { computed } from 'vue'
 import { SlideDeck } from '../../index.js'
 import { buildSlides } from './deck.js'
 import { useKpiData } from './useKpiData.js'
+import { createAdapter } from './adapters/index.js'
+
+const adapter = createAdapter(
+  import.meta.env.VITE_DATA_SOURCE ?? 'csv',
+  {
+    basePath: import.meta.env.VITE_CSV_PATH ?? './data',
+    baseUrl:  import.meta.env.VITE_API_BASE ?? '',
+    port:     Number(import.meta.env.VITE_LOCAL_PORT ?? 5000),
+  },
+)
 
 const {
   currentWeek, summary, channels, categories, geoData, isLoading, error,
-} = useKpiData()
+} = useKpiData(adapter)
 
 const slides = computed(() =>
   currentWeek.value && summary.value
