@@ -1,12 +1,10 @@
-@use 'tokens' as *;
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body, #app {
   height: 100%;
-  font-family: $font-stack;
+  font-family: var(--font-stack);
   background: #e5e7eb;
-  color: $text-primary;
+  color: var(--text-primary);
 }
 
 code {

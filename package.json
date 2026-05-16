@@ -1,8 +1,12 @@
 {
   "name": "kit-slides",
   "version": "1.0.0",
-  "private": true,
   "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./styles": "./src/styles/main.scss"
+  },
   "scripts": {
     "dev": "vite",
     "dev:pdf": "vite --mode pdf",

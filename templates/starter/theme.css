@@ -1,0 +1,17 @@
+/* Override le CSS variables del kit qui per personalizzare il tuo deck.
+   Vedi src/styles/_tokens.scss per tutti i token disponibili. */
+:root {
+  /* --brand-primary: #185fa5; */
+  /* --brand-accent:  #931d9e; */
+  /* --font-stack:    "Roboto", system-ui, sans-serif; */
+}
+
+.hello {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+
+  h1 { font-size: 3.5rem; font-weight: 800; color: var(--brand-dark); }
+  p  { font-size: 1.1rem; color: var(--text-secondary); }
+}

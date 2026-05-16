@@ -1,5 +1,3 @@
-@use 'tokens' as *;
-
 .app { height: 100vh; overflow: hidden; }
 
 .state-screen {
@@ -9,16 +7,16 @@
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  color: $text-secondary;
+  color: var(--text-secondary);
 
-  &.error { color: $text-primary; }
+  &.error { color: var(--text-primary); }
 
   .error-icon  { font-size: 3rem; }
-  .error-title { font-size: 1.3rem; font-weight: 700; color: $status-bad; }
+  .error-title { font-size: 1.3rem; font-weight: 700; color: var(--status-bad); }
   .error-detail {
     font-family: monospace;
     font-size: 0.9rem;
-    background: $status-bad-bg;
+    background: var(--status-bad-bg);
     color: #991b1b;
     padding: 0.5rem 1rem;
     border-radius: 6px;
@@ -27,8 +25,8 @@
 
   .spinner {
     width: 40px; height: 40px;
-    border: 3px solid $border;
-    border-top-color: $brand-primary;
+    border: 3px solid var(--border);
+    border-top-color: var(--brand-primary);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }
@@ -72,7 +70,7 @@
 }
 
 .btn-primary {
-  background: $brand-primary;
+  background: var(--brand-primary);
   border: none;
   color: white;
   font-size: 0.82rem;
@@ -82,5 +80,5 @@
   cursor: pointer;
   transition: background 0.15s;
 
-  &:hover { background: $brand-dark; }
+  &:hover { background: var(--brand-dark); }
 }
