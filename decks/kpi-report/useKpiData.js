@@ -1,75 +1,49 @@
-import { ref, computed } from 'vue'
-import Papa from 'papaparse'
-
-function parseCsv(text) {
-  const result = Papa.parse(text.trim(), {
-    header: true,
-    skipEmptyLines: true,
-    transformHeader: (h) => h.trim(),
-    transform: (v) => v.trim(),
-  })
-  return result.data
-}
+import { ref, computed } from "vue";
 
 function toNum(v) {
-  const n = parseFloat(String(v).replace(',', '.'))
-  return isNaN(n) ? 0 : n
+  const n = parseFloat(String(v).replace(",", "."));
+  return isNaN(n) ? 0 : n;
 }
 
 function delta(current, prev) {
-  if (!prev || prev === 0) return null
-  return ((current - prev) / Math.abs(prev)) * 100
+  if (!prev || prev === 0) return null;
+  return ((current - prev) / Math.abs(prev)) * 100;
 }
 
-async function fetchCsv(path) {
-  const res = await fetch(path)
-  if (!res.ok) throw new Error(`Impossibile caricare ${path}: ${res.status}`)
-  return res.text()
-}
+export function useKpiData(adapter) {
+  const isLoading = ref(true);
+  const error = ref(null);
 
-async function fetchCsvOptional(path) {
-  try {
-    const res = await fetch(path)
-    return res.ok ? res.text() : null
-  } catch {
-    return null
-  }
-}
-
-export function useKpiData(basePath = './data') {
-  const isLoading = ref(true)
-  const error = ref(null)
-
-  const _summary = ref([])
-  const _channels = ref([])
-  const _categories = ref([])
-  const _geo = ref([])
+  const _summary = ref([]);
+  const _channels = ref([]);
+  const _categories = ref([]);
+  const _geo = ref([]);
 
   const currentWeek = computed(() => {
-    if (!_summary.value.length) return null
-    const maxYear = Math.max(..._summary.value.map((r) => Number(r.year)))
-    const inYear = _summary.value.filter((r) => Number(r.year) === maxYear)
-    const maxWeek = Math.max(...inYear.map((r) => Number(r.week)))
-    return { week: maxWeek, year: maxYear }
-  })
+    if (!_summary.value.length) return null;
+    const maxYear = Math.max(..._summary.value.map((r) => Number(r.year)));
+    const inYear = _summary.value.filter((r) => Number(r.year) === maxYear);
+    const maxWeek = Math.max(...inYear.map((r) => Number(r.week)));
+    return { week: maxWeek, year: maxYear };
+  });
 
   const summary = computed(() => {
-    if (!currentWeek.value || !_summary.value.length) return null
+    if (!currentWeek.value || !_summary.value.length) return null;
     const row = _summary.value.find(
       (r) =>
         Number(r.week) === currentWeek.value.week &&
         Number(r.year) === currentWeek.value.year,
-    )
-    if (!row) return null
+    );
+    if (!row) return null;
 
-    const fatturato = toNum(row.fatturato)
-    const fatturato_prev = toNum(row.fatturato_prev)
-    const ordini = toNum(row.ordini)
-    const ordini_prev = toNum(row.ordini_prev)
-    const tasso_conversione = toNum(row.tasso_conversione)
-    const tasso_conversione_prev = toNum(row.tasso_conversione_prev)
-    const ticket_medio = toNum(row.ticket_medio)
-    const ticket_medio_prev = toNum(row.ticket_medio_prev)
+    const fatturato = toNum(row.fatturato);
+    const fatturato_prev = toNum(row.fatturato_prev);
+    const ordini = toNum(row.ordini);
+    const ordini_prev = toNum(row.ordini_prev);
+    const tasso_conversione = toNum(row.tasso_conversione);
+    const tasso_conversione_prev = toNum(row.tasso_conversione_prev);
+    const ticket_medio = toNum(row.ticket_medio);
+    const ticket_medio_prev = toNum(row.ticket_medio_prev);
 
     return {
       fatturato,
@@ -80,28 +54,27 @@ export function useKpiData(basePath = './data') {
       tasso_conversione_delta: delta(tasso_conversione, tasso_conversione_prev),
       ticket_medio,
       ticket_medio_delta: delta(ticket_medio, ticket_medio_prev),
-    }
-  })
+    };
+  });
 
   const channels = computed(() => {
-    if (!currentWeek.value) return []
+    if (!currentWeek.value) return [];
     return _channels.value
-      .filter(
-        (r) =>
-          Number(r.week) === currentWeek.value.week &&
-          Number(r.year) === currentWeek.value.year,
-      )
       .map((r) => ({
-        canale: r.canale,
-        fatturato: toNum(r.fatturato),
-        ordini: toNum(r.ordini),
-        tasso_conversione: toNum(r.tasso_conversione),
+        name: r.name,
+        total: toNum(r.total),
+        oks: toNum(r.oks),
+        kos: toNum(r.kos),
+        draws: toNum(r.draws),
+        kpi_1: toNum(r.kpi_1),
+        kpi_2: toNum(r.kpi_2),
+        kpi_3: toNum(r.kpi_3),
       }))
-      .sort((a, b) => b.fatturato - a.fatturato)
-  })
+      .sort((a, b) => b.oks - a.oks);
+  });
 
   const categories = computed(() => {
-    if (!currentWeek.value) return []
+    if (!currentWeek.value) return [];
     return _categories.value
       .filter(
         (r) =>
@@ -109,56 +82,66 @@ export function useKpiData(basePath = './data') {
           Number(r.year) === currentWeek.value.year,
       )
       .map((r) => {
-        const fatturato = toNum(r.fatturato)
-        const fatturato_prev = toNum(r.fatturato_prev)
-        const ordini = toNum(r.ordini)
-        const ordini_prev = toNum(r.ordini_prev)
+        const fatturato = toNum(r.fatturato);
+        const fatturato_prev = toNum(r.fatturato_prev);
+        const ordini = toNum(r.ordini);
+        const ordini_prev = toNum(r.ordini_prev);
         return {
-          categoria: r.categoria,
+          name: r.name,
           fatturato,
           ordini,
           fatturato_delta: delta(fatturato, fatturato_prev),
           target_fatturato: toNum(r.target_fatturato),
-          stato: r.stato || 'in_target',
-        }
+          stato: r.stato || "in_target",
+        };
       })
-      .sort((a, b) => b.fatturato - a.fatturato)
-  })
+      .sort((a, b) => b.fatturato - a.fatturato);
+  });
 
   const geoData = computed(() => {
-    if (!currentWeek.value) return []
+    if (!currentWeek.value) return [];
     return _geo.value
       .filter(
         (r) =>
           Number(r.week) === currentWeek.value.week &&
           Number(r.year) === currentWeek.value.year,
       )
-      .map((r) => ({ code: r.code.trim().toUpperCase(), value: toNum(r.value) }))
-  })
+      .map((r) => ({
+        code: r.code.trim().toUpperCase(),
+        value: toNum(r.value),
+      }));
+  });
 
   async function load() {
     try {
-      isLoading.value = true
-      error.value = null
-      const base = basePath.replace(/\/$/, '')
-      const [sumText, chanText, catText, geoText] = await Promise.all([
-        fetchCsv(`${base}/kpi_summary.csv`),
-        fetchCsv(`${base}/kpi_by_channel.csv`),
-        fetchCsv(`${base}/kpi_by_category.csv`),
-        fetchCsvOptional(`${base}/geo_kpi.csv`),
-      ])
-      _summary.value = parseCsv(sumText)
-      _channels.value = parseCsv(chanText)
-      _categories.value = parseCsv(catText)
-      _geo.value = geoText ? parseCsv(geoText) : []
+      isLoading.value = true;
+      error.value = null;
+      const [summary, channels, categories, geo] = await Promise.all([
+        adapter.fetchSummary(),
+        adapter.fetchChannels(),
+        adapter.fetchCategories(),
+        adapter.fetchGeo(),
+      ]);
+      _summary.value = summary;
+      _channels.value = channels;
+      _categories.value = categories;
+      _geo.value = geo ?? [];
     } catch (e) {
-      error.value = e.message
+      error.value = e.message;
     } finally {
-      isLoading.value = false
+      isLoading.value = false;
     }
   }
 
-  load()
+  load();
 
-  return { currentWeek, summary, channels, categories, geoData, isLoading, error }
+  return {
+    currentWeek,
+    summary,
+    channels,
+    categories,
+    geoData,
+    isLoading,
+    error,
+  };
 }
