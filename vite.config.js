@@ -34,4 +34,5 @@ export default defineConfig(({ mode }) => ({
     ...(mode === 'pdf' ? [pdfOnSavePlugin()] : []),
   ],
   base: './',
+  publicDir: 'examples/kpi-report/public',
 }))

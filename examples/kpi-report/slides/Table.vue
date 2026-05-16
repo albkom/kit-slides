@@ -1,7 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import StatusBadge from '../ui/StatusBadge.vue'
-import DeltaBadge from '../ui/DeltaBadge.vue'
+import { StatusBadge, DeltaBadge } from '../../../index.js'
 
 const props = defineProps({
   categories: { type: Array, required: true },

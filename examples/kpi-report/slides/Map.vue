@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { geoNaturalEarth1, geoPath } from 'd3-geo'
 import { feature } from 'topojson-client'
 import worldData from 'world-atlas/countries-110m.json'
-import { alpha2ToNumeric, numericToAlpha2, countryNames } from '../../data/countryData.js'
+import { alpha2ToNumeric, numericToAlpha2, countryNames } from '../countryData.js'
 
 const props = defineProps({
   geoData: { type: Array, default: () => [] },

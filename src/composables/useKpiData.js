@@ -36,7 +36,7 @@ async function fetchCsvOptional(path) {
   }
 }
 
-export function useKpiData() {
+export function useKpiData(basePath = './data') {
   const isLoading = ref(true)
   const error = ref(null)
 
@@ -140,11 +140,12 @@ export function useKpiData() {
     try {
       isLoading.value = true
       error.value = null
+      const base = basePath.replace(/\/$/, '')
       const [sumText, chanText, catText, geoText] = await Promise.all([
-        fetchCsv('./data/kpi_summary.csv'),
-        fetchCsv('./data/kpi_by_channel.csv'),
-        fetchCsv('./data/kpi_by_category.csv'),
-        fetchCsvOptional('./data/geo_kpi.csv'),
+        fetchCsv(`${base}/kpi_summary.csv`),
+        fetchCsv(`${base}/kpi_by_channel.csv`),
+        fetchCsv(`${base}/kpi_by_category.csv`),
+        fetchCsvOptional(`${base}/geo_kpi.csv`),
       ])
       _summary.value = parseCsv(sumText)
       _channels.value = parseCsv(chanText)

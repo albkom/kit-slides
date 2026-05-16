@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import KpiCard from '../ui/KpiCard.vue'
+import { KpiCard } from '../../../index.js'
 
 const props = defineProps({
   summary: { type: Object, required: true },
