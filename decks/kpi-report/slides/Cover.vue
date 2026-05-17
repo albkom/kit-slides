@@ -1,10 +1,7 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 
-defineProps({
-  week: { type: Number, required: true },
-  year: { type: Number, required: true },
-})
+defineProps<{ week: number; year: number }>()
 
 const generatedDate = computed(() =>
   new Intl.DateTimeFormat('it-IT', {

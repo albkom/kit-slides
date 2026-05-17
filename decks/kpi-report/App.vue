@@ -1,16 +1,17 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
-import { SlideDeck } from '../../index.js'
-import { buildSlides } from './deck.js'
-import { useKpiData } from './useKpiData.js'
-import { createAdapter } from './adapters/index.js'
+import { SlideDeck } from '../../index'
+import { buildSlides } from './deck'
+import { useKpiData } from './useKpiData'
+import { createAdapter } from './adapters/index'
+import type { AdapterType } from './adapters/index'
 
 const adapter = createAdapter(
-  import.meta.env.VITE_DATA_SOURCE ?? 'csv',
+  (import.meta.env.VITE_DATA_SOURCE as AdapterType | undefined) ?? 'csv',
   {
-    basePath: import.meta.env.VITE_CSV_PATH ?? './data',
-    baseUrl:  import.meta.env.VITE_API_BASE ?? '',
-    port:     Number(import.meta.env.VITE_LOCAL_PORT ?? 5000),
+    basePath: (import.meta.env.VITE_CSV_PATH as string | undefined) ?? './data',
+    baseUrl:  (import.meta.env.VITE_API_BASE as string | undefined) ?? '',
+    port:     Number((import.meta.env.VITE_LOCAL_PORT as string | undefined) ?? 5000),
   },
 )
 

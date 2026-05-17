@@ -2,8 +2,9 @@ import { markRaw } from 'vue'
 import Cover from './slides/Cover.vue'
 import Quote from './slides/Quote.vue'
 import Text  from './slides/Text.vue'
+import type { SlideDefinition } from '../../src/types'
 
-export function buildSlides() {
+export function buildSlides(): SlideDefinition[] {
   return [
     { component: markRaw(Cover), props: {
       title: 'Una buona idea',

@@ -1,8 +1,5 @@
-<script setup>
-defineProps({
-  heading: { type: String, required: true },
-  body: { type: String, required: true },
-})
+<script setup lang="ts">
+defineProps<{ heading: string; body: string }>()
 </script>
 
 <template>

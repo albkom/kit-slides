@@ -4,7 +4,8 @@
       "Bash(curl -sf http://localhost:5173/ -o /dev/null)",
       "Bash(curl -s -o /dev/null -w \"html=%{http_code}\\\\n\" http://localhost:5173/)",
       "Bash(curl -s -o /dev/null -w \"csv=%{http_code}\\\\n\" http://localhost:5173/data/kpi_summary.csv)",
-      "Bash(curl -s -o /dev/null -w \"main=%{http_code}\\\\n\" http://localhost:5173/examples/kpi-report/main.js)"
+      "Bash(curl -s -o /dev/null -w \"main=%{http_code}\\\\n\" http://localhost:5173/examples/kpi-report/main.js)",
+      "Bash(pnpm run *)"
     ]
   }
 }

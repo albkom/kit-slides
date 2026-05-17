@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 const deck = process.env.KIT_DECK || 'kpi-report'
-const entry = `/decks/${deck}/main.js`
+const entry = `/decks/${deck}/main.ts`
 
 /**
  * Vite plugin: re-export slides.pdf after every hot-module update.

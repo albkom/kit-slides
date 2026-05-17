@@ -3,7 +3,7 @@
  * ISO 3166-1 alpha-2 → Italian country name (used in tooltip)
  */
 
-export const alpha2ToNumeric = {
+export const alpha2ToNumeric: Record<string, number> = {
   AF: 4,   AX: 248, AL: 8,   DZ: 12,  AS: 16,  AD: 20,  AO: 24,  AI: 660,
   AQ: 10,  AG: 28,  AR: 32,  AM: 51,  AW: 533, AU: 36,  AT: 40,  AZ: 31,
   BS: 44,  BH: 48,  BD: 50,  BB: 52,  BY: 112, BE: 56,  BZ: 84,  BJ: 204,
@@ -32,7 +32,7 @@ export const alpha2ToNumeric = {
   VE: 862, VN: 704, YE: 887, ZM: 894, ZW: 716, MK: 807, XK: 383,
 }
 
-export const countryNames = {
+export const countryNames: Record<string, string> = {
   AF: 'Afghanistan',      AL: 'Albania',              DZ: 'Algeria',
   AD: 'Andorra',          AO: 'Angola',               AG: 'Antigua e Barbuda',
   AR: 'Argentina',        AM: 'Armenia',              AU: 'Australia',
@@ -102,6 +102,6 @@ export const countryNames = {
 }
 
 /** Reverse map: ISO numeric → alpha-2 */
-export const numericToAlpha2 = Object.fromEntries(
+export const numericToAlpha2: Record<string, string> = Object.fromEntries(
   Object.entries(alpha2ToNumeric).map(([a2, num]) => [String(num), a2]),
 )

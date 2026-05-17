@@ -1,6 +1,6 @@
-<script setup>
-import { SlideDeck } from '../../index.js'
-import { buildSlides } from './deck.js'
+<script setup lang="ts">
+import { SlideDeck } from '../../index'
+import { buildSlides } from './deck'
 
 const slides = buildSlides()
 </script>
