@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { KpiCard } from '../../../index'
+import { KpiSlide } from '../../../index'
+import type { KpiCardDef, KpiSummary, KpiChannel } from '../../../index'
 import type { ChartData } from 'chart.js'
-import type { KpiSummary, KpiChannel } from '../../../src/types'
 
 interface Props {
   summary: KpiSummary
@@ -46,22 +46,16 @@ const eur = new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR',
 const num = new Intl.NumberFormat('it-IT')
 const pct = new Intl.NumberFormat('it-IT', { style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1 })
 
-const kpis = computed(() => [
-  { label: 'Elemento 1', value: eur.format(props.summary.fatturato),                delta: props.summary.fatturato_delta,         icon: '', pieData: pieDataFor('total') },
-  { label: 'Elemento 2', value: num.format(props.summary.ordini),                   delta: props.summary.ordini_delta,            icon: '', pieData: pieDataFor('oks') },
-  { label: 'Elemento 3', value: pct.format(props.summary.tasso_conversione / 100),  delta: props.summary.tasso_conversione_delta, icon: '', pieData: pieDataFor('kpi_1') },
-  { label: 'Elemento 4', value: eur.format(props.summary.ticket_medio),             delta: props.summary.ticket_medio_delta,      icon: '', pieData: ticketMedioPieData() },
+const cards = computed<KpiCardDef[]>(() => [
+  { label: 'Elemento 1', value: eur.format(props.summary.fatturato),                delta: props.summary.fatturato_delta,         pieData: pieDataFor('total') },
+  { label: 'Elemento 2', value: num.format(props.summary.ordini),                   delta: props.summary.ordini_delta,            pieData: pieDataFor('oks') },
+  { label: 'Elemento 3', value: pct.format(props.summary.tasso_conversione / 100),  delta: props.summary.tasso_conversione_delta, pieData: pieDataFor('kpi_1') },
+  { label: 'Elemento 4', value: eur.format(props.summary.ticket_medio),             delta: props.summary.ticket_medio_delta,      pieData: ticketMedioPieData() },
 ])
+
+const meta = computed(() => `W${props.week} · ${props.year}`)
 </script>
 
 <template>
-  <div class="slide slide-kpi">
-    <div class="slide-header">
-      <h2 class="slide-title">KPI Principali</h2>
-      <span class="slide-meta">W{{ week }} · {{ year }}</span>
-    </div>
-    <div class="kpi-grid">
-      <KpiCard v-for="kpi in kpis" :key="kpi.label" v-bind="kpi" />
-    </div>
-  </div>
+  <KpiSlide title="KPI Principali" :meta="meta" :cards="cards" />
 </template>

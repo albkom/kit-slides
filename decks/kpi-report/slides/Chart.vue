@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Bar } from 'vue-chartjs'
-import {
-  Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
-} from 'chart.js'
+import { ChartSlide } from '../../../index'
 import type { ChartData, ChartOptions, Plugin, TooltipItem } from 'chart.js'
-import type { KpiChannel } from '../../../src/types'
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+import type { KpiChannel } from '../../../index'
 
 const props = defineProps<{
   channels: KpiChannel[]
@@ -123,16 +118,17 @@ const chartOptions = computed<ChartOptions<'bar'>>(() => ({
     },
   },
 }))
+
+const meta = computed(() => `W${props.week} · ${props.year}`)
 </script>
 
 <template>
-  <div class="slide slide-chart">
-    <div class="slide-header">
-      <h2 class="slide-title">Fatturato per Canale</h2>
-      <span class="slide-meta">W{{ week }} · {{ year }}</span>
-    </div>
-    <div class="chart-wrapper">
-      <Bar :data="chartData" :options="chartOptions" :plugins="[chartPlugin]" />
-    </div>
-  </div>
+  <ChartSlide
+    title="Fatturato per Canale"
+    :meta="meta"
+    kind="bar"
+    :data="chartData"
+    :options="chartOptions"
+    :plugins="[chartPlugin]"
+  />
 </template>
