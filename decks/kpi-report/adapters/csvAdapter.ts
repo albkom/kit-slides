@@ -6,7 +6,7 @@ import type {
   RawChannelRow,
   RawCategoryRow,
   RawGeoRow,
-} from '../../../src/types'
+} from '../types'
 
 export class CsvAdapter implements IAdapter {
   private readonly basePath: string
@@ -16,8 +16,8 @@ export class CsvAdapter implements IAdapter {
     this.basePath = base.replace(/\/$/, '')
   }
 
-  async fetchSummary(): Promise<RawSummaryRow[]> {
-    return this._load<RawSummaryRow>('kpi_summary.csv')
+  async fecthAreas(): Promise<RawSummaryRow[]> {
+    return this._load<RawSummaryRow>('kpi_areas.csv')
   }
   async fetchChannels(): Promise<RawChannelRow[]> {
     return this._load<RawChannelRow>('kpi_by_channel.csv')

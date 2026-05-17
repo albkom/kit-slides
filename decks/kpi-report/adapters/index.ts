@@ -1,7 +1,7 @@
 import { CsvAdapter }         from './csvAdapter'
 import { RestApiAdapter }     from './restApiAdapter'
 import { LocalCSharpAdapter } from './localCSharpAdapter'
-import type { IAdapter, AdapterOptions } from '../../../src/types'
+import type { IAdapter, AdapterOptions } from '../types'
 
 export type AdapterType = 'csv' | 'rest' | 'local'
 

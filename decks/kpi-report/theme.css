@@ -2,6 +2,12 @@
 :root {
   --font-stack: "Gotham", system-ui, sans-serif;
 
+  --txt-xs: 0.7rem;
+  --txt-s:  0.85rem;
+  --txt-m:  1.1rem;
+  --txt-l:  2rem;
+  --txt-xl: 2.2rem;
+
   --brand-primary: #0f766e; /* teal */
   --brand-accent: #f59e0b; /* ambra */
   --brand-dark: #134e4a; /* teal scuro */
@@ -29,8 +35,4 @@ html {
 /* Rimuovi decorazione cerchio dalla cover */
 .cover-deco {
   display: none;
-}
-
-.kpi-label {
-  font-size: 1rem !important;
 }

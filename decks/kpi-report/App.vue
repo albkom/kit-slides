@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { SlideDeck, useKpiData } from '../../index'
+import { SlideDeck } from '../../index'
+import { useKpiData } from './useKpiData'
 import { buildSlides } from './deck'
 import { createAdapter } from './adapters/index'
 import type { AdapterType } from './adapters/index'
@@ -15,13 +16,13 @@ const adapter = createAdapter(
 )
 
 const {
-  currentWeek, summary, channels, categories, geoData, isLoading, error,
+  currentWeek, areas, channels, categories, geoData, isLoading, error,
 } = useKpiData(adapter)
 
 const slides = computed(() =>
-  currentWeek.value && summary.value
+  currentWeek.value && areas.value
     ? buildSlides({
-        summary: summary.value,
+        areas: areas.value,
         channels: channels.value,
         categories: categories.value,
         geoData: geoData.value,

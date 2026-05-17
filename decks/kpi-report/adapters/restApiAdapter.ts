@@ -5,7 +5,7 @@ import type {
   RawChannelRow,
   RawCategoryRow,
   RawGeoRow,
-} from '../../../src/types'
+} from '../types'
 
 export class RestApiAdapter implements IAdapter {
   protected readonly base: string
@@ -15,7 +15,7 @@ export class RestApiAdapter implements IAdapter {
     this.base = options.baseUrl.replace(/\/$/, '')
   }
 
-  async fetchSummary(): Promise<RawSummaryRow[]> {
+  async fecthAreas(): Promise<RawSummaryRow[]> {
     return this._get<RawSummaryRow[]>('/api/kpi/summary')
   }
   async fetchChannels(): Promise<RawChannelRow[]> {

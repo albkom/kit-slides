@@ -1,5 +1,5 @@
 import { RestApiAdapter } from './restApiAdapter'
-import type { AdapterOptions } from '../../../src/types'
+import type { AdapterOptions } from '../types'
 
 export class LocalCSharpAdapter extends RestApiAdapter {
   constructor(options: AdapterOptions = {}) {

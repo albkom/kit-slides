@@ -14,21 +14,11 @@ export { default as KpiCard }     from './src/components/ui/KpiCard.vue'
 export { default as DeltaBadge }  from './src/components/ui/DeltaBadge.vue'
 export { default as StatusBadge } from './src/components/ui/StatusBadge.vue'
 
-// Composables
-export { useKpiData } from './src/composables/useKpiData'
-export type { UseKpiDataResult } from './src/composables/useKpiData'
-
 // Tipi pubblici — core
 export type {
   SlideDefinition,
   KpiStato,
-  KpiSummary,
-  KpiChannel,
-  KpiCategory,
   GeoDataPoint,
-  WeekRef,
-  IAdapter,
-  AdapterOptions,
 } from './src/types'
 
 // Tipi pubblici — config slide generiche

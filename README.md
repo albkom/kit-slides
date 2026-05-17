@@ -90,7 +90,7 @@ I CSV vivono in `decks/kpi-report/public/data/`. Il deck legge automaticamente
 la **settimana con il numero più alto** presente nei file. Se mancano colonne
 o file, l'UI mostra un messaggio d'errore e `task pdf` esce con `1`.
 
-### `kpi_summary.csv` — una riga per settimana
+### `kpi_areas.csv` — una riga per settimana
 
 ```
 week,year,fatturato,fatturato_prev,ordini,ordini_prev,tasso_conversione,tasso_conversione_prev,ticket_medio,ticket_medio_prev

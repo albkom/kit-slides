@@ -6,14 +6,12 @@ import Table from './slides/Table.vue'
 import Map   from './slides/Map.vue'
 import type {
   SlideDefinition,
-  KpiSummary,
-  KpiChannel,
-  KpiCategory,
   GeoDataPoint,
 } from '../../src/types'
+import type { KpiAreaComputed, KpiChannel, KpiCategory } from './types'
 
 export interface BuildSlidesInput {
-  summary: KpiSummary
+  areas: KpiAreaComputed[]
   channels: KpiChannel[]
   categories: KpiCategory[]
   geoData: GeoDataPoint[]
@@ -22,7 +20,7 @@ export interface BuildSlidesInput {
 }
 
 export function buildSlides({
-  summary,
+  areas,
   channels,
   categories,
   geoData,
@@ -31,7 +29,7 @@ export function buildSlides({
 }: BuildSlidesInput): SlideDefinition[] {
   return [
     { component: markRaw(Cover), props: { week, year }, isCover: true },
-    { component: markRaw(Kpi),   props: { summary, channels, week, year } },
+    { component: markRaw(Kpi),   props: { areas, channels, week, year } },
     { component: markRaw(Chart), props: { channels, week, year } },
     { component: markRaw(Table), props: { categories, week, year } },
     { component: markRaw(Map),   props: { geoData, week, year } },
