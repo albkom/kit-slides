@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig, normalizePath } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { existsSync } from 'fs'
 import { resolve } from 'path'
@@ -35,25 +35,28 @@ function pdfOnSavePlugin() {
 
 /**
  * Inject the active deck entry into index.html.
- * Also auto-injects a <link rel="stylesheet"> to `decks/<deck>/theme.css`
- * if present, so consumer decks don't need to remember the import in main.ts.
+ * Also auto-injects `import './theme.css'` at the end of the deck's main.ts
+ * (via transform) so it loads after main.scss and can override kit defaults.
  * See AC M.4 — `docs/theming.md`.
  */
 function deckEntryPlugin() {
-  const themeRel = `/decks/${deck}/theme.css`
-  const themeAbs = resolve(process.cwd(), `decks/${deck}/theme.css`)
-  const themeTag = existsSync(themeAbs)
-    ? `<link rel="stylesheet" href="${themeRel}">`
-    : ''
+  const themeAbs = normalizePath(resolve(process.cwd(), `decks/${deck}/theme.css`)) 
+  const entryAbs = normalizePath(resolve(process.cwd(), `decks/${deck}/main.ts`))
   return {
     name: 'kit-deck-entry',
     enforce: 'pre',
+    transform(code, id) {
+      // Append theme import after main.scss so it wins the cascade.
+      // Strip query params (e.g. ?t=...) before comparing.
+      const cleanId = normalizePath(id.split('?')[0])
+      if (cleanId === entryAbs && existsSync(themeAbs) && !code.includes("import './theme.css'")) {
+        return { code: code + `\nimport './theme.css'`, map: null }
+      }
+    },
     transformIndexHtml: {
       order: 'pre',
       handler(html) {
-        return html
-          .replace('__KIT_ENTRY__', entry)
-          .replace('</head>', `  ${themeTag}\n  </head>`)
+        return html.replace('__KIT_ENTRY__', entry)
       },
     },
   }

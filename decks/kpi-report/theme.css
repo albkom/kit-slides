@@ -1,4 +1,14 @@
 /* kpi-report uses kit defaults — override CSS custom properties here to customize. */
 :root {
---font-stack: "Roboto", system-ui, -apple-system, sans-serif;
+  --font-stack: "Inter", system-ui, sans-serif;
+
+  --brand-primary: #0f766e; /* teal */
+  --brand-accent: #f59e0b; /* ambra */
+  --brand-dark: #134e4a; /* teal scuro */
+  --brand-light: #ccfbf1; /* teal chiarissimo */
+
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --surface: #ffffff; /* sfondo bianco puro */
+  --border: rgba(0, 0, 0, 0.1);
 }
