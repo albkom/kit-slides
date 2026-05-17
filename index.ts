@@ -14,6 +14,28 @@ export { default as KpiCard }     from './src/components/ui/KpiCard.vue'
 export { default as DeltaBadge }  from './src/components/ui/DeltaBadge.vue'
 export { default as StatusBadge } from './src/components/ui/StatusBadge.vue'
 
+// Composable per il data binding KPI
+export { useKpiData }             from './src/composables/useKpiData'
+export type { UseKpiDataResult }  from './src/composables/useKpiData'
+
+// Tipi pubblici — adapter & data shape
+export type {
+  IAdapter,
+  AdapterOptions,
+  WeekRef,
+  RawSummaryRow,
+  RawChannelRow,
+  RawPerformanceRow,
+  RawGeoRow,
+  RawDeliveryRow,
+  KpiAreaComputed,
+  KpiChannel,
+  KpiPerformance,
+  PerformanceComputed,
+  DeliveryComputed,
+  Status,
+} from './src/composables/types'
+
 // Tipi pubblici — core
 export type {
   SlideDefinition,

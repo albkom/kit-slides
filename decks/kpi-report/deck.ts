@@ -1,7 +1,6 @@
 import { markRaw } from "vue";
 import Cover from "./slides/Cover.vue";
 import Kpi from "./slides/Kpi.vue";
-import Chart from "./slides/Chart.vue";
 import Table from "./slides/Table.vue";
 import Map from "./slides/Map.vue";
 import type { SlideDefinition, GeoDataPoint } from "../../src/types";
@@ -41,6 +40,5 @@ export function buildSlides({
     { component: markRaw(Map), props: { geoData, week, year } },
     { component: markRaw(Table), props: { performance, week, year } },
     { component: markRaw(Delivery), props: { delivery, week, year } },
-    // { component: markRaw(Chart), props: { channels, week, year } },
   ];
 }

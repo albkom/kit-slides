@@ -1,6 +1,6 @@
 import { ref, computed } from "vue";
 import type { ComputedRef, Ref } from "vue";
-import type { KpiStato, GeoDataPoint } from "../../src/types";
+import type { GeoDataPoint } from "../types";
 import type {
   IAdapter,
   RawSummaryRow,
@@ -16,8 +16,6 @@ import type {
   PerformanceComputed,
   Status,
 } from "./types";
-
-const STATI: KpiStato[] = ["in_target", "attenzione", "sotto_target"];
 
 function toNum(v: string | number | null | undefined): number {
   const n = parseFloat(String(v ?? "").replace(",", "."));
@@ -35,7 +33,6 @@ function validateRows(
   rows: readonly Record<string, unknown>[],
   required: readonly string[],
 ): void {
-  console.log(rows);
   rows.forEach((row, idx) => {
     for (const field of required) {
       const v = row[field];
@@ -71,8 +68,8 @@ export function useKpiData(adapter: IAdapter): UseKpiDataResult {
 
   const currentWeek = computed<WeekRef | null>(() => {
     if (!_areas.value.length) return null;
-    const maxYear = 2026; // TODO
-    const maxWeek = 2; // TODO
+    const maxWeek = Math.max(..._areas.value.map((r) => Number(r.week)));
+    const maxYear = Math.max(..._areas.value.map((r) => Number(r.year)));
     return { week: maxWeek, year: maxYear };
   });
 
@@ -82,7 +79,6 @@ export function useKpiData(adapter: IAdapter): UseKpiDataResult {
     const row = _areas.value.filter((r) => Number(r.week) === cw.week);
     if (!row.length) return null;
     const rowPrev = _areas.value.filter((r) => Number(r.week) === cw.week - 1);
-    console.log("Current week area row:", row);
     return row.map((r) => {
       const ops = toNum(r.ops);
       const kpi_1 = toNum(r.kpi_1);
@@ -111,7 +107,6 @@ export function useKpiData(adapter: IAdapter): UseKpiDataResult {
   });
 
   function computeDelivery(row: RawDeliveryRow): DeliveryComputed {
-    console.log("Computing delivery for row:", row);
     const computed: DeliveryComputed = {
       week: Number(row.week),
       name: row.name,
@@ -184,7 +179,7 @@ export function useKpiData(adapter: IAdapter): UseKpiDataResult {
       }))
       .sort((a, b) => b.oks - a.oks);
   });
-  
+
   const geoData = computed<GeoDataPoint[]>(() => {
     if (!currentWeek.value) return [];
     const cw = currentWeek.value;
@@ -246,7 +241,6 @@ export function useKpiData(adapter: IAdapter): UseKpiDataResult {
       _geo.value = geo ?? [];
       _delivery.value = delivery ?? [];
     } catch (e) {
-      console.log("Current week:", e);
       error.value = e instanceof Error ? e.message : String(e);
     } finally {
       isLoading.value = false;
