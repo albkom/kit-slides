@@ -21,3 +21,11 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
+
+*.pdf
+*.docx
+*.xlsx
+*.pptx
+*.zip
+*.tar.gz
+*.rar
