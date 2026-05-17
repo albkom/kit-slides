@@ -16,13 +16,14 @@ const adapter = createAdapter(
 )
 
 const {
-  currentWeek, areas, channels, categories, geoData, isLoading, error,
+  currentWeek, areas, delivery, channels, categories, geoData, isLoading, error,
 } = useKpiData(adapter)
 
 const slides = computed(() =>
   currentWeek.value && areas.value
     ? buildSlides({
         areas: areas.value,
+        delivery: delivery.value || [],
         channels: channels.value,
         categories: categories.value,
         geoData: geoData.value,

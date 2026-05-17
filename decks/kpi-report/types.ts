@@ -43,12 +43,23 @@ export interface RawGeoRow {
   value: string;
 }
 
+export interface RawDeliveryRow {
+  week: string;
+  name: string;
+  wip: number;
+  env_a: number;
+  env_b: number;
+  env_c: number;
+  env_d: number;
+}
+
 // ── Adapter contract ─────────────────────────────────────────────────────────
 export interface IAdapter {
   fecthAreas(): Promise<RawSummaryRow[]>;
   fetchChannels(): Promise<RawChannelRow[]>;
   fetchCategories(): Promise<RawCategoryRow[]>;
   fetchGeo(): Promise<RawGeoRow[] | null>;
+  fetchDelivery(): Promise<RawDeliveryRow[]>;
 }
 
 export interface AdapterOptions {
@@ -76,6 +87,17 @@ export interface KpiAreaComputed {
   kpi_1_delta: number | null;
   kpi_2_delta: number | null;
   kpi_3_delta: number | null;
+}
+
+export interface DeliveryComputed {
+  week: number;
+  name: string;
+  wip: number;
+  env_a: number;
+  env_b: number;
+  env_c: number;
+  env_d: number;
+  status: string;
 }
 
 export interface KpiChannel {

@@ -1,4 +1,4 @@
-import Papa from 'papaparse'
+import Papa from "papaparse";
 import type {
   IAdapter,
   AdapterOptions,
@@ -6,44 +6,48 @@ import type {
   RawChannelRow,
   RawCategoryRow,
   RawGeoRow,
-} from '../types'
+  RawDeliveryRow,
+} from "../types";
 
 export class CsvAdapter implements IAdapter {
-  private readonly basePath: string
+  private readonly basePath: string;
 
   constructor(options: AdapterOptions = {}) {
-    const base = options.basePath ?? './data'
-    this.basePath = base.replace(/\/$/, '')
+    const base = options.basePath ?? "./data";
+    this.basePath = base.replace(/\/$/, "");
   }
 
   async fecthAreas(): Promise<RawSummaryRow[]> {
-    return this._load<RawSummaryRow>('kpi_areas.csv')
+    return this._load<RawSummaryRow>("kpi_areas.csv");
   }
   async fetchChannels(): Promise<RawChannelRow[]> {
-    return this._load<RawChannelRow>('kpi_by_channel.csv')
+    return this._load<RawChannelRow>("kpi_by_channel.csv");
   }
   async fetchCategories(): Promise<RawCategoryRow[]> {
-    return this._load<RawCategoryRow>('kpi_by_category.csv')
+    return this._load<RawCategoryRow>("kpi_by_category.csv");
   }
   async fetchGeo(): Promise<RawGeoRow[] | null> {
-    return this._loadOptional<RawGeoRow>('geo_kpi.csv')
+    return this._loadOptional<RawGeoRow>("geo_kpi.csv");
+  }
+  async fetchDelivery(): Promise<RawDeliveryRow[]> {
+    return this._load<RawDeliveryRow>("delivery.csv");
   }
 
   private async _load<T>(file: string): Promise<T[]> {
-    const res = await fetch(`${this.basePath}/${file}`)
-    if (!res.ok) throw new Error(`Impossibile caricare ${file}: ${res.status}`)
-    const text = await res.text()
-    return this._parse<T>(text)
+    const res = await fetch(`${this.basePath}/${file}`);
+    if (!res.ok) throw new Error(`Impossibile caricare ${file}: ${res.status}`);
+    const text = await res.text();
+    return this._parse<T>(text);
   }
 
   private async _loadOptional<T>(file: string): Promise<T[] | null> {
     try {
-      const res = await fetch(`${this.basePath}/${file}`)
-      if (!res.ok) return null
-      const text = await res.text()
-      return this._parse<T>(text)
+      const res = await fetch(`${this.basePath}/${file}`);
+      if (!res.ok) return null;
+      const text = await res.text();
+      return this._parse<T>(text);
     } catch {
-      return null
+      return null;
     }
   }
 
@@ -53,6 +57,6 @@ export class CsvAdapter implements IAdapter {
       skipEmptyLines: true,
       transformHeader: (h: string) => h.trim(),
       transform: (v: string) => v.trim(),
-    }).data
+    }).data;
   }
 }

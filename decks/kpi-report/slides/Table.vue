@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { TableSlide } from '../../../index'
-import type { ColumnDef, KpiCategory } from '../../../index'
+import type { ColumnDef } from '../../../index'
+import { DeliveryComputed } from '../types';
 
 const props = defineProps<{
-  categories: KpiCategory[]
+  delivery: DeliveryComputed[]
   week: number
   year: number
 }>()
@@ -13,20 +14,18 @@ const eur = new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR',
 const num = new Intl.NumberFormat('it-IT')
 
 const columns: ColumnDef[] = [
-  { key: 'categoria',       label: 'Categoria',  align: 'left',   width: '35%' },
-  { key: 'fatturato',       label: 'Fatturato',  align: 'right',  width: '18%', format: (v) => eur.format(Number(v)) },
-  { key: 'ordini',          label: 'Ordini',     align: 'right',  width: '18%', format: (v) => num.format(Number(v)) },
-  { key: 'fatturato_delta', label: 'vs Prec.',   align: 'center', width: '14%', badge: 'delta' },
-  { key: 'stato',           label: 'Stato',      align: 'center', width: '15%', badge: 'status' },
+  { key: 'area',             label: 'Area',       align: 'left',   width: '35%' },
+  { key: 'delivery_time',    label: 'Delivery',   align: 'right',  width: '18%', format: (v) => num.format(Number(v)) },
+  { key: 'on_time_percentage', label: 'On Time', align: 'right',  width: '18%', format: (v) => num.format(Number(v)) },
 ]
 
-const data = computed(() => props.categories as unknown as Record<string, unknown>[])
+const data = computed(() => props.delivery as unknown as Record<string, unknown>[])
 const meta = computed(() => `W${props.week} · ${props.year}`)
 </script>
 
 <template>
   <TableSlide
-    title="Performance per Categoria"
+    title="Performance per Area"
     :meta="meta"
     :columns="columns"
     :data="data"
