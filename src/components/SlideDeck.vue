@@ -3,7 +3,12 @@ import { ref, computed } from 'vue'
 import Slide from './Slide.vue'
 import type { SlideDefinition } from '../types'
 
-const props = defineProps<{ slides: SlideDefinition[] }>()
+const props = defineProps<{
+  slides: SlideDefinition[]
+  logo?: string
+  department?: string
+  deckNote?: string
+}>()
 
 const isDocument = ref(localStorage.getItem('slideDeckView') === 'document')
 
@@ -42,7 +47,15 @@ function mergedProps(s: SlideDefinition): Record<string, unknown> {
         :key="i"
         class="slide-page"
       >
-        <Slide :slide-number="slideNumber(s, i)" :total-slides="s.isCover ? null : contentCount">
+        <Slide
+          :slide-number="slideNumber(s, i)"
+          :total-slides="s.isCover ? null : contentCount"
+          :is-cover="s.isCover ?? false"
+          :deck-note="props.deckNote ?? null"
+          :note="s.note ?? null"
+          :logo="props.logo ?? null"
+          :department="props.department ?? null"
+        >
           <component :is="s.component" v-bind="mergedProps(s)" />
         </Slide>
       </div>

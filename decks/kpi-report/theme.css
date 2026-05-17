@@ -44,6 +44,7 @@ html {
   background-size: 40px 40px;
   color: var(--text-primary);
   position: relative;
+  padding: 2rem;
   /* border: solid var(--border); */
 }
 
@@ -181,18 +182,6 @@ html {
   position: relative;
   overflow: visible;
 }
-.slide-cover .divider::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 8px;
-  height: 8px;
-  background: var(--brand-primary);
-  border: 1px solid var(--brand-accent);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-}
 
 .slide-cover .generated,
 .slide-cover .cover-total-slides {
@@ -200,10 +189,10 @@ html {
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
-.slide-cover .generated::before {
+/* .slide-cover .generated::before {
   content: "> ";
   color: var(--brand-accent);
-}
+} */
 
 /* Replace the round cover-deco with angular cyberpunk shapes */
 .cover-deco {
@@ -235,7 +224,48 @@ html {
   pointer-events: none;
   z-index: 0;
 }
+.slide-cover::before {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border: 2px solid var(--brand-accent);
+  right: -100px;
+  bottom: -100px;
+  transform: rotate(45deg);
+  clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%, 0 30%);
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+}
+.slide-cover::after {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border: 2px solid var(--brand-accent);
+  right: -100px;
+  bottom: -100px;
+  transform: rotate(45deg);
+  clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%, 0 30%);
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+}
 
+.slide-dep {
+  background-color: transparent;
+  border-radius: 0;
+  border: 1pt solid var(--brand-primary);
+  clip-path: polygon(
+    12px 0,
+    100% 0,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    0 100%,
+    0 12px
+  );
+}
 /* ===== KPI cards: angular clipped corners, neon borders ===== */
 .kpi-card {
   /* background: rgba(26, 11, 46, 0.6); */
@@ -416,16 +446,8 @@ code {
 .slide-map {
   .map-frame {
     /* background: rgba(26, 11, 46, 0.4); */
-    border: 2px solid var(--border);
+    border: none;
     border-radius: 0;
-    clip-path: polygon(
-      12px 0,
-      100% 0,
-      100% calc(100% - 12px),
-      calc(100% - 12px) 100%,
-      0 100%,
-      0 12px
-    );
   }
   .top5 {
     border: none;
@@ -439,16 +461,16 @@ code {
     }
     li {
       color: var(--text-primary);
-      border: 2px solid var(--border);
+      border: none;
       padding: 0.5rem;
-      clip-path: polygon(
+      /* clip-path: polygon(
         8px 0,
         100% 0,
         100% calc(100% - 8px),
         calc(100% - 8px) 100%,
         0 100%,
         0 8px
-      );
+      ); */
     }
   }
 }

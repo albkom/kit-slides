@@ -1,10 +1,16 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { inject, computed } from "vue";
+import type { ComputedRef } from "vue";
 import DeltaBadge from "../ui/DeltaBadge.vue";
 import StatusBadge from "../ui/StatusBadge.vue";
+import SlideTopper from "../SlideTopper.vue";
 import type { ColumnDef, KpiStato } from "../../types";
 import { Status } from "../../../decks/kpi-report/types";
 import ProgressBadge from "../ui/ProgressBadge.vue";
+
+interface TopperData { logo: string | null; department: string | null }
+const _topper = inject<ComputedRef<TopperData>>("slideTopper")
+const hasTopper = computed(() => !!(_topper?.value?.logo || _topper?.value?.department))
 
 interface Props {
   data: Record<string, unknown>[];
@@ -45,9 +51,9 @@ function cellText(col: ColumnDef, row: Record<string, unknown>): string {
     vuota.
   </div>
   <div v-else class="slide slide-table">
-    <div v-if="title || meta" class="slide-header">
+    <div v-if="title || meta || hasTopper" class="slide-header">
       <h2 v-if="title" class="slide-title">{{ title }}</h2>
-      <span v-if="meta" class="slide-meta">{{ meta }}</span>
+      <SlideTopper />
     </div>
     <div class="table-wrapper">
       <table>

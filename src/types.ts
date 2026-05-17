@@ -13,6 +13,8 @@ export interface SlideDefinition {
   component: Component;
   props: Record<string, unknown>;
   isCover?: boolean;
+  /** Optional text note displayed at the bottom-left corner of the slide. */
+  note?: string;
 }
 
 // ── Generic slide configuration (built-in slides) ────────────────────────────
