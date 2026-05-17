@@ -6,7 +6,7 @@
 
   thead tr { border-bottom: 2px solid var(--brand-primary); }
   th {
-    padding: 0.7rem 1rem;
+    padding: 0.25rem 1rem;
     text-align: left;
     font-size: var(--txt-s); font-weight: 700;
     color: var(--text-secondary);
@@ -17,7 +17,7 @@
     &:last-child { border-bottom: none; }
     &:hover      { background: var(--brand-light); }
   }
-  td { padding: 0.85rem 1rem; vertical-align: middle; }
+  td { padding: 0.25rem 1rem; vertical-align: middle; }
 
   .col-cat   { width: 35%; }
   .col-num   { width: 18%; text-align: right; font-variant-numeric: tabular-nums; }

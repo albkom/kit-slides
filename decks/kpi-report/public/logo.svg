@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <linearGradient id="chipBody" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7b2ff7"/>
+      <stop offset="100%" stop-color="#581f86"/>
+    </linearGradient>
+    <linearGradient id="chipFace" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a0b2e"/>
+      <stop offset="100%" stop-color="#0d0618"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d1f7ff" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#9105e8" stop-opacity="0.5"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Chip body shadow/border -->
+  <rect x="27" y="27" width="66" height="66" rx="6" fill="url(#chipBody)"/>
+
+  <!-- Chip face (inner dark surface) -->
+  <rect x="30" y="30" width="60" height="60" rx="4" fill="url(#chipFace)"/>
+
+  <!-- ── Pins – top (4 pins) ── -->
+  <rect x="39" y="18" width="6" height="12" rx="1.5" fill="#9105e8"/>
+  <rect x="51" y="18" width="6" height="12" rx="1.5" fill="#9105e8"/>
+  <rect x="63" y="18" width="6" height="12" rx="1.5" fill="#9105e8"/>
+  <rect x="75" y="18" width="6" height="12" rx="1.5" fill="#9105e8"/>
+
+  <!-- ── Pins – bottom ── -->
+  <rect x="39" y="90" width="6" height="12" rx="1.5" fill="#9105e8"/>
+  <rect x="51" y="90" width="6" height="12" rx="1.5" fill="#9105e8"/>
+  <rect x="63" y="90" width="6" height="12" rx="1.5" fill="#9105e8"/>
+  <rect x="75" y="90" width="6" height="12" rx="1.5" fill="#9105e8"/>
+
+  <!-- ── Pins – left ── -->
+  <rect x="18" y="39" width="12" height="6" rx="1.5" fill="#9105e8"/>
+  <rect x="18" y="51" width="12" height="6" rx="1.5" fill="#9105e8"/>
+  <rect x="18" y="63" width="12" height="6" rx="1.5" fill="#9105e8"/>
+  <rect x="18" y="75" width="12" height="6" rx="1.5" fill="#9105e8"/>
+
+  <!-- ── Pins – right ── -->
+  <rect x="90" y="39" width="12" height="6" rx="1.5" fill="#9105e8"/>
+  <rect x="90" y="51" width="12" height="6" rx="1.5" fill="#9105e8"/>
+  <rect x="90" y="63" width="12" height="6" rx="1.5" fill="#9105e8"/>
+  <rect x="90" y="75" width="12" height="6" rx="1.5" fill="#9105e8"/>
+
+  <!-- ── Inner circuit: die border ── -->
+  <rect x="38" y="38" width="44" height="44" rx="3" stroke="#7b2ff7" stroke-width="1.2" fill="none"/>
+
+  <!-- ── Inner die face ── -->
+  <rect x="40" y="40" width="40" height="40" rx="2" fill="#120829"/>
+
+  <!-- ── Circuit traces inside die ── -->
+  <!-- Horizontal centre line -->
+  <line x1="44" y1="60" x2="76" y2="60" stroke="#d1f7ff" stroke-width="0.8" stroke-opacity="0.35"/>
+  <!-- Vertical centre line -->
+  <line x1="60" y1="44" x2="60" y2="76" stroke="#d1f7ff" stroke-width="0.8" stroke-opacity="0.35"/>
+  <!-- Corner traces -->
+  <polyline points="44,50 50,50 50,44" stroke="#9105e8" stroke-width="0.8" fill="none" stroke-opacity="0.7"/>
+  <polyline points="76,50 70,50 70,44" stroke="#9105e8" stroke-width="0.8" fill="none" stroke-opacity="0.7"/>
+  <polyline points="44,70 50,70 50,76" stroke="#9105e8" stroke-width="0.8" fill="none" stroke-opacity="0.7"/>
+  <polyline points="76,70 70,70 70,76" stroke="#9105e8" stroke-width="0.8" fill="none" stroke-opacity="0.7"/>
+
+  <!-- ── Core: bright hexagon ── -->
+  <polygon points="60,50 67,54 67,62 60,66 53,62 53,54"
+    fill="#1a0b2e" stroke="url(#glow)" stroke-width="1.5"/>
+
+  <!-- ── Core inner glow dot ── -->
+  <circle cx="60" cy="58" r="4" fill="url(#glow)" fill-opacity="0.9"/>
+  <circle cx="60" cy="58" r="2" fill="#d1f7ff"/>
+
+  <!-- ── Top-left notch (chip orientation marker) ── -->
+  <circle cx="33" cy="33" r="2" fill="#9105e8" fill-opacity="0.7"/>
+</svg>

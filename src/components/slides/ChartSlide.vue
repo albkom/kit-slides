@@ -57,7 +57,6 @@ const props = withDefaults(defineProps<Props>(), {
   <div v-else class="slide slide-chart">
     <div v-if="title || meta" class="slide-header">
       <h2 v-if="title" class="slide-title">{{ title }}</h2>
-      <span v-if="meta" class="slide-meta">{{ meta }}</span>
     </div>
     <div class="chart-wrapper">
       <Bar

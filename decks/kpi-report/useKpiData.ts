@@ -5,12 +5,16 @@ import type {
   IAdapter,
   RawSummaryRow,
   RawChannelRow,
-  RawCategoryRow,
+  RawPerformanceRow,
   RawGeoRow,
   KpiAreaComputed,
   KpiChannel,
-  KpiCategory,
+  KpiPerformance,
   WeekRef,
+  RawDeliveryRow,
+  DeliveryComputed,
+  PerformanceComputed,
+  Status,
 } from "./types";
 
 const STATI: KpiStato[] = ["in_target", "attenzione", "sotto_target"];
@@ -31,6 +35,7 @@ function validateRows(
   rows: readonly Record<string, unknown>[],
   required: readonly string[],
 ): void {
+  console.log(rows);
   rows.forEach((row, idx) => {
     for (const field of required) {
       const v = row[field];
@@ -46,8 +51,9 @@ function validateRows(
 export interface UseKpiDataResult {
   currentWeek: ComputedRef<WeekRef | null>;
   areas: ComputedRef<KpiAreaComputed[] | null>;
+  delivery: ComputedRef<DeliveryComputed[] | null>;
   channels: ComputedRef<KpiChannel[]>;
-  categories: ComputedRef<KpiCategory[]>;
+  performance: ComputedRef<KpiPerformance[]>;
   geoData: ComputedRef<GeoDataPoint[]>;
   isLoading: Ref<boolean>;
   error: Ref<string | null>;
@@ -59,8 +65,9 @@ export function useKpiData(adapter: IAdapter): UseKpiDataResult {
 
   const _areas = ref<RawSummaryRow[]>([]);
   const _channels = ref<RawChannelRow[]>([]);
-  const _categories = ref<RawCategoryRow[]>([]);
+  const _performance = ref<RawPerformanceRow[]>([]);
   const _geo = ref<RawGeoRow[]>([]);
+  const _delivery = ref<RawDeliveryRow[]>([]);
 
   const currentWeek = computed<WeekRef | null>(() => {
     if (!_areas.value.length) return null;
@@ -103,6 +110,38 @@ export function useKpiData(adapter: IAdapter): UseKpiDataResult {
     });
   });
 
+  function computeDelivery(row: RawDeliveryRow): DeliveryComputed {
+    console.log("Computing delivery for row:", row);
+    const computed: DeliveryComputed = {
+      week: Number(row.week),
+      name: row.name,
+      wip: toNum(row.wip),
+      env_a: toNum(row.env_a),
+      env_b: toNum(row.env_b),
+      env_c: toNum(row.env_c),
+      env_d: toNum(row.env_d),
+      status: "-",
+    };
+    if (computed.wip > computed.env_a) {
+      computed.status = "WIP";
+    }
+    const envMax = Math.max(computed.env_a, computed.env_b, computed.env_c);
+    if (envMax > computed.env_d) {
+      computed.status = "Delayed";
+    }
+
+    return computed;
+  }
+
+  const delivery = computed<DeliveryComputed[] | null>(() => {
+    if (!currentWeek.value || !_delivery.value.length) return null;
+    const cw = currentWeek.value;
+    const row = _delivery.value.filter((r) => Number(r.week) === cw.week);
+    if (!row.length) return null;
+
+    return row.map((r) => computeDelivery(r));
+  });
+
   const channels = computed<KpiChannel[]>(() => {
     if (!currentWeek.value) return [];
     return _channels.value
@@ -119,33 +158,33 @@ export function useKpiData(adapter: IAdapter): UseKpiDataResult {
       .sort((a, b) => b.oks - a.oks);
   });
 
-  const categories = computed<KpiCategory[]>(() => {
-    if (!currentWeek.value) return [];
-    const cw = currentWeek.value;
-    return (
-      _categories.value
-        //   .filter((r) => Numb    er(r.week) === cw.week && Number(r.year) === cw.year)
-        .map<KpiCategory>((r) => {
-          const fatturato = toNum(r.fatturato);
-          const fatturato_prev = toNum(r.fatturato_prev);
-          const ordini = toNum(r.ordini);
-          const ordini_prev = toNum(r.ordini_prev);
-          const stato: KpiStato = STATI.includes(r.stato as KpiStato)
-            ? (r.stato as KpiStato)
-            : "in_target";
-          return {
-            categoria: r.categoria,
-            fatturato,
-            ordini,
-            fatturato_delta: delta(fatturato, fatturato_prev),
-            target_fatturato: toNum(r.target_fatturato),
-            stato,
-          };
-        })
-        .sort((a, b) => b.fatturato - a.fatturato)
-    );
-  });
+  function checkStatus(kpi: number): Status {
+    if (kpi >= 0.9) return "GOOD";
+    if (kpi >= 0.75) return "ACCEPTABLE";
+    if (kpi >= 0.5) return "WARNING";
+    return "BAD";
+  }
 
+  const performance = computed<PerformanceComputed[]>(() => {
+    if (!currentWeek.value) return [];
+    const maxTot = Math.max(..._performance.value.map((r) => toNum(r.tot)));
+    return _performance.value
+      .map((r) => ({
+        week: Number(r.week),
+        name: r.name,
+        tot: toNum(r.tot),
+        oks: toNum(r.oks),
+        kos: toNum(r.kos),
+        draws: toNum(r.draws),
+        kpi_1: r.kos / r.tot,
+        kpi_2: r.tot / maxTot,
+        kpi_3: r.kos / r.tot,
+        usage: r.tot / maxTot,
+        status: checkStatus(r.kos / r.tot),
+      }))
+      .sort((a, b) => b.oks - a.oks);
+  });
+  
   const geoData = computed<GeoDataPoint[]>(() => {
     if (!currentWeek.value) return [];
     const cw = currentWeek.value;
@@ -161,11 +200,12 @@ export function useKpiData(adapter: IAdapter): UseKpiDataResult {
     try {
       isLoading.value = true;
       error.value = null;
-      const [s, ch, cat, geo] = await Promise.all([
+      const [s, ch, performance, geo, delivery] = await Promise.all([
         adapter.fecthAreas(),
         adapter.fetchChannels(),
-        adapter.fetchCategories(),
+        adapter.fetchPerformance(),
         adapter.fetchGeo(),
+        adapter.fetchDelivery(),
       ]);
 
       validateRows("kpi_areas", s as unknown as Record<string, unknown>[], [
@@ -180,24 +220,9 @@ export function useKpiData(adapter: IAdapter): UseKpiDataResult {
         "ops_draw",
       ]);
       validateRows(
-        "kpi_by_channel",
-        ch as unknown as Record<string, unknown>[],
-        [
-          "week",
-          "name",
-          "total",
-          "oks",
-          "kos",
-          "draws",
-          "kpi_1",
-          "kpi_2",
-          "kpi_3",
-        ],
-      );
-      validateRows(
-        "kpi_by_category",
-        cat as unknown as Record<string, unknown>[],
-        ["week", "area", "kpi_1", "kpi_2", "kpi_3"],
+        "performance",
+        performance as unknown as Record<string, unknown>[],
+        ["week", "name", "tot", "oks", "kos", "draws"],
       );
       if (geo) {
         validateRows("geo_kpi", geo as unknown as Record<string, unknown>[], [
@@ -207,11 +232,19 @@ export function useKpiData(adapter: IAdapter): UseKpiDataResult {
           "value",
         ]);
       }
+      if (delivery) {
+        validateRows(
+          "delivery",
+          delivery as unknown as Record<string, unknown>[],
+          ["week", "name", "wip", "env_a", "env_b", "env_c", "env_d"],
+        );
+      }
 
       _areas.value = s;
       _channels.value = ch;
-      _categories.value = cat;
+      _performance.value = performance;
       _geo.value = geo ?? [];
+      _delivery.value = delivery ?? [];
     } catch (e) {
       console.log("Current week:", e);
       error.value = e instanceof Error ? e.message : String(e);
@@ -225,8 +258,9 @@ export function useKpiData(adapter: IAdapter): UseKpiDataResult {
   return {
     currentWeek,
     areas,
+    delivery,
     channels,
-    categories,
+    performance,
     geoData,
     isLoading,
     error,

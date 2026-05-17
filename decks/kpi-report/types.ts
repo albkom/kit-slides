@@ -24,16 +24,16 @@ export interface RawChannelRow {
   kpi_3: string;
 }
 
-export interface RawCategoryRow {
+export interface RawPerformanceRow {
   week: string;
-  year: string;
-  categoria: string;
-  fatturato: string;
-  fatturato_prev: string;
-  ordini: string;
-  ordini_prev: string;
-  target_fatturato: string;
-  stato: string;
+  name: string;
+  tot: number;
+  oks: number;
+  kos: number;
+  draws: number;
+  kpi_1: number;
+  kpi_2: number;
+  kpi_3: number;
 }
 
 export interface RawGeoRow {
@@ -43,12 +43,23 @@ export interface RawGeoRow {
   value: string;
 }
 
+export interface RawDeliveryRow {
+  week: string;
+  name: string;
+  wip: number;
+  env_a: number;
+  env_b: number;
+  env_c: number;
+  env_d: number;
+}
+
 // ── Adapter contract ─────────────────────────────────────────────────────────
 export interface IAdapter {
   fecthAreas(): Promise<RawSummaryRow[]>;
   fetchChannels(): Promise<RawChannelRow[]>;
-  fetchCategories(): Promise<RawCategoryRow[]>;
+  fetchPerformance(): Promise<RawPerformanceRow[]>;
   fetchGeo(): Promise<RawGeoRow[] | null>;
+  fetchDelivery(): Promise<RawDeliveryRow[]>;
 }
 
 export interface AdapterOptions {
@@ -78,6 +89,33 @@ export interface KpiAreaComputed {
   kpi_3_delta: number | null;
 }
 
+export interface DeliveryComputed {
+  week: number;
+  name: string;
+  wip: number;
+  env_a: number;
+  env_b: number;
+  env_c: number;
+  env_d: number;
+  status: string;
+}
+
+export type Status = "GOOD" | "ACCEPTABLE" | "WARNING" | "BAD";
+
+export interface PerformanceComputed {
+  week: number;
+  name: string;
+  tot: number;
+  oks: number;
+  kos: number;
+  draws: number;
+  kpi_1: number;
+  kpi_2: number;
+  kpi_3: number;
+  usage: number;
+  status: Status;
+}
+
 export interface KpiChannel {
   name: string;
   total: number;
@@ -89,11 +127,14 @@ export interface KpiChannel {
   kpi_3: number;
 }
 
-export interface KpiCategory {
-  categoria: string;
-  fatturato: number;
-  fatturato_delta: number | null;
-  ordini: number;
-  target_fatturato: number;
-  stato: KpiStato;
+export interface KpiPerformance {
+  week: number;
+  name: string;
+  tot: number;
+  oks: number;
+  kos: number;
+  draws: number;
+  kpi_1: number;
+  kpi_2: number;
+  kpi_3: number;
 }

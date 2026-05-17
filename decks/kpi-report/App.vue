@@ -1,36 +1,46 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { SlideDeck } from '../../index'
-import { useKpiData } from './useKpiData'
-import { buildSlides } from './deck'
-import { createAdapter } from './adapters/index'
-import type { AdapterType } from './adapters/index'
+import { computed } from "vue";
+import { SlideDeck } from "../../index";
+import { useKpiData } from "./useKpiData";
+import { buildSlides } from "./deck";
+import { createAdapter } from "./adapters/index";
+import type { AdapterType } from "./adapters/index";
 
 const adapter = createAdapter(
-  (import.meta.env.VITE_DATA_SOURCE as AdapterType | undefined) ?? 'csv',
+  (import.meta.env.VITE_DATA_SOURCE as AdapterType | undefined) ?? "csv",
   {
-    basePath: (import.meta.env.VITE_CSV_PATH as string | undefined) ?? './data',
-    baseUrl:  (import.meta.env.VITE_API_BASE as string | undefined) ?? '',
-    port:     Number((import.meta.env.VITE_LOCAL_PORT as string | undefined) ?? 5000),
+    basePath: (import.meta.env.VITE_CSV_PATH as string | undefined) ?? "./data",
+    baseUrl: (import.meta.env.VITE_API_BASE as string | undefined) ?? "",
+    port: Number(
+      (import.meta.env.VITE_LOCAL_PORT as string | undefined) ?? 5000,
+    ),
   },
-)
+);
 
 const {
-  currentWeek, areas, channels, categories, geoData, isLoading, error,
-} = useKpiData(adapter)
+  currentWeek,
+  areas,
+  delivery,
+  channels,
+  performance,
+  geoData,
+  isLoading,
+  error,
+} = useKpiData(adapter);
 
 const slides = computed(() =>
   currentWeek.value && areas.value
     ? buildSlides({
         areas: areas.value,
+        delivery: delivery.value || [],
         channels: channels.value,
-        categories: categories.value,
+        performance: performance.value,
         geoData: geoData.value,
         week: currentWeek.value.week,
         year: currentWeek.value.year,
       })
-    : []
-)
+    : [],
+);
 </script>
 
 <template>
@@ -45,7 +55,8 @@ const slides = computed(() =>
       <p class="error-title">Errore nel caricamento dei dati</p>
       <p class="error-detail">{{ error }}</p>
       <p class="error-hint">
-        Assicurati che i file CSV siano presenti in <code>decks/kpi-report/public/data/</code>
+        Assicurati che i file CSV siano presenti in
+        <code>decks/kpi-report/public/data/</code>
       </p>
     </div>
 
@@ -53,6 +64,12 @@ const slides = computed(() =>
       <p>Nessun dato disponibile. Controlla i file CSV.</p>
     </div>
 
-    <SlideDeck v-else :slides="slides" />
+    <SlideDeck
+      v-else
+      :slides="slides"
+      logo="/logo.svg"
+      department="Analytics & Reporting"
+      :deckNote="`Dati aggiornati al ${currentWeek?.week}/${currentWeek?.year}. I dati presentatati servono a fine dimostrativo e non sono reali.`"
+    />
   </div>
 </template>

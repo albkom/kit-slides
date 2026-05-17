@@ -10,7 +10,10 @@
       "Bash(pnpm build *)",
       "Bash(pnpm pdf *)",
       "Bash(xxd)",
-      "Bash(git stash *)"
+      "Bash(git stash *)",
+      "Bash(git rm *)",
+      "Bash(KIT_DECK=demo-talk pnpm vite build)",
+      "Bash(pnpm vite *)"
     ]
   }
 }
