@@ -30,7 +30,7 @@ export function buildSlides({
   year,
 }: BuildSlidesInput): SlideDefinition[] {
   return [
-    { component: markRaw(Cover), props: { week, year } },
+    { component: markRaw(Cover), props: { week, year }, isCover: true },
     { component: markRaw(Kpi),   props: { summary, channels, week, year } },
     { component: markRaw(Chart), props: { channels, week, year } },
     { component: markRaw(Table), props: { categories, week, year } },

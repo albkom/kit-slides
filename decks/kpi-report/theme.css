@@ -1,6 +1,6 @@
 /* kpi-report uses kit defaults — override CSS custom properties here to customize. */
 :root {
-  --font-stack: "Inter", system-ui, sans-serif;
+  --font-stack: "Gotham", system-ui, sans-serif;
 
   --brand-primary: #0f766e; /* teal */
   --brand-accent: #f59e0b; /* ambra */
@@ -11,4 +11,26 @@
   --text-secondary: #64748b;
   --surface: #ffffff; /* sfondo bianco puro */
   --border: rgba(0, 0, 0, 0.1);
+}
+
+html {
+  font-size: 18px; /* everything in rem per scalare con facilità */
+}
+
+.slide-title {
+  font-size: 2.5rem;
+}
+
+/* Cover con sfondo personalizzato */
+.slide-cover {
+  /* background: linear-gradient(135deg, #1e3a5f 0%, #4a1942 100%); */
+}
+
+/* Rimuovi decorazione cerchio dalla cover */
+.cover-deco {
+  display: none;
+}
+
+.kpi-label {
+  font-size: 1rem !important;
 }

@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { CoverSlide } from '../../../index'
 
-const props = defineProps<{ week: number; year: number }>()
+const props = defineProps<{ week: number; year: number; totalSlides?: number | null }>()
 
 const generatedDate = computed(() =>
   new Intl.DateTimeFormat('it-IT', {
@@ -20,5 +20,6 @@ const meta     = computed(() => `Generato il ${generatedDate.value}`)
     badge="Report Settimanale"
     :subtitle="subtitle"
     :meta="meta"
+    :total-slides="totalSlides ?? null"
   />
 </template>

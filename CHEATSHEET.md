@@ -10,54 +10,14 @@ Il file viene **caricato automaticamente** da Vite — nessun import manuale.
 ```css
 /* decks/my-deck/theme.css */
 :root {
-  --brand-primary: #2a7;
   --font-stack:    "Inter", system-ui, sans-serif;
+  --brand-primary: #2a7;
 }
 ```
 
 ---
 
-## 2. Colori del brand
-
-| Variabile         | Default     | Dove si vede                          |
-|-------------------|-------------|---------------------------------------|
-| `--brand-primary` | `#185fa5`   | Bordi, link, accenti, spinner         |
-| `--brand-accent`  | `#931d9e`   | Divider sulla cover, evidenze         |
-| `--brand-dark`    | `#7c0c4b`   | **Sfondo cover**, titoli slide        |
-| `--brand-light`   | `#e6f1fb`   | Hover righe tabella, sfondi tenui     |
-
-```css
-:root {
-  --brand-primary: #0f766e;   /* teal */
-  --brand-accent:  #f59e0b;   /* ambra */
-  --brand-dark:    #134e4a;   /* teal scuro */
-  --brand-light:   #ccfbf1;   /* teal chiarissimo */
-}
-```
-
----
-
-## 3. Testo e superfici
-
-| Variabile          | Default            | Dove si vede                    |
-|--------------------|--------------------|---------------------------------|
-| `--text-primary`   | `#1a1a1a`          | Testo principale                |
-| `--text-secondary` | `#6b7280`          | Meta, label, slide-number       |
-| `--surface`        | `#f8f8f7`          | **Sfondo di ogni slide**        |
-| `--border`         | `rgba(0,0,0,0.08)` | Card, righe tabella, divisori   |
-
-```css
-:root {
-  --text-primary:   #0f172a;
-  --text-secondary: #64748b;
-  --surface:        #ffffff;   /* sfondo bianco puro */
-  --border:         rgba(0, 0, 0, 0.10);
-}
-```
-
----
-
-## 4. Font
+## 2. Font
 
 ```css
 /* Cambio typeface su tutto il kit */
@@ -83,7 +43,73 @@ Esempio serif (stile pitch deck):
 
 ---
 
-## 5. Background della slide
+## 3. Dimensioni testo
+
+La scala tipografica è composta da cinque passi, usati in tutto il kit.  
+Aggiungendo le classi `.txt-xs` … `.txt-xl` su qualsiasi elemento HTML ne controlli la dimensione.
+
+| Token / Classe | Default     | Uso tipico                              |
+|----------------|-------------|-----------------------------------------|
+| `--txt-xs` / `.txt-xs` | `0.625rem` | Note, hint, frecce nei badge   |
+| `--txt-s`  / `.txt-s`  | `0.75rem`  | Label, meta, badge, slide-number|
+| `--txt-m`  / `.txt-m`  | `1rem`     | Corpo testo, tabelle, meta slide|
+| `--txt-l`  / `.txt-l`  | `1.5rem`   | Sottotitoli, KPI value, subtitle|
+| `--txt-xl` / `.txt-xl` | `2rem`     | Titoli slide                    |
+
+```css
+/* Scala più grande per proiezioni in aule grandi */
+:root {
+  --txt-xs: 0.7rem;
+  --txt-s:  0.85rem;
+  --txt-m:  1.1rem;
+  --txt-l:  1.65rem;
+  --txt-xl: 2.2rem;
+}
+```
+
+---
+
+## 4. Colori del brand
+
+| Variabile         | Default     | Dove si vede                          |
+|-------------------|-------------|---------------------------------------|
+| `--brand-primary` | `#185fa5`   | Bordi, link, accenti, spinner         |
+| `--brand-accent`  | `#931d9e`   | Divider sulla cover, evidenze         |
+| `--brand-dark`    | `#7c0c4b`   | **Sfondo cover**, titoli slide        |
+| `--brand-light`   | `#e6f1fb`   | Hover righe tabella, sfondi tenui     |
+
+```css
+:root {
+  --brand-primary: #0f766e;   /* teal */
+  --brand-accent:  #f59e0b;   /* ambra */
+  --brand-dark:    #134e4a;   /* teal scuro */
+  --brand-light:   #ccfbf1;   /* teal chiarissimo */
+}
+```
+
+---
+
+## 5. Testo e superfici
+
+| Variabile          | Default            | Dove si vede                    |
+|--------------------|--------------------|---------------------------------|
+| `--text-primary`   | `#1a1a1a`          | Testo principale                |
+| `--text-secondary` | `#6b7280`          | Meta, label, slide-number       |
+| `--surface`        | `#f8f8f7`          | **Sfondo di ogni slide**        |
+| `--border`         | `rgba(0,0,0,0.08)` | Card, righe tabella, divisori   |
+
+```css
+:root {
+  --text-primary:   #0f172a;
+  --text-secondary: #64748b;
+  --surface:        #ffffff;   /* sfondo bianco puro */
+  --border:         rgba(0, 0, 0, 0.10);
+}
+```
+
+---
+
+## 6. Background della slide
 
 Lo sfondo di default ha un pattern a puntini. Per rimuoverlo o cambiarlo:
 
@@ -111,7 +137,7 @@ Lo sfondo di default ha un pattern a puntini. Per rimuoverlo o cambiarlo:
 
 ---
 
-## 6. Colori di stato (badge)
+## 7. Colori di stato (badge)
 
 Usati dai componenti `delta-badge` e `status-badge`.
 
@@ -125,7 +151,7 @@ Usati dai componenti `delta-badge` e `status-badge`.
 
 ---
 
-## 7. Spacing e forma
+## 8. Spacing e forma
 
 | Variabile        | Default  | Effetto                              |
 |------------------|----------|--------------------------------------|
@@ -142,16 +168,11 @@ Usati dai componenti `delta-badge` e `status-badge`.
 
 ---
 
-## 8. Stili specifici per slide-type
+## 9. Stili specifici per slide-type
 
 Puoi aggiungere CSS per classi specifiche senza toccare i token:
 
 ```css
-/* Titolo della slide più grande */
-.slide-title {
-  font-size: 2.2rem;
-}
-
 /* Cover con sfondo personalizzato */
 .slide-cover {
   background: linear-gradient(135deg, #1e3a5f 0%, #4a1942 100%);
@@ -165,11 +186,19 @@ Puoi aggiungere CSS per classi specifiche senza toccare i token:
 
 ---
 
-## 9. Esempio completo — tema "Dark Ocean"
+## 10. Esempio completo — tema "Dark Ocean"
 
 ```css
 /* decks/dark-ocean/theme.css */
 :root {
+  --font-stack:    "Inter", system-ui, sans-serif;
+
+  --txt-xs: 0.7rem;
+  --txt-s:  0.85rem;
+  --txt-m:  1.1rem;
+  --txt-l:  1.65rem;
+  --txt-xl: 2.2rem;
+
   --brand-primary: #38bdf8;
   --brand-accent:  #818cf8;
   --brand-dark:    #0f172a;
@@ -180,7 +209,6 @@ Puoi aggiungere CSS per classi specifiche senza toccare i token:
   --surface:        #1e293b;
   --border:         rgba(255, 255, 255, 0.08);
 
-  --font-stack:     "Inter", system-ui, sans-serif;
   --slide-padding:  3.5rem;
   --slide-radius:   16px;
 }
@@ -192,7 +220,7 @@ Puoi aggiungere CSS per classi specifiche senza toccare i token:
 
 ---
 
-## 10. ⛔ Token interni — NON modificare
+## 11. ⛔ Token interni — NON modificare
 
 | Variabile    | Motivo                                          |
 |--------------|-------------------------------------------------|

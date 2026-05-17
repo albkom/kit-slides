@@ -12,3 +12,10 @@ code {
   padding: 0.1em 0.4em;
   border-radius: 4px;
 }
+
+/* Text size utilities */
+.txt-xs { font-size: var(--txt-xs); }
+.txt-s  { font-size: var(--txt-s);  }
+.txt-m  { font-size: var(--txt-m);  }
+.txt-l  { font-size: var(--txt-l);  }
+.txt-xl { font-size: var(--txt-xl); }

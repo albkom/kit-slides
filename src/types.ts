@@ -107,6 +107,7 @@ export interface AdapterOptions {
 export interface SlideDefinition {
   component: Component
   props: Record<string, unknown>
+  isCover?: boolean
 }
 
 // ── Generic slide configuration (built-in slides) ────────────────────────────

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import Slide from './Slide.vue'
 import type { SlideDefinition } from '../types'
 
-defineProps<{ slides: SlideDefinition[] }>()
+const props = defineProps<{ slides: SlideDefinition[] }>()
 
 const isDocument = ref(localStorage.getItem('slideDeckView') === 'document')
 
@@ -12,6 +12,18 @@ function saveView() {
 }
 
 function printPdf() { window.print() }
+
+const contentCount = computed(() => props.slides.filter(s => !s.isCover).length)
+
+function slideNumber(s: SlideDefinition, i: number): number | null {
+  if (s.isCover) return null
+  return props.slides.slice(0, i).filter(x => !x.isCover).length + 1
+}
+
+function mergedProps(s: SlideDefinition): Record<string, unknown> {
+  if (s.isCover) return { ...s.props, totalSlides: contentCount.value }
+  return s.props
+}
 </script>
 
 <template>
@@ -30,8 +42,8 @@ function printPdf() { window.print() }
         :key="i"
         class="slide-page"
       >
-        <Slide :slide-number="i + 1" :total-slides="slides.length">
-          <component :is="s.component" v-bind="s.props" />
+        <Slide :slide-number="slideNumber(s, i)" :total-slides="s.isCover ? null : contentCount">
+          <component :is="s.component" v-bind="mergedProps(s)" />
         </Slide>
       </div>
     </div>

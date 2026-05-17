@@ -4,11 +4,13 @@ interface Props {
   subtitle?: string
   badge?: string
   meta?: string
+  totalSlides?: number | null
 }
 const props = withDefaults(defineProps<Props>(), {
   subtitle: '',
   badge: '',
   meta: '',
+  totalSlides: null,
 })
 </script>
 
@@ -23,6 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
       <p v-if="subtitle" class="subtitle">{{ subtitle }}</p>
       <div class="divider" />
       <p v-if="meta" class="generated">{{ meta }}</p>
+      <p v-if="totalSlides != null" class="cover-total-slides">{{ totalSlides }} slides</p>
     </div>
     <div class="cover-deco" />
   </div>

@@ -2,12 +2,12 @@
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  font-size: 0.8rem;
+  font-size: var(--txt-s);
   font-weight: 600;
   padding: 0.2rem 0.55rem;
   border-radius: 999px;
 
-  .arrow { font-size: 0.65rem; }
+  .arrow { font-size: var(--txt-xs); }
 
   &.up      { color: var(--status-ok);  background: var(--status-ok-bg); }
   &.down    { color: var(--status-bad); background: var(--status-bad-bg); }
@@ -18,7 +18,7 @@
   display: inline-block;
   padding: 0.2rem 0.6rem;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: var(--txt-s);
   font-weight: 600;
   white-space: nowrap;
 

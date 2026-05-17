@@ -2,13 +2,13 @@
   flex: 1;
   overflow: hidden;
 
-  table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  table { width: 100%; border-collapse: collapse; font-size: var(--txt-m); }
 
   thead tr { border-bottom: 2px solid var(--brand-primary); }
   th {
     padding: 0.7rem 1rem;
     text-align: left;
-    font-size: 0.75rem; font-weight: 700;
+    font-size: var(--txt-s); font-weight: 700;
     color: var(--text-secondary);
     text-transform: uppercase; letter-spacing: 0.06em;
   }

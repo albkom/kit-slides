@@ -42,4 +42,11 @@
 
   /* @public — font stack (override per cambiare il typeface dell'intero kit) */
   --font-stack: "Roboto", system-ui, -apple-system, sans-serif;
+
+  /* @public — text size scale */
+  --txt-xs: 0.625rem;
+  --txt-s:  0.75rem;
+  --txt-m:  1rem;
+  --txt-l:  1.5rem;
+  --txt-xl: 2rem;
 }

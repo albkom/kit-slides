@@ -12,16 +12,16 @@
   &.error { color: var(--text-primary); }
 
   .error-icon  { font-size: 3rem; }
-  .error-title { font-size: 1.3rem; font-weight: 700; color: var(--status-bad); }
+  .error-title { font-size: var(--txt-l); font-weight: 700; color: var(--status-bad); }
   .error-detail {
     font-family: monospace;
-    font-size: 0.9rem;
+    font-size: var(--txt-m);
     background: var(--status-bad-bg);
     color: #991b1b;
     padding: 0.5rem 1rem;
     border-radius: 6px;
   }
-  .error-hint  { font-size: 0.85rem; }
+  .error-hint  { font-size: var(--txt-s); }
 
   .spinner {
     width: 40px; height: 40px;
@@ -86,7 +86,7 @@
 
 .toggle-label {
   color: #e5e5e5;
-  font-size: 0.82rem;
+  font-size: var(--txt-s);
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -100,7 +100,7 @@
   background: var(--brand-primary);
   border: none;
   color: white;
-  font-size: 0.82rem;
+  font-size: var(--txt-s);
   font-weight: 600;
   padding: 0.45rem 1rem;
   border-radius: 6px;
