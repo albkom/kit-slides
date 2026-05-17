@@ -1,14 +1,30 @@
+// CSS variables esposte come API pubblica del kit.
+// I token marcati /* @public */ sono parte del contratto stabile: i consumer
+// possono sovrascriverli nel proprio decks/<deck>/theme.css con la garanzia
+// che continueranno a funzionare anche dopo aggiornamenti non-breaking.
+// I token senza /* @public */ sono interni e possono cambiare senza preavviso.
+// Vedi docs/theming.md per i dettagli.
+
 :root {
+  /* @public — colori del brand */
   --brand-primary: #185fa5;
+  /* @public */
   --brand-accent:  #931d9e;
+  /* @public */
   --brand-dark:    #7c0c4b;
+  /* @public */
   --brand-light:   #e6f1fb;
 
+  /* @public — testo e superfici */
   --text-primary:   #1a1a1a;
+  /* @public */
   --text-secondary: #6b7280;
+  /* @public */
   --surface:        #f8f8f7;
+  /* @public */
   --border:         rgba(0, 0, 0, 0.08);
 
+  /* @public — colori di stato (badge in_target / attenzione / sotto_target) */
   --status-ok:      #1d9e75;
   --status-ok-bg:   #e6f7f1;
   --status-warn:    #d97706;
@@ -16,10 +32,14 @@
   --status-bad:     #dc2626;
   --status-bad-bg:  #fee2e2;
 
+  /* Interne — dimensioni del canvas slide (16:9 a 1280×720). NON modificare. */
   --slide-w: 1280px;
   --slide-h: 720px;
+  /* @public — padding interno della slide */
   --slide-padding: 3rem;
+  /* @public — raggio dei box e delle card */
   --slide-radius: 12px;
 
+  /* @public — font stack (override per cambiare il typeface dell'intero kit) */
   --font-stack: "Roboto", system-ui, -apple-system, sans-serif;
 }

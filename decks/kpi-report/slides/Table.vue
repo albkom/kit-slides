@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { StatusBadge, DeltaBadge } from '../../../index'
-import type { KpiCategory } from '../../../src/types'
+import { TableSlide } from '../../../index'
+import type { ColumnDef, KpiCategory } from '../../../index'
 
 const props = defineProps<{
   categories: KpiCategory[]
@@ -12,36 +12,24 @@ const props = defineProps<{
 const eur = new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 })
 const num = new Intl.NumberFormat('it-IT')
 
-const rows = computed(() => props.categories.slice(0, 6))
+const columns: ColumnDef[] = [
+  { key: 'categoria',       label: 'Categoria',  align: 'left',   width: '35%' },
+  { key: 'fatturato',       label: 'Fatturato',  align: 'right',  width: '18%', format: (v) => eur.format(Number(v)) },
+  { key: 'ordini',          label: 'Ordini',     align: 'right',  width: '18%', format: (v) => num.format(Number(v)) },
+  { key: 'fatturato_delta', label: 'vs Prec.',   align: 'center', width: '14%', badge: 'delta' },
+  { key: 'stato',           label: 'Stato',      align: 'center', width: '15%', badge: 'status' },
+]
+
+const data = computed(() => props.categories as unknown as Record<string, unknown>[])
+const meta = computed(() => `W${props.week} · ${props.year}`)
 </script>
 
 <template>
-  <div class="slide slide-table">
-    <div class="slide-header">
-      <h2 class="slide-title">Performance per Categoria</h2>
-      <span class="slide-meta">W{{ week }} · {{ year }}</span>
-    </div>
-    <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th class="col-cat">Categoria</th>
-            <th class="col-num">Fatturato</th>
-            <th class="col-num">Ordini</th>
-            <th class="col-delta">vs Prec.</th>
-            <th class="col-stato">Stato</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="row in rows" :key="row.categoria">
-            <td class="col-cat cat-name">{{ row.categoria }}</td>
-            <td class="col-num">{{ eur.format(row.fatturato) }}</td>
-            <td class="col-num">{{ num.format(row.ordini) }}</td>
-            <td class="col-delta"><DeltaBadge :value="row.fatturato_delta" /></td>
-            <td class="col-stato"><StatusBadge :stato="row.stato" /></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  <TableSlide
+    title="Performance per Categoria"
+    :meta="meta"
+    :columns="columns"
+    :data="data"
+    :max-rows="6"
+  />
 </template>

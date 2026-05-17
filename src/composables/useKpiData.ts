@@ -12,7 +12,7 @@ import type {
   KpiStato,
   GeoDataPoint,
   WeekRef,
-} from '../../src/types'
+} from '../types'
 
 const STATI: KpiStato[] = ['in_target', 'attenzione', 'sotto_target']
 
@@ -24,6 +24,24 @@ function toNum(v: string | number | null | undefined): number {
 function delta(current: number, prev: number): number | null {
   if (!prev || prev === 0) return null
   return ((current - prev) / Math.abs(prev)) * 100
+}
+
+/** Validate that every row contains every required field (non-empty). */
+function validateRows(
+  source: string,
+  rows: readonly Record<string, unknown>[],
+  required: readonly string[],
+): void {
+  rows.forEach((row, idx) => {
+    for (const field of required) {
+      const v = row[field]
+      if (v === undefined || v === null || String(v).trim() === '') {
+        throw new Error(
+          `${source}: campo "${field}" mancante o vuoto alla riga ${idx + 1}`,
+        )
+      }
+    }
+  })
 }
 
 export interface UseKpiDataResult {
@@ -143,6 +161,23 @@ export function useKpiData(adapter: IAdapter): UseKpiDataResult {
         adapter.fetchCategories(),
         adapter.fetchGeo(),
       ])
+
+      validateRows('kpi_summary', s as unknown as Record<string, unknown>[], [
+        'week', 'year', 'fatturato', 'ordini',
+        'tasso_conversione', 'ticket_medio',
+      ])
+      validateRows('kpi_by_channel', ch as unknown as Record<string, unknown>[], [
+        'name', 'total', 'oks',
+      ])
+      validateRows('kpi_by_category', cat as unknown as Record<string, unknown>[], [
+        'week', 'year', 'categoria', 'fatturato', 'stato',
+      ])
+      if (geo) {
+        validateRows('geo_kpi', geo as unknown as Record<string, unknown>[], [
+          'week', 'year', 'code', 'value',
+        ])
+      }
+
       _summary.value = s
       _channels.value = ch
       _categories.value = cat

@@ -1,24 +1,24 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { CoverSlide } from '../../../index'
 
-defineProps<{ week: number; year: number }>()
+const props = defineProps<{ week: number; year: number }>()
 
 const generatedDate = computed(() =>
   new Intl.DateTimeFormat('it-IT', {
     day: '2-digit', month: 'long', year: 'numeric',
   }).format(new Date()),
 )
+
+const subtitle = computed(() => `Settimana ${props.week} · ${props.year}`)
+const meta     = computed(() => `Generato il ${generatedDate.value}`)
 </script>
 
 <template>
-  <div class="slide slide-cover">
-    <div class="cover-content">
-      <div class="badge">Report Settimanale</div>
-      <h1 class="title">Titolo Slideshow</h1>
-      <p class="subtitle">Settimana {{ week }} · {{ year }}</p>
-      <div class="divider" />
-      <p class="generated">Generato il {{ generatedDate }}</p>
-    </div>
-    <div class="cover-deco" />
-  </div>
+  <CoverSlide
+    title="Titolo Slideshow"
+    badge="Report Settimanale"
+    :subtitle="subtitle"
+    :meta="meta"
+  />
 </template>
