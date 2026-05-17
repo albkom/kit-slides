@@ -1,21 +1,23 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { Bar } from 'vue-chartjs'
 import {
   Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 } from 'chart.js'
+import type { ChartData, ChartOptions, Plugin, TooltipItem } from 'chart.js'
+import type { KpiChannel } from '../../../src/types'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
-const props = defineProps({
-  channels: { type: Array, required: true },
-  week: { type: Number, required: true },
-  year: { type: Number, required: true },
-})
+const props = defineProps<{
+  channels: KpiChannel[]
+  week: number
+  year: number
+}>()
 
 const rows = computed(() => props.channels)
 
-const chartData = computed(() => ({
+const chartData = computed<ChartData<'bar'>>(() => ({
   labels: rows.value.map((r) => r.name),
   datasets: [
     {
@@ -53,7 +55,7 @@ const chartData = computed(() => ({
 
 const maxTotal = computed(() => Math.max(...rows.value.map((r) => r.total), 1))
 
-const chartPlugin = {
+const chartPlugin: Plugin<'bar'> = {
   id: 'chartExtras',
   afterDraw(chart) {
     const { ctx, chartArea } = chart
@@ -69,8 +71,10 @@ const chartPlugin = {
 
     meta0.data.forEach((firstBar, i) => {
       const lastBar = metaLast.data[i]
-      const groupTop = firstBar.y - firstBar.height / 2
-      const groupBottom = lastBar.y + lastBar.height / 2
+      const fb = firstBar as unknown as { y: number; height: number }
+      const lb = lastBar as unknown as { y: number; height: number }
+      const groupTop = fb.y - fb.height / 2
+      const groupBottom = lb.y + lb.height / 2
       ctx.fillText(rows.value[i].name, chartArea.left + 6, (groupTop + groupBottom) / 2)
     })
 
@@ -78,7 +82,7 @@ const chartPlugin = {
   },
 }
 
-const chartOptions = computed(() => ({
+const chartOptions = computed<ChartOptions<'bar'>>(() => ({
   responsive: true,
   maintainAspectRatio: false,
   indexAxis: 'y',
@@ -110,15 +114,15 @@ const chartOptions = computed(() => ({
     legend: { display: true, position: 'bottom' },
     tooltip: {
       callbacks: {
-        label: (ctx) => {
-          if (ctx.dataset.xAxisID === 'x1') return `${ctx.dataset.label}: ${ctx.parsed.x}`
-          return `${ctx.dataset.label}: ${ctx.parsed.x.toFixed(1)}%`
+        label: (ctx: TooltipItem<'bar'>) => {
+          const x = ctx.parsed.x ?? 0
+          if (ctx.dataset.xAxisID === 'x1') return `${ctx.dataset.label}: ${x}`
+          return `${ctx.dataset.label}: ${x.toFixed(1)}%`
         },
       },
     },
   },
 }))
-
 </script>
 
 <template>

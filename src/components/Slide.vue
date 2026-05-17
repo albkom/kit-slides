@@ -1,17 +1,21 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 
-const props = defineProps({
-  slideNumber: { type: Number, default: null },
-  totalSlides: { type: Number, default: null },
+interface Props {
+  slideNumber?: number | null
+  totalSlides?: number | null
+}
+const props = withDefaults(defineProps<Props>(), {
+  slideNumber: null,
+  totalSlides: null,
 })
 
 const SLIDE_W = 1280
 const SLIDE_H = 720
 
-const outer = ref(null)
+const outer = ref<HTMLDivElement | null>(null)
 const scale = ref(1)
-let ro = null
+let ro: ResizeObserver | null = null
 
 function update() {
   if (!outer.value) return
@@ -23,9 +27,8 @@ function update() {
 
 onMounted(() => {
   ro = new ResizeObserver(update)
-  ro.observe(outer.value)
+  if (outer.value) ro.observe(outer.value)
   update()
-  // Recompute on print transitions — Chrome resizes the viewport for @page.
   window.addEventListener('beforeprint', update)
   window.addEventListener('afterprint', update)
 })

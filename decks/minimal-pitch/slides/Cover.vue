@@ -1,8 +1,12 @@
-<script setup>
-defineProps({
-  title: { type: String, required: true },
-  subtitle: { type: String, default: '' },
-  author: { type: String, default: '' },
+<script setup lang="ts">
+interface Props {
+  title: string
+  subtitle?: string
+  author?: string
+}
+withDefaults(defineProps<Props>(), {
+  subtitle: '',
+  author: '',
 })
 </script>
 

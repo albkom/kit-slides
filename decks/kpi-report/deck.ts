@@ -4,8 +4,31 @@ import Kpi   from './slides/Kpi.vue'
 import Chart from './slides/Chart.vue'
 import Table from './slides/Table.vue'
 import Map   from './slides/Map.vue'
+import type {
+  SlideDefinition,
+  KpiSummary,
+  KpiChannel,
+  KpiCategory,
+  GeoDataPoint,
+} from '../../src/types'
 
-export function buildSlides({ summary, channels, categories, geoData, week, year }) {
+export interface BuildSlidesInput {
+  summary: KpiSummary
+  channels: KpiChannel[]
+  categories: KpiCategory[]
+  geoData: GeoDataPoint[]
+  week: number
+  year: number
+}
+
+export function buildSlides({
+  summary,
+  channels,
+  categories,
+  geoData,
+  week,
+  year,
+}: BuildSlidesInput): SlideDefinition[] {
   return [
     { component: markRaw(Cover), props: { week, year } },
     { component: markRaw(Kpi),   props: { summary, channels, week, year } },

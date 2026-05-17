@@ -1,16 +1,20 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 
-const props = defineProps({
-  value: { type: Number, default: null },
-  unit: { type: String, default: '%' },
+interface Props {
+  value?: number | null
+  unit?: string
+}
+const props = withDefaults(defineProps<Props>(), {
+  value: null,
+  unit: '%',
 })
 
 const isNull = computed(() => props.value === null)
-const isPositive = computed(() => !isNull.value && props.value >= 0)
+const isPositive = computed(() => !isNull.value && (props.value ?? 0) >= 0)
 
 const formatted = computed(() => {
-  if (isNull.value) return '—'
+  if (props.value === null || props.value === undefined) return '—'
   const sign = props.value >= 0 ? '+' : ''
   return `${sign}${props.value.toFixed(1)}${props.unit}`
 })

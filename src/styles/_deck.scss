@@ -69,6 +69,33 @@
   flex-shrink: 0;
 }
 
+.stage--document {
+  gap: 0;
+  padding: 0;
+}
+.stage--document .slide-page {
+  width: min(100vw, calc(100vh * (16 / 9)));
+  margin-bottom: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+.stage--document .slide-outer {
+  border-radius: 0;
+  border: none;
+}
+
+.toggle-label {
+  color: #e5e5e5;
+  font-size: 0.82rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  user-select: none;
+
+  input[type="checkbox"] { cursor: pointer; }
+}
+
 .btn-primary {
   background: var(--brand-primary);
   border: none;

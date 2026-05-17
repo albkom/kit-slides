@@ -1,7 +1,10 @@
-<script setup>
-defineProps({
-  quote: { type: String, required: true },
-  attribution: { type: String, default: '' },
+<script setup lang="ts">
+interface Props {
+  quote: string
+  attribution?: string
+}
+withDefaults(defineProps<Props>(), {
+  attribution: '',
 })
 </script>
 

@@ -1,12 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
-import { StatusBadge, DeltaBadge } from '../../../index.js'
+import { StatusBadge, DeltaBadge } from '../../../index'
+import type { KpiCategory } from '../../../src/types'
 
-const props = defineProps({
-  categories: { type: Array, required: true },
-  week: { type: Number, required: true },
-  year: { type: Number, required: true },
-})
+const props = defineProps<{
+  categories: KpiCategory[]
+  week: number
+  year: number
+}>()
 
 const eur = new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 })
 const num = new Intl.NumberFormat('it-IT')
