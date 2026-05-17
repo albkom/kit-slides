@@ -61,12 +61,18 @@ const extent = computed(() => {
 })
 
 function lerpColor(t: number): string {
-  return `rgb(${Math.round(230 + (12 - 230) * t)},${Math.round(241 + (68 - 241) * t)},${Math.round(251 + (124 - 251) * t)})`
+  if (t <= 0.5) {
+    const p = Math.round(t * 2 * 100)
+    return `color-mix(in srgb, var(--brand-primary) ${p}%, var(--border))`
+  } else {
+    const p = Math.round((t - 0.5) * 2 * 100)
+    return `color-mix(in srgb, var(--brand-accent) ${p}%, var(--brand-primary))`
+  }
 }
 function fillFor(id: string | number | undefined): string {
   const { min, max } = extent.value
   const val = id != null ? valueMap.value.get(String(id)) : undefined
-  return val != null ? lerpColor((val - min) / (max - min || 1)) : '#ccd8e2'
+  return val != null ? lerpColor((val - min) / (max - min || 1)) : '#cccccc'
 }
 
 interface MapPath {

@@ -104,7 +104,7 @@ name,total,oks,kos,draws,kpi_1,kpi_2,kpi_3
 Organico,1200,870,200,130,4.6,2.1,5.3
 ```
 
-### `kpi_by_category.csv` — una riga per categoria per settimana
+### `performance.csv` — una riga per categoria per settimana
 
 `stato` accetta: `in_target` | `attenzione` | `sotto_target`.
 

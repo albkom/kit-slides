@@ -30,7 +30,7 @@
 
     .legend-bar {
       flex: 1; height: 8px; border-radius: 4px;
-      background: linear-gradient(to right, var(--brand-light), var(--brand-dark));
+      background: linear-gradient(to right, var(--border), var(--brand-primary), var(--brand-accent));
     }
     .legend-label {
       font-size: var(--txt-s);

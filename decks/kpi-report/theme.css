@@ -44,27 +44,27 @@ html {
   background-size: 40px 40px;
   color: var(--text-primary);
   position: relative;
-  border: solid var(--border);
+  /* border: solid var(--border); */
 }
 
 /* Scanlines + git-tree node dots at the bracket elbows */
-.slide::before {
+/* .slide::before {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-}
+} */
 
 /* Corner brackets: L-shaped (git-tree branch ends) */
-.slide::after {
+/* .slide::after {
   content: "";
   position: absolute;
   inset: 1rem;
   border: 1px solid var(--border);
   pointer-events: none;
   z-index: 0;
-}
+} */
 
 .slide > * {
   position: relative;
@@ -357,15 +357,19 @@ html {
   color: var(--text-secondary);
 }
 
-.status-badge.in_target {
+.status-badge.good {
   background: var(--status-ok-bg);
   color: var(--text-primary);
 }
-.status-badge.attenzione {
+.status-badge.acceptable {
   background: var(--status-warn-bg);
   color: var(--text-primary);
 }
-.status-badge.sotto_target {
+.status-badge.warning {
+  background: var(--status-warn-bg);
+  color: var(--text-primary);
+}
+.status-badge.bad {
   background: var(--status-bad-bg);
   color: var(--text-primary);
 }
@@ -373,7 +377,15 @@ html {
 /* ===== Tables ===== */
 .slide table {
   /* background: rgba(26, 11, 46, 0.4); */
-  border: 1px solid var(--brand-accent);
+  border: 2px solid var(--border);
+  clip-path: polygon(
+    12px 0,
+    100% 0,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    0 100%,
+    0 12px
+  );
 }
 .slide thead {
   /* background: rgba(255, 42, 109, 0.08); */
@@ -382,14 +394,14 @@ html {
   color: var(--brand-primary);
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  border-bottom: 1px solid var(--brand-primary);
+  border-bottom: 1px solid var(--border);
 }
 .slide td {
   color: var(--text-primary);
   border-bottom: 1px solid var(--border);
 }
 .slide tbody tr:hover {
-  /* background: rgba(5, 217, 232, 0.05); */
+  background: var(--surface);
 }
 
 /* ===== Code blocks ===== */
@@ -399,4 +411,44 @@ code {
   border: 1px solid var(--border);
   border-radius: 0;
   font-family: var(--font-stack);
+}
+
+.slide-map {
+  .map-frame {
+    /* background: rgba(26, 11, 46, 0.4); */
+    border: 2px solid var(--border);
+    border-radius: 0;
+    clip-path: polygon(
+      12px 0,
+      100% 0,
+      100% calc(100% - 12px),
+      calc(100% - 12px) 100%,
+      0 100%,
+      0 12px
+    );
+  }
+  .top5 {
+    border: none;
+    border-radius: 0;
+    justify-content: center;
+    ol {
+      height: auto;
+      flex-grow: 0;
+      overflow-y: visible;
+      padding-bottom: 1rem;
+    }
+    li {
+      color: var(--text-primary);
+      border: 2px solid var(--border);
+      padding: 0.5rem;
+      clip-path: polygon(
+        8px 0,
+        100% 0,
+        100% calc(100% - 8px),
+        calc(100% - 8px) 100%,
+        0 100%,
+        0 8px
+      );
+    }
+  }
 }

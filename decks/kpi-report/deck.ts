@@ -8,7 +8,7 @@ import type { SlideDefinition, GeoDataPoint } from "../../src/types";
 import type {
   KpiAreaComputed,
   KpiChannel,
-  KpiCategory,
+  KpiPerformance,
   DeliveryComputed,
 } from "./types";
 import Delivery from "./slides/Delivery.vue";
@@ -17,7 +17,7 @@ export interface BuildSlidesInput {
   areas: KpiAreaComputed[];
   delivery: DeliveryComputed[];
   channels: KpiChannel[];
-  categories: KpiCategory[];
+  performance: KpiPerformance[];
   geoData: GeoDataPoint[];
   week: number;
   year: number;
@@ -27,7 +27,7 @@ export function buildSlides({
   areas,
   delivery,
   channels,
-  categories,
+  performance,
   geoData,
   week,
   year,
@@ -35,9 +35,9 @@ export function buildSlides({
   return [
     { component: markRaw(Cover), props: { week, year }, isCover: true },
     { component: markRaw(Kpi), props: { areas, channels, week, year } },
-    { component: markRaw(Delivery), props: { delivery, week, year } },
-    { component: markRaw(Chart), props: { channels, week, year } },
-    { component: markRaw(Table), props: { categories, week, year } },
     { component: markRaw(Map), props: { geoData, week, year } },
+    { component: markRaw(Table), props: { performance, week, year } },
+    { component: markRaw(Delivery), props: { delivery, week, year } },
+    // { component: markRaw(Chart), props: { channels, week, year } },
   ];
 }

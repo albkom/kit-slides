@@ -1,26 +1,94 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { TableSlide } from '../../../index'
-import type { ColumnDef } from '../../../index'
-import { DeliveryComputed } from '../types';
+import { computed } from "vue";
+import { TableSlide } from "../../../index";
+import type { ColumnDef } from "../../../index";
+import { KpiPerformance } from "../types";
 
 const props = defineProps<{
-  delivery: DeliveryComputed[]
-  week: number
-  year: number
-}>()
+  performance: KpiPerformance[];
+  week: number;
+  year: number;
+}>();
 
-const eur = new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 })
-const num = new Intl.NumberFormat('it-IT')
+const eur = new Intl.NumberFormat("it-IT", {
+  style: "currency",
+  currency: "EUR",
+  maximumFractionDigits: 0,
+});
+const num = new Intl.NumberFormat("it-IT");
 
 const columns: ColumnDef[] = [
-  { key: 'area',             label: 'Area',       align: 'left',   width: '35%' },
-  { key: 'delivery_time',    label: 'Delivery',   align: 'right',  width: '18%', format: (v) => num.format(Number(v)) },
-  { key: 'on_time_percentage', label: 'On Time', align: 'right',  width: '18%', format: (v) => num.format(Number(v)) },
-]
+  { key: "name", label: "Name", align: "left", width: "10%" },
+  {
+    key: "usage",
+    label: "Usage",
+    align: "left",
+    width: "10%",
+    format: (v) => num.format(Number(v)),
+    badge: "progress",
+  },
+  {
+    key: "tot",
+    label: "Total",
+    align: "left",
+    width: "10%",
+    format: (v) => num.format(Number(v)),
+  },
+  {
+    key: "status",
+    label: "Status",
+    align: "left",
+    width: "10%",
+    badge: "status",
+  },
+  {
+    key: "kpi_1",
+    label: "KPI 1",
+    align: "center",
+    width: "10%",
+    format: (v) => `${(Number(v) * 100).toFixed(1)}%`,
+  },
+  {
+    key: "kpi_2",
+    label: "KPI 2",
+    align: "center",
+    width: "10%",
+    format: (v) => `${(Number(v) * 100).toFixed(1)}%`,
+  },
+  {
+    key: "kpi_3",
+    label: "KPI 3",
+    align: "center",
+    width: "10%",
+    format: (v) => `${(Number(v) * 100).toFixed(1)}%`,
+  },
+  {
+    key: "oks",
+    label: "OKs",
+    align: "center",
+    width: "10%",
+    format: (v) => num.format(Number(v)),
+  },
+  {
+    key: "draws",
+    label: "Draws",
+    align: "center",
+    width: "10%",
+    format: (v) => num.format(Number(v)),
+  },
+  {
+    key: "kos",
+    label: "KOs",
+    align: "center",
+    width: "10%",
+    format: (v) => num.format(Number(v)),
+  },
+];
 
-const data = computed(() => props.delivery as unknown as Record<string, unknown>[])
-const meta = computed(() => `W${props.week} · ${props.year}`)
+const data = computed(
+  () => props.performance as unknown as Record<string, unknown>[],
+);
+const meta = computed(() => `W${props.week} · ${props.year}`);
 </script>
 
 <template>
@@ -29,6 +97,6 @@ const meta = computed(() => `W${props.week} · ${props.year}`)
     :meta="meta"
     :columns="columns"
     :data="data"
-    :max-rows="6"
+    :max-rows="10"
   />
 </template>

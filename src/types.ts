@@ -29,8 +29,9 @@ export interface ColumnDef {
    * Render the cell as a built-in badge:
    *  - 'delta'  → DeltaBadge (value must be number | null)
    *  - 'status' → StatusBadge (value must be a KpiStato string)
+   *  - 'progress' → ProgressBadge (value must be a number | null)
    */
-  badge?: "delta" | "status";
+  badge?: "delta" | "status" | "progress";
 }
 
 export interface KpiMonitor {

@@ -5,14 +5,16 @@ import type {
   IAdapter,
   RawSummaryRow,
   RawChannelRow,
-  RawCategoryRow,
+  RawPerformanceRow,
   RawGeoRow,
   KpiAreaComputed,
   KpiChannel,
-  KpiCategory,
+  KpiPerformance,
   WeekRef,
   RawDeliveryRow,
   DeliveryComputed,
+  PerformanceComputed,
+  Status,
 } from "./types";
 
 const STATI: KpiStato[] = ["in_target", "attenzione", "sotto_target"];
@@ -51,7 +53,7 @@ export interface UseKpiDataResult {
   areas: ComputedRef<KpiAreaComputed[] | null>;
   delivery: ComputedRef<DeliveryComputed[] | null>;
   channels: ComputedRef<KpiChannel[]>;
-  categories: ComputedRef<KpiCategory[]>;
+  performance: ComputedRef<KpiPerformance[]>;
   geoData: ComputedRef<GeoDataPoint[]>;
   isLoading: Ref<boolean>;
   error: Ref<string | null>;
@@ -63,7 +65,7 @@ export function useKpiData(adapter: IAdapter): UseKpiDataResult {
 
   const _areas = ref<RawSummaryRow[]>([]);
   const _channels = ref<RawChannelRow[]>([]);
-  const _categories = ref<RawCategoryRow[]>([]);
+  const _performance = ref<RawPerformanceRow[]>([]);
   const _geo = ref<RawGeoRow[]>([]);
   const _delivery = ref<RawDeliveryRow[]>([]);
 
@@ -156,33 +158,33 @@ export function useKpiData(adapter: IAdapter): UseKpiDataResult {
       .sort((a, b) => b.oks - a.oks);
   });
 
-  const categories = computed<KpiCategory[]>(() => {
-    if (!currentWeek.value) return [];
-    const cw = currentWeek.value;
-    return (
-      _categories.value
-        //   .filter((r) => Numb    er(r.week) === cw.week && Number(r.year) === cw.year)
-        .map<KpiCategory>((r) => {
-          const fatturato = toNum(r.fatturato);
-          const fatturato_prev = toNum(r.fatturato_prev);
-          const ordini = toNum(r.ordini);
-          const ordini_prev = toNum(r.ordini_prev);
-          const stato: KpiStato = STATI.includes(r.stato as KpiStato)
-            ? (r.stato as KpiStato)
-            : "in_target";
-          return {
-            categoria: r.categoria,
-            fatturato,
-            ordini,
-            fatturato_delta: delta(fatturato, fatturato_prev),
-            target_fatturato: toNum(r.target_fatturato),
-            stato,
-          };
-        })
-        .sort((a, b) => b.fatturato - a.fatturato)
-    );
-  });
+  function checkStatus(kpi: number): Status {
+    if (kpi >= 0.9) return "GOOD";
+    if (kpi >= 0.75) return "ACCEPTABLE";
+    if (kpi >= 0.5) return "WARNING";
+    return "BAD";
+  }
 
+  const performance = computed<PerformanceComputed[]>(() => {
+    if (!currentWeek.value) return [];
+    const maxTot = Math.max(..._performance.value.map((r) => toNum(r.tot)));
+    return _performance.value
+      .map((r) => ({
+        week: Number(r.week),
+        name: r.name,
+        tot: toNum(r.tot),
+        oks: toNum(r.oks),
+        kos: toNum(r.kos),
+        draws: toNum(r.draws),
+        kpi_1: r.kos / r.tot,
+        kpi_2: r.tot / maxTot,
+        kpi_3: r.kos / r.tot,
+        usage: r.tot / maxTot,
+        status: checkStatus(r.kos / r.tot),
+      }))
+      .sort((a, b) => b.oks - a.oks);
+  });
+  
   const geoData = computed<GeoDataPoint[]>(() => {
     if (!currentWeek.value) return [];
     const cw = currentWeek.value;
@@ -198,10 +200,10 @@ export function useKpiData(adapter: IAdapter): UseKpiDataResult {
     try {
       isLoading.value = true;
       error.value = null;
-      const [s, ch, cat, geo, delivery] = await Promise.all([
+      const [s, ch, performance, geo, delivery] = await Promise.all([
         adapter.fecthAreas(),
         adapter.fetchChannels(),
-        adapter.fetchCategories(),
+        adapter.fetchPerformance(),
         adapter.fetchGeo(),
         adapter.fetchDelivery(),
       ]);
@@ -218,24 +220,9 @@ export function useKpiData(adapter: IAdapter): UseKpiDataResult {
         "ops_draw",
       ]);
       validateRows(
-        "kpi_by_channel",
-        ch as unknown as Record<string, unknown>[],
-        [
-          "week",
-          "name",
-          "total",
-          "oks",
-          "kos",
-          "draws",
-          "kpi_1",
-          "kpi_2",
-          "kpi_3",
-        ],
-      );
-      validateRows(
-        "kpi_by_category",
-        cat as unknown as Record<string, unknown>[],
-        ["week", "area", "kpi_1", "kpi_2", "kpi_3"],
+        "performance",
+        performance as unknown as Record<string, unknown>[],
+        ["week", "name", "tot", "oks", "kos", "draws"],
       );
       if (geo) {
         validateRows("geo_kpi", geo as unknown as Record<string, unknown>[], [
@@ -255,7 +242,7 @@ export function useKpiData(adapter: IAdapter): UseKpiDataResult {
 
       _areas.value = s;
       _channels.value = ch;
-      _categories.value = cat;
+      _performance.value = performance;
       _geo.value = geo ?? [];
       _delivery.value = delivery ?? [];
     } catch (e) {
@@ -273,7 +260,7 @@ export function useKpiData(adapter: IAdapter): UseKpiDataResult {
     areas,
     delivery,
     channels,
-    categories,
+    performance,
     geoData,
     isLoading,
     error,

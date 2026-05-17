@@ -1,40 +1,48 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import DeltaBadge from '../ui/DeltaBadge.vue'
-import StatusBadge from '../ui/StatusBadge.vue'
-import type { ColumnDef, KpiStato } from '../../types'
+import { computed } from "vue";
+import DeltaBadge from "../ui/DeltaBadge.vue";
+import StatusBadge from "../ui/StatusBadge.vue";
+import type { ColumnDef, KpiStato } from "../../types";
+import { Status } from "../../../decks/kpi-report/types";
+import ProgressBadge from "../ui/ProgressBadge.vue";
 
 interface Props {
-  data: Record<string, unknown>[]
-  columns: ColumnDef[]
-  title?: string
-  meta?: string
-  maxRows?: number
+  data: Record<string, unknown>[];
+  columns: ColumnDef[];
+  title?: string;
+  meta?: string;
+  maxRows?: number;
 }
 const props = withDefaults(defineProps<Props>(), {
-  title: '',
-  meta: '',
+  title: "",
+  meta: "",
   maxRows: 0,
-})
+});
 
 const rows = computed(() =>
   props.maxRows > 0 ? props.data.slice(0, props.maxRows) : props.data,
-)
+);
 
 function cellText(col: ColumnDef, row: Record<string, unknown>): string {
-  const raw = row[col.key]
-  if (col.format) return col.format(raw, row)
-  if (raw == null) return ''
-  return String(raw)
+  const raw = row[col.key];
+  if (col.format) return col.format(raw, row);
+  if (raw == null) return "";
+  return String(raw);
 }
 </script>
 
 <template>
   <div
-    v-if="!props.data || !props.data.length || !props.columns || !props.columns.length"
+    v-if="
+      !props.data ||
+      !props.data.length ||
+      !props.columns ||
+      !props.columns.length
+    "
     class="slide slide-error"
   >
-    Slide "TableSlide": prop <code>data</code> o <code>columns</code> mancante o vuota.
+    Slide "TableSlide": prop <code>data</code> o <code>columns</code> mancante o
+    vuota.
   </div>
   <div v-else class="slide slide-table">
     <div v-if="title || meta" class="slide-header">
@@ -73,7 +81,11 @@ function cellText(col: ColumnDef, row: Record<string, unknown>): string {
               />
               <StatusBadge
                 v-else-if="col.badge === 'status'"
-                :stato="(row[col.key] as KpiStato)"
+                :stato="(row[col.key] as Status) ?? 'GOOD'"
+              />
+              <ProgressBadge
+                v-else-if="col.badge === 'progress'"
+                :progress="(row[col.key] as number | null | undefined) ?? null"
               />
               <template v-else>{{ cellText(col, row) }}</template>
             </td>

@@ -4,7 +4,7 @@ import type {
   AdapterOptions,
   RawSummaryRow,
   RawChannelRow,
-  RawCategoryRow,
+  RawPerformanceRow,
   RawGeoRow,
   RawDeliveryRow,
 } from "../types";
@@ -23,8 +23,8 @@ export class CsvAdapter implements IAdapter {
   async fetchChannels(): Promise<RawChannelRow[]> {
     return this._load<RawChannelRow>("kpi_by_channel.csv");
   }
-  async fetchCategories(): Promise<RawCategoryRow[]> {
-    return this._load<RawCategoryRow>("kpi_by_category.csv");
+  async fetchPerformance(): Promise<RawPerformanceRow[]> {
+    return this._load<RawPerformanceRow>("performance.csv");
   }
   async fetchGeo(): Promise<RawGeoRow[] | null> {
     return this._loadOptional<RawGeoRow>("geo_kpi.csv");

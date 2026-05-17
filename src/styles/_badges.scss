@@ -26,3 +26,21 @@
   &.attenzione   { color: var(--status-warn); background: var(--status-warn-bg); }
   &.sotto_target { color: var(--status-bad);  background: var(--status-bad-bg); }
 }
+
+.progress-badge {
+  position: relative;
+  display: inline-block;
+  width: 4rem; height: 0.6rem;
+  background: var(--surface);
+  border: solid 1px var(--brand-accent);
+  // border-radius: 999px;
+  overflow: hidden;
+
+  .progress-fill {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    background: var(--brand-accent);
+    border-radius: inherit;
+    transition: width 0.3s ease;
+  }
+}
