@@ -3,6 +3,8 @@ import type { ChartData, ChartOptions, Plugin } from "chart.js";
 
 export type KpiStato = "in_target" | "attenzione" | "sotto_target";
 
+export type Status = "GOOD" | "ACCEPTABLE" | "WARNING" | "BAD";
+
 export interface GeoDataPoint {
   code: string;
   value: number;

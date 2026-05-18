@@ -18,28 +18,28 @@ export { default as StatusBadge } from './src/components/ui/StatusBadge.vue'
 export { useKpiData }             from './src/composables/useKpiData'
 export type { UseKpiDataResult }  from './src/composables/useKpiData'
 
-// Tipi pubblici — adapter & data shape
+// Tipi pubblici — adapter & data shape (normalized contract)
 export type {
   IAdapter,
   AdapterOptions,
   WeekRef,
-  RawSummaryRow,
-  RawChannelRow,
-  RawPerformanceRow,
-  RawGeoRow,
-  RawDeliveryRow,
+  AreaRow,
+  ChannelRow,
+  PerformanceRow,
+  GeoRow,
+  DeliveryRow,
   KpiAreaComputed,
   KpiChannel,
   KpiPerformance,
   PerformanceComputed,
   DeliveryComputed,
-  Status,
 } from './src/composables/types'
 
 // Tipi pubblici — core
 export type {
   SlideDefinition,
   KpiStato,
+  Status,
   GeoDataPoint,
 } from './src/types'
 

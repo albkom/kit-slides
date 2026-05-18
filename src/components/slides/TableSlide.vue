@@ -4,8 +4,7 @@ import type { ComputedRef } from "vue";
 import DeltaBadge from "../ui/DeltaBadge.vue";
 import StatusBadge from "../ui/StatusBadge.vue";
 import SlideTopper from "../SlideTopper.vue";
-import type { ColumnDef, KpiStato } from "../../types";
-import { Status } from "../../../decks/kpi-report/types";
+import type { ColumnDef, Status } from "../../types";
 import ProgressBadge from "../ui/ProgressBadge.vue";
 
 interface TopperData { logo: string | null; department: string | null }
