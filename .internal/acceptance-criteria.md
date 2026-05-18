@@ -9,21 +9,22 @@
 
 **Dentro kit-slides:**
 - Motore di rendering (`SlideDeck`, `Slide`)
-- Componenti UI atomici (`KpiCard`, `DeltaBadge`, `StatusBadge`)
+- Componenti UI atomici (`KpiCard`, `DeltaBadge`, `StatusBadge`, `ProgressBadge`) in `src/components/ui/`
+- **Componenti KPI semantici** in `src/components/kpi/` (`MetricBlock`, `MetricGroup`, `RatioBar`, `RankTable`, `BarComparison`, `StatusGrid`, `ThresholdMeter`, `Sparkline`, `WeeklyTrend`): primitive intermedie usabili standalone, non legate a una specifica slide built-in
 - Slide built-in generiche (`CoverSlide`, `TableSlide`, `ChartSlide`, `KpiSlide`, `MapSlide`, `QuoteSlide`, …)
-- Adapter built-in (`CsvAdapter`, `RestApiAdapter`, `LocalCSharpAdapter`)
-- Interfaccia `IAdapter` come contratto estendibile
+- Contratto `IAdapter` — il kit definisce la **shape normalizzata** dei dati (`AreaRow`, `ChannelRow`, `PerformanceRow`, `GeoRow`, `DeliveryRow`) che gli adapter devono produrre. La traduzione da formato sorgente (CSV, JSON, …) alla shape normalizzata è responsabilità dell'adapter, non del kit
 - Sistema di stili, temi e variabili CSS pubbliche
 - Infrastruttura PDF (Puppeteer + `task pdf`)
 - Scaffold per nuovi deck (`task new`)
 
-**Fuori (responsabilità del consumer):**
+**Fuori (responsabilità del consumer / del deck):**
 - Componenti slide specifici del dominio
 - `deck.ts` — composizione e ordine delle slide
-- Configurazione adapter — quale fonte dati usare
+- **Selettori del deck** (`selectors.ts`) — funzioni pure per filtri e riordini dei dati prima del rendering; vivono nel deck, non nel kit
+- Adapter concreti (es. `CsvAdapter` del deck `kpi-report`) — usano i tipi `Raw*` interni al deck per il parsing e producono le shape normalizzate del contratto kit
+- Configurazione adapter — quale fonte dati usare, percorsi, credenziali
 - I dati stessi (CSV, DB, API)
-- Logica di trasformazione dati (tra adapter e slide)
-- Adapter custom se i built-in non bastano
+- Adapter custom se serve un protocollo non coperto
 - Override del tema
 - Logica condivisa tra deck (es. `shared/`)
 
@@ -78,16 +79,22 @@ Il consumer legge il CHANGELOG prima di aggiornare e sa esattamente quali file d
 ## Workflow 3 — Estensione
 
 **AC 3.1 — Adapter custom**
-Il consumer implementa `IAdapter` e lo passa a `useKpiData` senza modificare kit-slides. Il deck funziona identicamente a uno con adapter built-in.
+Il consumer implementa `IAdapter` e lo passa a `useKpiData` senza modificare kit-slides. L'adapter è responsabile della traduzione dal formato sorgente alla shape normalizzata del kit (`AreaRow`, `ChannelRow`, ecc.); `useKpiData` riceve dati già tipati e li trasforma in shape `*Computed` (`PerformanceComputed`, `KpiAreaComputed`, ecc.). Il deck funziona identicamente a uno con adapter built-in.
 
-**AC 3.2 — Slide custom**
-Il consumer crea un componente Vue e lo aggiunge al `deck.ts` come qualsiasi slide built-in. La slide viene renderizzata e inclusa nel PDF senza configurazione aggiuntiva.
+**AC 3.2 — Slide custom da slide built-in**
+Il consumer crea un componente Vue che istanzia una slide built-in (es. `KpiSlide`) con dati di dominio mappati a `KpiCardDef[]`. La slide viene renderizzata e inclusa nel PDF senza configurazione aggiuntiva.
 
-**AC 3.3 — Tema custom**
+**AC 3.3 — Slide custom da componenti KPI**
+Quando le slide built-in non bastano, il consumer crea un componente Vue che importa direttamente i componenti `kpi/` (es. `MetricGroup`, `Sparkline`) dall'entry point `kit-slides`, li compone in un layout custom, e lo aggiunge al `deck.ts`. Non è richiesto creare prima una slide built-in né estendere il kit.
+
+**AC 3.4 — Slide custom da atomi UI**
+Il consumer può costruire una slide custom componendo direttamente atomi `ui/` (`DeltaBadge`, `StatusBadge`, `KpiCard`, `ProgressBadge`) quando il controllo granulare è necessario (es. celle di una tabella ad hoc).
+
+**AC 3.5 — Tema custom**
 Il consumer sovrascrive le CSS variables pubbliche e le classi pubbliche documentate. Il risultato è visivamente coerente e sopravvive a un aggiornamento non-breaking di kit-slides.
 
-**AC 3.4 — Isolamento**
-Una slide custom o un adapter custom non richiedono mai di modificare file interni di kit-slides.
+**AC 3.6 — Isolamento**
+Una slide custom, un componente KPI usato direttamente, o un adapter custom non richiedono mai di modificare file interni di kit-slides. Tutti gli import del consumer passano dall'entry point `kit-slides` (mai da `kit-slides/src/...`).
 
 ---
 
@@ -104,13 +111,13 @@ Se una slide built-in riceve props incomplete, l'errore è rilevato a compile ti
 
 ---
 
-## Slide built-in — contratto props
+## Slide built-in e componenti KPI — contratto props
 
 **AC S.1 — Interfaccia generica**
-Ogni slide built-in accetta dati con struttura arbitraria. La slide non assume niente sul dominio — nessun campo hardcodato come `fatturato` o `ordini`.
+Ogni slide built-in e ogni componente KPI accetta dati con struttura arbitraria del dominio del consumer. Nessun campo hardcodato come `fatturato` o `ordini`: i nomi delle prop sono semantici rispetto al ruolo (label, value, delta, status), non al dominio.
 
 **AC S.2 — Config di rendering**
-Ogni slide built-in espone una prop `config` tipizzata che permette al consumer di definire label, formato e stile dei dati senza creare una slide custom. Esempio per `TableSlide`:
+Ogni slide built-in espone una prop `config` tipizzata (`ColumnDef[]`, `KpiCardDef[]`, `ChartData`, ecc.). Ogni componente KPI espone prop primitive tipizzate (e, se serve, un tipo `Item` esportato — es. `MetricItem`, `RankRow`, `BarItem`, `StatusItem`, `WeeklyPoint`). Esempio per `TableSlide`:
 
 ```ts
 interface ColumnDef {
@@ -122,10 +129,29 @@ interface ColumnDef {
 ```
 
 **AC S.3 — Typecheck**
-Le props di ogni slide built-in sono completamente tipizzate. Un consumer che passa dati incompatibili riceve un errore TypeScript a compile time.
+Le props di ogni slide built-in e di ogni componente KPI sono completamente tipizzate. Un consumer che passa dati incompatibili riceve un errore TypeScript a compile time.
 
 **AC S.4 — Documentazione**
-Ogni slide built-in ha un esempio minimo funzionante nella documentazione — dati di input, config, e screenshot dell'output.
+Ogni slide built-in e ogni componente KPI ha un esempio minimo funzionante in `docs/slides.md` — props richieste, esempio di markup, e (per le slide) screenshot dell'output.
+
+---
+
+## Componenti KPI — AC dedicati
+
+**AC K.1 — Livello intermedio**
+I componenti `kpi/` sono primitive di livello intermedio tra slide built-in (intera pagina) e atomi `ui/` (singolo badge). Coprono i layout ricorrenti per cui non esiste una slide built-in dedicata: metric grid, ranking, comparison bar, status grid, threshold, sparkline, trend settimanale.
+
+**AC K.2 — Standalone**
+Ogni componente `kpi/` è utilizzabile fuori da una slide. Il consumer può importarlo dall'entry point e renderlo in un componente custom, in una slide custom, o in una pagina che non è una slide.
+
+**AC K.3 — Tipizzazione completa**
+Tutte le prop sono tipizzate con TypeScript. I tipi item complessi (`MetricItem`, `RankRow`, `BarItem`, `StatusItem`, `WeeklyPoint`) sono esportati dall'entry point.
+
+**AC K.4 — Theming coerente**
+I componenti `kpi/` rispettano le CSS variables pubbliche di `_tokens.scss`. Sovrascrivere `--brand-primary`, `--status-ok`, ecc. modifica anche i componenti KPI senza richiedere selettori specifici.
+
+**AC K.5 — Esempio funzionante**
+Ogni componente KPI ha un esempio minimo eseguibile in `docs/slides.md` — props richieste e markup Vue.
 
 ---
 

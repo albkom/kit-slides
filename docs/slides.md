@@ -206,9 +206,249 @@ import { MapSlide } from 'kit-slides'
 
 ---
 
-## Quando creare una slide di dominio custom
+## Componenti KPI
 
-Se la tua app deve riusare layout/formattazione ricorrenti (es. KPI con label
-dominio-specifiche), crea uno **slide wrapper** nel tuo deck che internamente
-usa una slide generica. Vedi `decks/kpi-report/slides/Kpi.vue` come riferimento:
-accetta `summary: KpiSummary`, costruisce `cards: KpiCardDef[]`, delega a `KpiSlide`.
+I **componenti KPI** sono primitive di livello intermedio: stanno tra le slide
+built-in (un'intera pagina) e gli atomi `ui/` (singolo badge). Sono pensati
+per essere usati nelle slide custom quando una slide built-in non basta ma
+non vuoi ricostruire un layout da zero.
+
+- vivono in `src/components/kpi/` (sottocartelle: `metrics/`, `comparison/`,
+  `status/`, `trend/`)
+- sono esportati dall'entry-point `kit-slides`
+- hanno props completamente tipizzate; i tipi item (`MetricItem`, `RankRow`,
+  `BarItem`, `StatusItem`, `WeeklyPoint`) sono anch'essi esportati
+- sono utilizzabili standalone, anche fuori da una slide
+
+### `MetricBlock`
+
+Valore grande + label + delta opzionale.
+
+| Prop        | Tipo                              | Required | Note                          |
+|-------------|-----------------------------------|----------|-------------------------------|
+| `label`     | `string`                          | ✔        |                               |
+| `value`     | `string \| number`                | ✔        | Già formattato                |
+| `subValue`  | `string \| number`                | —        | Riga più piccola sotto        |
+| `delta`     | `number \| null`                  | —        | Percentuale firmata           |
+| `deltaUnit` | `string`                          | —        | Default `'%'`                 |
+| `align`     | `'left' \| 'center' \| 'right'`   | —        | Default `'left'`              |
+
+```ts
+import { MetricBlock } from 'kit-slides'
+
+<MetricBlock label="Fatturato" value="€325k" :delta="5.2" />
+```
+
+### `MetricGroup`
+
+Griglia di `MetricBlock`. Sostituisce la grid di card nelle slide custom.
+Accetta `items[]` per il rendering automatico oppure uno slot per inserire
+componenti più ricchi (es. `KpiCard`).
+
+| Prop      | Tipo                              | Required | Note                                          |
+|-----------|-----------------------------------|----------|-----------------------------------------------|
+| `items`   | `MetricItem[]`                    | ✔        | Vuoto + slot ammesso                          |
+| `columns` | `number`                          | —        | Forza il numero di colonne (default auto-fit) |
+| `align`   | `'left' \| 'center' \| 'right'`   | —        | Propagato a ogni `MetricBlock`                |
+
+```ts
+import { MetricGroup, type MetricItem } from 'kit-slides'
+
+const items: MetricItem[] = [
+  { label: 'Fatturato', value: '€325k', delta: 5.2 },
+  { label: 'Ordini',    value: '2.180', delta: 3.6 },
+]
+
+<MetricGroup :items="items" :columns="2" />
+```
+
+### `RatioBar`
+
+Due valori contrapposti con barra proporzionale.
+
+| Prop          | Tipo                       | Required | Note               |
+|---------------|----------------------------|----------|--------------------|
+| `leftLabel`   | `string`                   | ✔        |                    |
+| `rightLabel`  | `string`                   | ✔        |                    |
+| `leftValue`   | `number`                   | ✔        |                    |
+| `rightValue`  | `number`                   | ✔        |                    |
+| `formatValue` | `(v: number) => string`    | —        | Default `String()` |
+
+```ts
+import { RatioBar } from 'kit-slides'
+
+<RatioBar
+  left-label="Vinte"  :left-value="180"
+  right-label="Perse" :right-value="32"
+  :format-value="(v) => v + ' ops'"
+/>
+```
+
+### `RankTable`
+
+Lista ordinata con valore + delta per riga.
+
+| Prop          | Tipo                       | Required | Note                       |
+|---------------|----------------------------|----------|----------------------------|
+| `rows`        | `RankRow[]`                | ✔        |                            |
+| `title`       | `string`                   | —        |                            |
+| `maxRows`     | `number`                   | —        | `0` = tutte (default)      |
+| `formatValue` | `(v: number) => string`    | —        |                            |
+| `showRank`    | `boolean`                  | —        | Default `true`             |
+
+```ts
+import { RankTable, type RankRow } from 'kit-slides'
+
+const rows: RankRow[] = [
+  { label: 'Italia',  value: 120000, delta: 4.2 },
+  { label: 'Francia', value:  80000, delta: -1.1 },
+]
+
+<RankTable :rows="rows" title="Top paesi" :max-rows="5" />
+```
+
+### `BarComparison`
+
+Barre orizzontali per confronto diretto.
+
+| Prop          | Tipo                       | Required | Note                                  |
+|---------------|----------------------------|----------|---------------------------------------|
+| `items`       | `BarItem[]`                | ✔        | `{ label, value, color? }`            |
+| `max`         | `number`                   | —        | Forza il fondo scala (default = max valori) |
+| `formatValue` | `(v: number) => string`    | —        |                                       |
+
+```ts
+import { BarComparison } from 'kit-slides'
+
+<BarComparison :items="[
+  { label: 'Organico', value: 118000 },
+  { label: 'Paid',     value:  85000 },
+  { label: 'Email',    value:  42000 },
+]" />
+```
+
+### `StatusGrid`
+
+Griglia di entità con indicatore di stato (`GOOD | ACCEPTABLE | WARNING | BAD`).
+
+| Prop      | Tipo            | Required | Note                                  |
+|-----------|-----------------|----------|---------------------------------------|
+| `items`   | `StatusItem[]`  | ✔        | `{ label, status, sub? }`             |
+| `columns` | `number`        | —        | Default auto-fit                      |
+
+```ts
+import { StatusGrid } from 'kit-slides'
+
+<StatusGrid :items="[
+  { label: 'auth-svc',    status: 'GOOD' },
+  { label: 'billing-svc', status: 'WARNING', sub: 'p99 +12%' },
+]" />
+```
+
+### `ThresholdMeter`
+
+Valore singolo posizionato su una barra a 3 zone (bad / warn / good).
+
+| Prop          | Tipo                       | Required | Note                                  |
+|---------------|----------------------------|----------|---------------------------------------|
+| `value`       | `number`                   | ✔        |                                       |
+| `min`         | `number`                   | —        | Default `0`                           |
+| `max`         | `number`                   | ✔        |                                       |
+| `warnAt`      | `number`                   | ✔        | Sotto = `WARNING`                     |
+| `badAt`       | `number`                   | ✔        | Sotto = `BAD`                         |
+| `label`       | `string`                   | —        |                                       |
+| `formatValue` | `(v: number) => string`    | —        |                                       |
+
+```ts
+import { ThresholdMeter } from 'kit-slides'
+
+<ThresholdMeter label="SLA mensile" :value="98.4"
+  :min="90" :max="100" :bad-at="95" :warn-at="98"
+  :format-value="(v) => v + '%'"
+/>
+```
+
+### `Sparkline`
+
+Mini grafico lineare inline (SVG).
+
+| Prop     | Tipo        | Required | Note                              |
+|----------|-------------|----------|-----------------------------------|
+| `values` | `number[]`  | ✔        | Minimo 2 punti                    |
+| `width`  | `number`    | —        | Default `120`                     |
+| `height` | `number`    | —        | Default `32`                      |
+| `stroke` | `string`    | —        | CSS color, default brand primary  |
+| `fill`   | `boolean`   | —        | Riempi sotto la curva             |
+
+```ts
+import { Sparkline } from 'kit-slides'
+
+<Sparkline :values="[12, 15, 14, 18, 22, 20, 24]" fill />
+```
+
+### `WeeklyTrend`
+
+Serie settimanale a barre con highlight della settimana corrente.
+
+| Prop          | Tipo                       | Required | Note                       |
+|---------------|----------------------------|----------|----------------------------|
+| `points`      | `WeeklyPoint[]`            | ✔        | `{ week, value }`          |
+| `currentWeek` | `number`                   | ✔        | Settimana evidenziata      |
+| `label`       | `string`                   | —        |                            |
+| `formatValue` | `(v: number) => string`    | —        |                            |
+
+```ts
+import { WeeklyTrend, type WeeklyPoint } from 'kit-slides'
+
+const points: WeeklyPoint[] = [
+  { week: 18, value: 110 },
+  { week: 19, value: 124 },
+  { week: 20, value: 118 },
+  { week: 21, value: 132 },
+]
+
+<WeeklyTrend :points="points" :current-week="21" label="Operazioni" />
+```
+
+---
+
+## Quando creare una slide custom — i tre livelli del kit
+
+Kit-slides offre tre livelli di componenti, in ordine di granularità decrescente.
+La regola operativa è **partire dall'alto** e scendere solo se il livello sopra
+non basta.
+
+**1 — Slide built-in (`src/components/slides/`).**
+Usa una slide built-in (`KpiSlide`, `TableSlide`, `ChartSlide`, ecc.) se il
+layout standard più una `config` tipizzata coprono il caso d'uso. È il livello
+più astratto: una sola prop strutturata e la slide è pronta.
+
+**2 — Componenti KPI (`src/components/kpi/`).**
+Se hai bisogno di un layout che non c'è tra le built-in (es. due metric block
+sopra un sparkline accanto a uno status grid), crea una slide custom nel tuo
+deck che compone componenti `kpi/`. Esempio:
+
+```vue
+<script setup lang="ts">
+import { Slide, MetricGroup, Sparkline, type MetricItem } from 'kit-slides'
+
+const metrics: MetricItem[] = [/* … */]
+const trend: number[] = [/* … */]
+</script>
+
+<template>
+  <Slide title="Riepilogo">
+    <MetricGroup :items="metrics" :columns="3" />
+    <Sparkline :values="trend" :width="320" :height="80" fill />
+  </Slide>
+</template>
+```
+
+**3 — Atomi `ui/` (`src/components/ui/`).**
+Solo se ti serve un controllo a granularità di singola pillola (`DeltaBadge`,
+`StatusBadge`, `KpiCard`). Tipicamente usato dentro tabelle o griglie custom.
+
+Il deck `decks/kpi-report/slides/Kpi.vue` è un esempio di livello 2 (slide
+wrapper che riceve dati di dominio e li traduce in props per una slide
+built-in). Il livello 3 lo trovi dentro le celle di `TableSlide` quando una
+colonna è marcata con `badge: 'delta' | 'status' | 'progress'`.
