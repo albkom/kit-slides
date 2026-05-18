@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { KpiStato } from '../../types'
-import { Status } from '../../../decks/kpi-report/types';
+import type { Status } from '../../types'
 
 const props = defineProps<{ stato: Status }>()
 

@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { TableSlide } from "../../../index";
-import type { ColumnDef } from "../../../index";
-import { DeliveryComputed } from "../types";
+import {
+  TableSlide,
+  type ColumnDef,
+  type DeliveryComputed,
+} from "../../../index";
 
 const props = defineProps<{
   delivery: DeliveryComputed[];
@@ -10,11 +12,6 @@ const props = defineProps<{
   year: number;
 }>();
 
-const eur = new Intl.NumberFormat("it-IT", {
-  style: "currency",
-  currency: "EUR",
-  maximumFractionDigits: 0,
-});
 const num = new Intl.NumberFormat("it-IT");
 
 const columns: ColumnDef[] = [
@@ -75,6 +72,5 @@ const meta = computed(() => `W${props.week} · ${props.year}`);
     :meta="meta"
     :columns="columns"
     :data="data"
-    :max-rows="6"
   />
 </template>

@@ -14,32 +14,50 @@ export { default as KpiCard }     from './src/components/ui/KpiCard.vue'
 export { default as DeltaBadge }  from './src/components/ui/DeltaBadge.vue'
 export { default as StatusBadge } from './src/components/ui/StatusBadge.vue'
 
+// Componenti KPI semantici — livello intermedio tra slide built-in e atomi
+export { default as MetricBlock }    from './src/components/kpi/metrics/MetricBlock.vue'
+export { default as MetricGroup }    from './src/components/kpi/metrics/MetricGroup.vue'
+export { default as RatioBar }       from './src/components/kpi/metrics/RatioBar.vue'
+export { default as RankTable }      from './src/components/kpi/comparison/RankTable.vue'
+export { default as BarComparison }  from './src/components/kpi/comparison/BarComparison.vue'
+export { default as StatusGrid }     from './src/components/kpi/status/StatusGrid.vue'
+export { default as ThresholdMeter } from './src/components/kpi/status/ThresholdMeter.vue'
+export { default as Sparkline }      from './src/components/kpi/trend/Sparkline.vue'
+export { default as WeeklyTrend }    from './src/components/kpi/trend/WeeklyTrend.vue'
+
+// Tipi item dei componenti KPI (per consumer che costruiscono i dati a monte)
+export type { MetricItem }   from './src/components/kpi/metrics/MetricGroup.vue'
+export type { RankRow }      from './src/components/kpi/comparison/RankTable.vue'
+export type { BarItem }      from './src/components/kpi/comparison/BarComparison.vue'
+export type { StatusItem }   from './src/components/kpi/status/StatusGrid.vue'
+export type { WeeklyPoint }  from './src/components/kpi/trend/WeeklyTrend.vue'
+
 // Composable per il data binding KPI
 export { useKpiData }             from './src/composables/useKpiData'
 export type { UseKpiDataResult }  from './src/composables/useKpiData'
 
-// Tipi pubblici — adapter & data shape
+// Tipi pubblici — adapter & data shape (normalized contract)
 export type {
   IAdapter,
   AdapterOptions,
   WeekRef,
-  RawSummaryRow,
-  RawChannelRow,
-  RawPerformanceRow,
-  RawGeoRow,
-  RawDeliveryRow,
+  AreaRow,
+  ChannelRow,
+  PerformanceRow,
+  GeoRow,
+  DeliveryRow,
   KpiAreaComputed,
   KpiChannel,
   KpiPerformance,
   PerformanceComputed,
   DeliveryComputed,
-  Status,
 } from './src/composables/types'
 
 // Tipi pubblici — core
 export type {
   SlideDefinition,
   KpiStato,
+  Status,
   GeoDataPoint,
 } from './src/types'
 

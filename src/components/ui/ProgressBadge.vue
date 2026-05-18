@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import type { KpiStato } from '../../types'
-import { Status } from '../../../decks/kpi-report/types';
-
 const props = defineProps<{ progress: number | null }>()
-
 </script>
 
 <template>

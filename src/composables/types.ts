@@ -1,7 +1,13 @@
-// ── Raw PapaParse rows (everything is a string from CSV) ─────────────────────
-export interface RawSummaryRow {
-  week: string;
-  year: string;
+import type { Status } from "../types";
+
+// ── Adapter contract — normalized data shapes ────────────────────────────────
+// Field names are the kit's stable contract, independent of any specific data
+// source (CSV column names, REST payload keys, etc.). Adapters are responsible
+// for mapping their source to these shapes.
+
+export interface AreaRow {
+  week: number;
+  year: number;
   area: string;
   ops: number;
   kpi_1: number;
@@ -12,19 +18,19 @@ export interface RawSummaryRow {
   ops_draw: number;
 }
 
-export interface RawChannelRow {
+export interface ChannelRow {
   name: string;
-  total: string;
-  oks: string;
-  draws: string;
-  kos: string;
-  kpi_1: string;
-  kpi_2: string;
-  kpi_3: string;
+  total: number;
+  oks: number;
+  draws: number;
+  kos: number;
+  kpi_1: number;
+  kpi_2: number;
+  kpi_3: number;
 }
 
-export interface RawPerformanceRow {
-  week: string;
+export interface PerformanceRow {
+  week: number;
   name: string;
   tot: number;
   oks: number;
@@ -35,15 +41,15 @@ export interface RawPerformanceRow {
   kpi_3: number;
 }
 
-export interface RawGeoRow {
-  week: string;
-  year: string;
+export interface GeoRow {
+  week: number;
+  year: number;
   code: string;
-  value: string;
+  value: number;
 }
 
-export interface RawDeliveryRow {
-  week: string;
+export interface DeliveryRow {
+  week: number;
   name: string;
   wip: number;
   env_a: number;
@@ -52,13 +58,12 @@ export interface RawDeliveryRow {
   env_d: number;
 }
 
-// ── Adapter contract ─────────────────────────────────────────────────────────
 export interface IAdapter {
-  fecthAreas(): Promise<RawSummaryRow[]>;
-  fetchChannels(): Promise<RawChannelRow[]>;
-  fetchPerformance(): Promise<RawPerformanceRow[]>;
-  fetchGeo(): Promise<RawGeoRow[] | null>;
-  fetchDelivery(): Promise<RawDeliveryRow[]>;
+  fecthAreas(): Promise<AreaRow[]>;
+  fetchChannels(): Promise<ChannelRow[]>;
+  fetchPerformance(): Promise<PerformanceRow[]>;
+  fetchGeo(): Promise<GeoRow[] | null>;
+  fetchDelivery(): Promise<DeliveryRow[] | null>;
 }
 
 export interface AdapterOptions {
@@ -71,6 +76,8 @@ export interface WeekRef {
   week: number;
   year: number;
 }
+
+// ── Computed shapes — produced by useKpiData from normalized adapter rows ────
 
 export interface KpiAreaComputed {
   week: number;
@@ -98,8 +105,6 @@ export interface DeliveryComputed {
   env_d: number;
   status: string;
 }
-
-export type Status = "GOOD" | "ACCEPTABLE" | "WARNING" | "BAD";
 
 export interface PerformanceComputed {
   week: number;
@@ -137,3 +142,5 @@ export interface KpiPerformance {
   kpi_2: number;
   kpi_3: number;
 }
+
+export type { Status };
