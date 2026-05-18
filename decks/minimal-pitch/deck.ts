@@ -2,7 +2,7 @@ import { markRaw } from 'vue'
 import Cover from './slides/Cover.vue'
 import Quote from './slides/Quote.vue'
 import Text  from './slides/Text.vue'
-import type { SlideDefinition } from '../../src/types'
+import type { SlideDefinition } from '../../index'
 
 export function buildSlides(): SlideDefinition[] {
   return [

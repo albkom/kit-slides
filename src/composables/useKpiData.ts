@@ -10,7 +10,6 @@ import type {
   DeliveryRow,
   KpiAreaComputed,
   KpiChannel,
-  KpiPerformance,
   WeekRef,
   DeliveryComputed,
   PerformanceComputed,
@@ -43,7 +42,7 @@ export interface UseKpiDataResult {
   areas: ComputedRef<KpiAreaComputed[] | null>;
   delivery: ComputedRef<DeliveryComputed[] | null>;
   channels: ComputedRef<KpiChannel[]>;
-  performance: ComputedRef<KpiPerformance[]>;
+  performance: ComputedRef<PerformanceComputed[]>;
   geoData: ComputedRef<GeoDataPoint[]>;
   isLoading: Ref<boolean>;
   error: Ref<string | null>;

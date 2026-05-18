@@ -1,11 +1,11 @@
-// Re-export the kit's public adapter & computed types so deck code has a
-// single import path for everything it consumes.
-export * from "../../src/composables/types";
+// Re-export the kit's public surface so deck code has a single import path
+// for everything it consumes from kit-slides.
+export * from "../../index";
 
 // ── CSV row shapes (internal to kpi-report) ──────────────────────────────────
-// These are the raw string-typed rows produced by PapaParse before the CSV
-// adapter normalizes them to the kit's stable AreaRow/ChannelRow/... shapes.
-// They are intentionally NOT exported from the kit's public surface.
+// Raw string-typed rows produced by PapaParse before the CSV adapter
+// normalizes them to the kit's stable AreaRow/ChannelRow/... shapes.
+// These are NOT exported from the kit's public surface.
 
 export interface RawSummaryRow {
   week: string;
