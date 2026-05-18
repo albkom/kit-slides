@@ -2,6 +2,7 @@
 import { inject, computed } from 'vue'
 import type { ComputedRef } from 'vue'
 import KpiCard from '../ui/KpiCard.vue'
+import MetricGroup from '../kpi/metrics/MetricGroup.vue'
 import SlideTopper from '../SlideTopper.vue'
 import type { KpiCardDef } from '../../types'
 import type { ChartData } from 'chart.js'
@@ -31,9 +32,9 @@ const props = withDefaults(defineProps<Props>(), {
       <h2 v-if="title" class="slide-title">{{ title }}</h2>
       <SlideTopper />
     </div>
-    <div class="kpi-grid">
+    <MetricGroup :items="[]" :columns="props.cards.length">
       <KpiCard
-        v-for="(c, i) in cards"
+        v-for="(c, i) in props.cards"
         :key="`${c.label}-${i}`"
         :label="c.label"
         :value="String(c.value)"
@@ -43,6 +44,6 @@ const props = withDefaults(defineProps<Props>(), {
         :icon="c.icon ?? ''"
         :pie-data="(c.pieData as ChartData<'doughnut'> | null | undefined) ?? null"
       />
-    </div>
+    </MetricGroup>
   </div>
 </template>

@@ -23,22 +23,11 @@ const PIE_COLORS = [
   "#dc2626",
 ];
 
-type NumericChannelField =
-  | "total"
-  | "oks"
-  | "kos"
-  | "draws"
-  | "kpi_1"
-  | "kpi_2"
-  | "kpi_3"
-  | "ops_win"
-  | "ops_loss"
-  | "ops_draw";
+type AreaNumericField = "ops_win" | "ops_loss" | "ops_draw" | "ops" | "kpi_1" | "kpi_2" | "kpi_3";
 
 function pieDataFor(
   area: KpiAreaComputed,
-  tot: number,
-  subFields: NumericChannelField[],
+  subFields: AreaNumericField[],
 ): ChartData<"doughnut"> | null {
   const data = subFields.map((f) => area[f]);
   const sum = data.reduce((a, b) => a + b, 0);
@@ -57,18 +46,6 @@ function pieDataFor(
   };
 }
 
-const eur = new Intl.NumberFormat("it-IT", {
-  style: "currency",
-  currency: "EUR",
-  maximumFractionDigits: 0,
-});
-const num = new Intl.NumberFormat("it-IT");
-const pct = new Intl.NumberFormat("it-IT", {
-  style: "percent",
-  minimumFractionDigits: 1,
-  maximumFractionDigits: 1,
-});
-
 function formatWithK(value: number): string {
   if (value >= 1000) {
     return (value / 1000).toFixed(1).replace(/\.0$/, "") + "K";
@@ -84,7 +61,7 @@ const cards = computed<KpiCardDef[]>(() => {
       label: `Area ${area.area}`,
       value: formatWithK(area.ops),
       // subValue: `KPI 1: ${area.kpi_1}%`,
-      pieData: pieDataFor(area, area.ops, ["ops_win", "ops_loss", "ops_draw"]),
+      pieData: pieDataFor(area, ["ops_win", "ops_loss", "ops_draw"]),
       monitor: {
         label: `KPI 1: Some parameter`,
         value: `${area.kpi_1}%`,

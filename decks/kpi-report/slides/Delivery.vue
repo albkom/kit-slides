@@ -10,11 +10,6 @@ const props = defineProps<{
   year: number;
 }>();
 
-const eur = new Intl.NumberFormat("it-IT", {
-  style: "currency",
-  currency: "EUR",
-  maximumFractionDigits: 0,
-});
 const num = new Intl.NumberFormat("it-IT");
 
 const columns: ColumnDef[] = [
