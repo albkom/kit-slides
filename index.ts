@@ -14,6 +14,11 @@ export { default as KpiCard }     from './src/components/ui/KpiCard.vue'
 export { default as DeltaBadge }  from './src/components/ui/DeltaBadge.vue'
 export { default as StatusBadge } from './src/components/ui/StatusBadge.vue'
 
+// Bento — layout componibile a card asimmetriche
+export { default as BentoSlide }  from './src/components/bento/BentoSlide.vue'
+export { default as BentoCard }   from './src/components/bento/BentoCard.vue'
+export type { BentoTone, BentoSize } from './src/components/bento/BentoCard.vue'
+
 // Componenti KPI semantici — livello intermedio tra slide built-in e atomi
 export { default as MetricBlock }    from './src/components/kpi/metrics/MetricBlock.vue'
 export { default as MetricGroup }    from './src/components/kpi/metrics/MetricGroup.vue'

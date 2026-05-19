@@ -2,3 +2,37 @@
 /* @import "../../src/styles/themes/cyberpunk.css"; */
 
 /* Override puntuali deck-specific (se necessari in futuro) */
+/* decks/dark-ocean/theme.css */
+:root {
+  --font-stack:    "Inter", system-ui, sans-serif;
+
+  --txt-xs: 0.7rem;
+  --txt-s:  0.85rem;
+  --txt-m:  1.1rem;
+  --txt-l:  1.65rem;
+  --txt-xl: 2.2rem;
+
+  --brand-primary: #f83838;
+  --brand-accent:  #ff6f00;
+  --brand-dark:    #0f172a;
+  --brand-light:   #d1d1d1;
+
+  --text-primary:   #000000;
+  --text-secondary: #94a3b8;
+  --surface:        #ffffff;
+  --border:         rgba(255, 255, 255, 0.5);
+
+  --slide-padding:  3.5rem;
+  --slide-radius:   16px;
+}
+
+.slide {
+  background-image: none;
+}
+
+.kpi-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--slide-radius);
+  padding: 1.5rem;
+}

@@ -1,0 +1,161 @@
+/* corporate — neutri muted, indaco/slate, ombre soft, angoli arrotondati.
+   Built-in theme del kit. Da usare via:
+       @import "../../src/styles/themes/corporate.css";
+   nel theme.css del deck. */
+
+:root {
+  /* === Palette === */
+  --brand-primary: #4f46e5; /* indigo 600 */
+  --brand-accent:  #0ea5e9; /* sky 500 */
+  --brand-dark:    #1e293b; /* slate 800 */
+  --brand-light:   #eef2ff; /* indigo 50 */
+
+  --text-primary:   #0f172a; /* slate 900 */
+  --text-secondary: #64748b; /* slate 500 */
+  --surface:        #f8fafc; /* slate 50 */
+  --border:         rgba(15, 23, 42, 0.08);
+
+  --status-ok:      #059669;
+  --status-ok-bg:   #d1fae5;
+  --status-warn:    #d97706;
+  --status-warn-bg: #fef3c7;
+  --status-bad:     #dc2626;
+  --status-bad-bg:  #fee2e2;
+
+  --font-stack:
+    "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  --slide-radius: 14px;
+  --slide-padding: 3rem;
+}
+
+/* === Slide chrome === */
+.slide {
+  background: var(--surface);
+  color: var(--text-primary);
+}
+
+.slide-title {
+  color: var(--brand-dark);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.slide-meta {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* === Cover === */
+.slide-cover {
+  background:
+    radial-gradient(circle at 10% 0%, var(--brand-light) 0%, transparent 55%),
+    var(--surface);
+}
+
+.slide-cover .badge {
+  background: var(--brand-light);
+  color: var(--brand-primary);
+  border: none;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.9rem;
+}
+
+.slide-cover .title {
+  color: var(--brand-dark);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.slide-cover .subtitle {
+  color: var(--text-secondary);
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.slide-cover .divider {
+  background: var(--brand-primary);
+  width: 64px;
+  height: 3px;
+  border-radius: 999px;
+}
+
+.slide-cover .generated,
+.slide-cover .cover-total-slides {
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+.cover-deco {
+  background: var(--brand-light);
+  border-radius: 50%;
+  opacity: 0.6;
+  filter: blur(20px);
+}
+
+/* === Cards (KPI + bento condividono il look) === */
+.kpi-card,
+.bento-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--slide-radius);
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+.bento-card--primary {
+  border-color: color-mix(in srgb, var(--brand-primary) 35%, transparent);
+  box-shadow:
+    0 1px 2px rgba(79, 70, 229, 0.08),
+    0 6px 20px rgba(79, 70, 229, 0.08);
+}
+
+.bento-card--accent {
+  background: var(--brand-light);
+  border-color: transparent;
+}
+
+.bento-card--dark {
+  background: var(--brand-dark);
+  color: #f1f5f9;
+}
+
+/* === Badges === */
+.delta-badge,
+.status-badge {
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border: none;
+}
+
+/* === Tables === */
+.slide table {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--slide-radius);
+  overflow: hidden;
+}
+
+.slide th {
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+}
+
+.slide td {
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border);
+}
+
+.slide tbody tr:hover {
+  background: var(--brand-light);
+}
