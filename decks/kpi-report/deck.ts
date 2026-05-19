@@ -4,14 +4,13 @@ import Kpi from "./slides/Kpi.vue";
 import Table from "./slides/Table.vue";
 import Map from "./slides/Map.vue";
 import Delivery from "./slides/Delivery.vue";
+import type { SlideDefinition, GeoDataPoint } from "../../index";
 import type {
-  SlideDefinition,
-  GeoDataPoint,
   KpiAreaComputed,
   KpiChannel,
   PerformanceComputed,
   DeliveryComputed,
-} from "../../index";
+} from "./types";
 import {
   areasByName,
   topByUsage,

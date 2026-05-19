@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import {
-  TableSlide,
-  type ColumnDef,
-  type DeliveryComputed,
-} from "../../../index";
+import { TableSlide, type ColumnDef } from "../../../index";
+import type { DeliveryComputed } from "../types";
 
 const props = defineProps<{
   delivery: DeliveryComputed[];

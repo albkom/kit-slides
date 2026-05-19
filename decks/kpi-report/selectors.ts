@@ -1,10 +1,10 @@
+import type { GeoDataPoint } from "../../index";
 import type {
   KpiPerformance,
   PerformanceComputed,
   KpiAreaComputed,
-  GeoDataPoint,
   DeliveryComputed,
-} from "../../index";
+} from "./types";
 
 // ── Pure selectors over computed deck data ───────────────────────────────────
 // These functions are the deck's vocabulary for filtering and reordering data

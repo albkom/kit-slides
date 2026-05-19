@@ -1,8 +1,8 @@
 import { ref, computed } from "vue";
 import type { ComputedRef, Ref } from "vue";
-import type { GeoDataPoint, Status } from "../types";
+import type { GeoDataPoint, Status } from "../../index";
 import type {
-  IAdapter,
+  IKpiAdapter,
   AreaRow,
   ChannelRow,
   PerformanceRow,
@@ -48,7 +48,7 @@ export interface UseKpiDataResult {
   error: Ref<string | null>;
 }
 
-export function useKpiData(adapter: IAdapter): UseKpiDataResult {
+export function useKpiData(adapter: IKpiAdapter): UseKpiDataResult {
   const isLoading = ref(true);
   const error = ref<string | null>(null);
 
@@ -165,7 +165,7 @@ export function useKpiData(adapter: IAdapter): UseKpiDataResult {
       isLoading.value = true;
       error.value = null;
       const [s, ch, perf, geo, deliv] = await Promise.all([
-        adapter.fecthAreas(),
+        adapter.fetchAreas(),
         adapter.fetchChannels(),
         adapter.fetchPerformance(),
         adapter.fetchGeo(),

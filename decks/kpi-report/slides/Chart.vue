@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { ChartSlide } from '../../../index'
 import type { ChartData, ChartOptions, Plugin, TooltipItem } from 'chart.js'
-import type { KpiChannel } from '../../../index'
+import type { KpiChannel } from '../types'
 
 const props = defineProps<{
   channels: KpiChannel[]

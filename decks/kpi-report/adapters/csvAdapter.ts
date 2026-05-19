@@ -1,14 +1,12 @@
 import Papa from "papaparse";
 import type {
-  IAdapter,
+  IKpiAdapter,
   AdapterOptions,
   AreaRow,
   ChannelRow,
   PerformanceRow,
   GeoRow,
   DeliveryRow,
-} from "../types";
-import type {
   RawSummaryRow,
   RawChannelRow,
   RawPerformanceRow,
@@ -21,7 +19,7 @@ function toNum(v: string | number | null | undefined): number {
   return isNaN(n) ? 0 : n;
 }
 
-export class CsvAdapter implements IAdapter {
+export class CsvAdapter implements IKpiAdapter {
   private readonly basePath: string;
 
   constructor(options: AdapterOptions = {}) {
@@ -29,7 +27,7 @@ export class CsvAdapter implements IAdapter {
     this.basePath = base.replace(/\/$/, "");
   }
 
-  async fecthAreas(): Promise<AreaRow[]> {
+  async fetchAreas(): Promise<AreaRow[]> {
     const rows = await this._load<RawSummaryRow>("kpi_areas.csv");
     return rows.map((r) => ({
       week: toNum(r.week),

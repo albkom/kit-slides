@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { SlideDeck, useKpiData } from "../../index";
+import { SlideDeck } from "../../index";
+import { useKpiData } from "./useKpiData";
 import { buildSlides } from "./deck";
 import { createAdapter } from "./adapters/index";
 import type { AdapterType } from "./adapters/index";
