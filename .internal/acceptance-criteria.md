@@ -12,7 +12,7 @@
 - Componenti UI atomici (`KpiCard`, `DeltaBadge`, `StatusBadge`, `ProgressBadge`) in `src/components/ui/`
 - **Componenti KPI semantici** in `src/components/kpi/` (`MetricBlock`, `MetricGroup`, `RatioBar`, `RankTable`, `BarComparison`, `StatusGrid`, `ThresholdMeter`, `Sparkline`, `WeeklyTrend`): primitive intermedie usabili standalone, non legate a una specifica slide built-in
 - Slide built-in generiche (`CoverSlide`, `TableSlide`, `ChartSlide`, `KpiSlide`, `MapSlide`, `QuoteSlide`, …)
-- Contratto `IAdapter` — il kit definisce la **shape normalizzata** dei dati (`AreaRow`, `ChannelRow`, `PerformanceRow`, `GeoRow`, `DeliveryRow`) che gli adapter devono produrre. La traduzione da formato sorgente (CSV, JSON, …) alla shape normalizzata è responsabilità dell'adapter, non del kit
+- Contratto `IAdapter` come **interfaccia marker vuota**. Il kit non prescrive metodi di fetch né shape dei dati: il deck estende `IAdapter` con la propria interfaccia (es. `IKpiAdapter`) e definisce le proprie row/computed
 - Sistema di stili, temi e variabili CSS pubbliche
 - Infrastruttura PDF (Puppeteer + `task pdf`)
 - Scaffold per nuovi deck (`task new`)
@@ -21,7 +21,10 @@
 - Componenti slide specifici del dominio
 - `deck.ts` — composizione e ordine delle slide
 - **Selettori del deck** (`selectors.ts`) — funzioni pure per filtri e riordini dei dati prima del rendering; vivono nel deck, non nel kit
-- Adapter concreti (es. `CsvAdapter` del deck `kpi-report`) — usano i tipi `Raw*` interni al deck per il parsing e producono le shape normalizzate del contratto kit
+- Composable di binding dati (es. `useKpiData`) — vive nel deck e orchestra fetch + computed sulle shape del deck
+- Tipi di dominio del deck — row normalizzate (`AreaRow`, `ChannelRow`, …), shape computed (`KpiAreaComputed`, `PerformanceComputed`, …), `WeekRef`, `AdapterOptions`
+- Interfaccia adapter specifica del deck (es. `IKpiAdapter extends IAdapter`) con i metodi di fetch concreti
+- Adapter concreti (es. `CsvAdapter` del deck `kpi-report`) — usano i tipi `Raw*` interni al deck per il parsing e producono le shape normalizzate definite dal deck
 - Configurazione adapter — quale fonte dati usare, percorsi, credenziali
 - I dati stessi (CSV, DB, API)
 - Adapter custom se serve un protocollo non coperto
@@ -79,7 +82,7 @@ Il consumer legge il CHANGELOG prima di aggiornare e sa esattamente quali file d
 ## Workflow 3 — Estensione
 
 **AC 3.1 — Adapter custom**
-Il consumer implementa `IAdapter` e lo passa a `useKpiData` senza modificare kit-slides. L'adapter è responsabile della traduzione dal formato sorgente alla shape normalizzata del kit (`AreaRow`, `ChannelRow`, ecc.); `useKpiData` riceve dati già tipati e li trasforma in shape `*Computed` (`PerformanceComputed`, `KpiAreaComputed`, ecc.). Il deck funziona identicamente a uno con adapter built-in.
+Il consumer definisce la propria `IKpiAdapter extends IAdapter` con i metodi di fetch specifici del dominio, implementa gli adapter concreti, e crea il proprio `useKpiData` nel deck. Il kit fornisce solo `IAdapter` come interfaccia marker. Il deck è autonomo nel definire le shape dei dati e la logica computed.
 
 **AC 3.2 — Slide custom da slide built-in**
 Il consumer crea un componente Vue che istanzia una slide built-in (es. `KpiSlide`) con dati di dominio mappati a `KpiCardDef[]`. La slide viene renderizzata e inclusa nel PDF senza configurazione aggiuntiva.

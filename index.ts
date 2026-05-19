@@ -32,26 +32,8 @@ export type { BarItem }      from './src/components/kpi/comparison/BarComparison
 export type { StatusItem }   from './src/components/kpi/status/StatusGrid.vue'
 export type { WeeklyPoint }  from './src/components/kpi/trend/WeeklyTrend.vue'
 
-// Composable per il data binding KPI
-export { useKpiData }             from './src/composables/useKpiData'
-export type { UseKpiDataResult }  from './src/composables/useKpiData'
-
-// Tipi pubblici — adapter & data shape (normalized contract)
-export type {
-  IAdapter,
-  AdapterOptions,
-  WeekRef,
-  AreaRow,
-  ChannelRow,
-  PerformanceRow,
-  GeoRow,
-  DeliveryRow,
-  KpiAreaComputed,
-  KpiChannel,
-  KpiPerformance,
-  PerformanceComputed,
-  DeliveryComputed,
-} from './src/composables/types'
+// Tipo pubblico — adapter marker
+export type { IAdapter } from './src/composables/types'
 
 // Tipi pubblici — core
 export type {

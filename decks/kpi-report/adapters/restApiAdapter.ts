@@ -1,5 +1,5 @@
 import type {
-  IAdapter,
+  IKpiAdapter,
   AdapterOptions,
   AreaRow,
   ChannelRow,
@@ -9,10 +9,9 @@ import type {
 } from "../types";
 
 // TODO: implementare il mapping payload REST → shape normalizzata.
-// Le firme rispettano il contratto IAdapter aggiornato; i body restituiscono
-// passthrough opportunistici e dovranno essere rivisti quando l'endpoint sarà
-// usato a runtime.
-export class RestApiAdapter implements IAdapter {
+// Le firme rispettano il contratto IKpiAdapter; i body restituiscono passthrough
+// opportunistici e dovranno essere rivisti quando l'endpoint sarà usato a runtime.
+export class RestApiAdapter implements IKpiAdapter {
   protected readonly base: string;
 
   constructor(options: AdapterOptions) {
@@ -20,7 +19,7 @@ export class RestApiAdapter implements IAdapter {
     this.base = options.baseUrl.replace(/\/$/, "");
   }
 
-  async fecthAreas(): Promise<AreaRow[]> {
+  async fetchAreas(): Promise<AreaRow[]> {
     return this._get<AreaRow[]>("/api/kpi/summary");
   }
   async fetchChannels(): Promise<ChannelRow[]> {
