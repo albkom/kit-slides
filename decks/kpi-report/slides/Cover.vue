@@ -2,7 +2,19 @@
 import { computed } from 'vue'
 import { CoverSlide } from '../../../index'
 
-const props = defineProps<{ week: number; year: number; totalSlides?: number | null }>()
+interface Props {
+  week: number
+  year: number
+  title: string
+  subtitle?: string
+  badge?: string
+  totalSlides?: number | null
+}
+const props = withDefaults(defineProps<Props>(), {
+  subtitle: '',
+  badge: '',
+  totalSlides: null,
+})
 
 const generatedDate = computed(() =>
   new Intl.DateTimeFormat('it-IT', {
@@ -10,15 +22,18 @@ const generatedDate = computed(() =>
   }).format(new Date()),
 )
 
-const subtitle = computed(() => `Settimana ${props.week} · ${props.year}`)
-const meta     = computed(() => `Generato il ${generatedDate.value}`)
+const subtitleLine = computed(() => {
+  const week = `Settimana ${props.week} · ${props.year}`
+  return props.subtitle ? `${props.subtitle} · ${week}` : week
+})
+const meta = computed(() => `Generato il ${generatedDate.value}`)
 </script>
 
 <template>
   <CoverSlide
-    title="Titolo Slideshow"
-    badge="Report Settimanale"
-    :subtitle="subtitle"
+    :title="title"
+    :badge="badge"
+    :subtitle="subtitleLine"
     :meta="meta"
     :total-slides="totalSlides ?? null"
   />

@@ -1,4 +1,4 @@
-import { markRaw } from "vue";
+import { markRaw, type Component } from "vue";
 import Cover from "./slides/Cover.vue";
 import Kpi from "./slides/Kpi.vue";
 import Table from "./slides/Table.vue";
@@ -11,11 +11,8 @@ import type {
   PerformanceComputed,
   DeliveryComputed,
 } from "./types";
-import {
-  areasByName,
-  topByUsage,
-  deliveryByName,
-} from "./selectors";
+import { areasByName, sortByUsage, sortByName } from "./selectors";
+import { deckConfig, type SlideKey } from "./deck.config";
 
 export interface BuildSlidesInput {
   areas: KpiAreaComputed[];
@@ -25,6 +22,33 @@ export interface BuildSlidesInput {
   geoData: GeoDataPoint[];
   week: number;
   year: number;
+}
+
+function paginate<T>(rows: readonly T[], pageSize: number): T[][] {
+  if (pageSize <= 0 || rows.length <= pageSize) return [[...rows]];
+  const pages: T[][] = [];
+  for (let i = 0; i < rows.length; i += pageSize) {
+    pages.push(rows.slice(i, i + pageSize));
+  }
+  return pages;
+}
+
+function tableSlides<T>(
+  component: Component,
+  rows: readonly T[],
+  dataKey: string,
+  baseProps: Record<string, unknown>,
+  pageSize: number,
+): SlideDefinition[] {
+  const pages = paginate(rows, pageSize);
+  return pages.map((chunk, i) => ({
+    component: markRaw(component),
+    props: {
+      ...baseProps,
+      [dataKey]: chunk,
+      pageIndicator: pages.length > 1 ? `${i + 1}/${pages.length}` : undefined,
+    },
+  }));
 }
 
 export function buildSlides({
@@ -37,17 +61,54 @@ export function buildSlides({
   year,
 }: BuildSlidesInput): SlideDefinition[] {
   const orderedAreas = areasByName(areas);
-  const topPerformance = topByUsage(performance, 10);
-  const topDelivery = deliveryByName(delivery, 6);
+  const sortedPerformance = sortByUsage(performance);
+  const sortedDelivery = sortByName(delivery);
 
-  return [
-    { component: markRaw(Cover), props: { week, year }, isCover: true },
-    {
-      component: markRaw(Kpi),
-      props: { areas: orderedAreas, channels, week, year },
-    },
-    { component: markRaw(Map), props: { geoData, week, year } },
-    { component: markRaw(Table), props: { performance: topPerformance, week, year } },
-    { component: markRaw(Delivery), props: { delivery: topDelivery, week, year } },
-  ];
+  const slideBuilders: Record<SlideKey, () => SlideDefinition[]> = {
+    cover: () => [
+      {
+        component: markRaw(Cover),
+        props: {
+          week,
+          year,
+          title: deckConfig.title,
+          subtitle: deckConfig.subtitle,
+          badge: deckConfig.badge,
+        },
+        isCover: true,
+      },
+    ],
+    kpi: () => [
+      {
+        component: markRaw(Kpi),
+        props: { areas: orderedAreas, channels, week, year },
+      },
+    ],
+    map: () => [
+      {
+        component: markRaw(Map),
+        props: { geoData, week, year, topCount: deckConfig.topGeoCount },
+      },
+    ],
+    table: () =>
+      tableSlides(
+        Table,
+        sortedPerformance,
+        "performance",
+        { week, year },
+        deckConfig.maxTableRows,
+      ),
+    delivery: () =>
+      tableSlides(
+        Delivery,
+        sortedDelivery,
+        "delivery",
+        { week, year },
+        deckConfig.maxTableRows,
+      ),
+  };
+
+  return deckConfig.slideOrder
+    .filter((key) => key in slideBuilders)
+    .flatMap((key) => slideBuilders[key]());
 }

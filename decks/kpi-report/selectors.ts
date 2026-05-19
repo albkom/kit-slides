@@ -14,11 +14,10 @@ function sortedDesc<T>(rows: readonly T[], key: (row: T) => number): T[] {
   return [...rows].sort((a, b) => key(b) - key(a));
 }
 
-export function topByUsage(
+export function sortByUsage(
   rows: readonly PerformanceComputed[],
-  n: number,
 ): PerformanceComputed[] {
-  return sortedDesc(rows, (r) => r.usage).slice(0, n);
+  return sortedDesc(rows, (r) => r.usage);
 }
 
 export function topByKpi(
@@ -40,13 +39,10 @@ export function topGeo(rows: readonly GeoDataPoint[], n: number): GeoDataPoint[]
   return sortedDesc(rows, (r) => r.value).slice(0, n);
 }
 
-export function deliveryByName(
+export function sortByName(
   rows: readonly DeliveryComputed[],
-  n: number,
 ): DeliveryComputed[] {
-  return [...rows]
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .slice(0, n);
+  return [...rows].sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export function areasByName(

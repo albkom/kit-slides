@@ -8,9 +8,11 @@ interface Props {
   geoData?: GeoDataPoint[];
   week: number;
   year: number;
+  topCount?: number;
 }
 const props = withDefaults(defineProps<Props>(), {
   geoData: () => [],
+  topCount: 5,
 });
 
 const eur = new Intl.NumberFormat("it-IT", {
@@ -33,7 +35,7 @@ const meta = computed(() => `W${props.week} · ${props.year}`);
     title="Mappa"
     :meta="meta"
     :data="geoData ?? []"
-    :top-count="5"
+    :top-count="topCount"
     :country-names="countryNames"
     :alpha2-to-numeric="alpha2ToNumeric"
     :numeric-to-alpha2="numericToAlpha2"

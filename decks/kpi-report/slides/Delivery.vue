@@ -7,6 +7,7 @@ const props = defineProps<{
   delivery: DeliveryComputed[];
   week: number;
   year: number;
+  pageIndicator?: string;
 }>();
 
 const num = new Intl.NumberFormat("it-IT");
@@ -61,11 +62,14 @@ const data = computed(() => {
   return props.delivery as unknown as Record<string, unknown>[];
 });
 const meta = computed(() => `W${props.week} · ${props.year}`);
+const title = computed(() =>
+  props.pageIndicator ? `Deliverables ${props.pageIndicator}` : "Deliverables",
+);
 </script>
 
 <template>
   <TableSlide
-    title="Deliverables"
+    :title="title"
     :meta="meta"
     :columns="columns"
     :data="data"
