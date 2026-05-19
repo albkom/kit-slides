@@ -14,6 +14,55 @@ progetto aderisce a [Semantic Versioning](https://semver.org/spec/v2.0.0.html):
 
 ---
 
+## [Unreleased]
+
+### Added
+
+- **Temi built-in** in `src/styles/themes/` — `cyberpunk.css` (estratto
+  da `decks/kpi-report/theme.css`) e `corporate.css` (nuovo, palette
+  indaco/slate, ombre soft, angoli arrotondati). Adottabili da un deck
+  con una singola riga `@import` nel proprio `theme.css`.
+- **Layout bento** in `src/components/bento/` — `BentoSlide` (griglia
+  CSS configurabile via `columns`/`gap`) e `BentoCard` (slotted, con
+  sizing preset `size="2x1"` e escape hatch numerico `colSpan`/`rowSpan`;
+  tonal hooks `default | primary | accent | muted | dark`). Composabili
+  con qualunque componente del kit o markup arbitrario.
+- **Token CSS pubblici** per la griglia bento: `--bento-cols`, `--bento-gap`.
+- **Classi CSS pubbliche** per le card bento: `.bento-card`,
+  `.bento-card--primary | --accent | --muted | --dark`,
+  `.bento-card__eyebrow | __title | __header | __body | __footer`.
+- **Nuovo deck `decks/bento-demo`** — esempio end-to-end che usa il tema
+  `corporate` e dimostra la composizione delle bento con `KpiCard`,
+  `Sparkline`, `DeltaBadge`, liste di stato e card di varie dimensioni.
+- **`decks/kpi-report/deck.config.ts`** — file di configurazione dedicato
+  per titolo cover, ordine slide (`slideOrder`), limite righe per pagina
+  delle tabelle (`maxTableRows`) e top-N geo (`topGeoCount`).
+- **Auto-pagination delle slide di tipo Table** — quando il dataset supera
+  `maxTableRows`, la slide viene divisa automaticamente in più pagine e
+  il titolo riceve un indicatore `i/N` (es. `"Performance per Area 2/3"`).
+- **`BENTO-CHEATSHEET.md`** — quick reference per `BentoSlide`/`BentoCard`
+  (props, sizing, tone, slot, composizione, theming hooks, pitfall).
+
+### Changed
+
+- **`decks/kpi-report/theme.css`** ridotto a un singolo `@import` del
+  tema built-in `cyberpunk` + slot per override deck-specific.
+- **`decks/kpi-report/deck.ts`** rifattorizzato: nessun numero magico,
+  consuma `deck.config.ts`, costruisce le slide tramite uno
+  `slideBuilders` mappato su `SlideKey` con `flatMap` per supportare la
+  pagination.
+- **`selectors.ts` del deck `kpi-report`** — `topByUsage`/`deliveryByName`
+  (sort + slice) sostituiti da `sortByUsage`/`sortByName` (solo sort);
+  il conteggio righe è ora responsabilità della pagination.
+- **`decks/kpi-report/slides/Cover.vue`** accetta props `title`, `subtitle`,
+  `badge` (prima hardcoded).
+- **`decks/kpi-report/slides/Map.vue`** accetta prop `topCount` (prima
+  hardcoded a 5).
+- **`decks/kpi-report/slides/Table.vue` e `Delivery.vue`** accettano una
+  prop opzionale `pageIndicator?: string` per mostrare `i/N` nel titolo.
+
+---
+
 ## [2.0.0] — 2026-05-18
 
 ### Breaking changes

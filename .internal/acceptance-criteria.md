@@ -11,9 +11,10 @@
 - Motore di rendering (`SlideDeck`, `Slide`)
 - Componenti UI atomici (`KpiCard`, `DeltaBadge`, `StatusBadge`, `ProgressBadge`) in `src/components/ui/`
 - **Componenti KPI semantici** in `src/components/kpi/` (`MetricBlock`, `MetricGroup`, `RatioBar`, `RankTable`, `BarComparison`, `StatusGrid`, `ThresholdMeter`, `Sparkline`, `WeeklyTrend`): primitive intermedie usabili standalone, non legate a una specifica slide built-in
+- **Layout componibili** in `src/components/bento/` (`BentoSlide`, `BentoCard`): griglia asimmetrica + card slotted, pensate per essere riempite con qualunque componente del kit o markup arbitrario
 - Slide built-in generiche (`CoverSlide`, `TableSlide`, `ChartSlide`, `KpiSlide`, `MapSlide`, `QuoteSlide`, …)
 - Contratto `IAdapter` come **interfaccia marker vuota**. Il kit non prescrive metodi di fetch né shape dei dati: il deck estende `IAdapter` con la propria interfaccia (es. `IKpiAdapter`) e definisce le proprie row/computed
-- Sistema di stili, temi e variabili CSS pubbliche
+- Sistema di stili, variabili CSS pubbliche, e **temi built-in** in `src/styles/themes/` (es. `cyberpunk.css`, `corporate.css`) importabili via `@import` dal `theme.css` del deck
 - Infrastruttura PDF (Puppeteer + `task pdf`)
 - Scaffold per nuovi deck (`task new`)
 
@@ -96,6 +97,9 @@ Il consumer può costruire una slide custom componendo direttamente atomi `ui/` 
 **AC 3.5 — Tema custom**
 Il consumer sovrascrive le CSS variables pubbliche e le classi pubbliche documentate. Il risultato è visivamente coerente e sopravvive a un aggiornamento non-breaking di kit-slides.
 
+**AC 3.5b — Tema built-in**
+Il consumer adotta un tema built-in (`src/styles/themes/<nome>.css`) aggiungendo una sola riga `@import` nel proprio `theme.css`, senza copiare CSS. Eventuali override deck-specific restano nello stesso file, dopo l'import.
+
 **AC 3.6 — Isolamento**
 Una slide custom, un componente KPI usato direttamente, o un adapter custom non richiedono mai di modificare file interni di kit-slides. Tutti gli import del consumer passano dall'entry point `kit-slides` (mai da `kit-slides/src/...`).
 
@@ -158,6 +162,28 @@ Ogni componente KPI ha un esempio minimo eseguibile in `docs/slides.md` — prop
 
 ---
 
+## Bento — AC dedicati
+
+**AC B.1 — Layout primitivo**
+`BentoSlide` fornisce esclusivamente la griglia (header opzionale + CSS grid). Non assume nulla sul contenuto delle card: il deck riempie la griglia con qualunque combinazione di `BentoCard`, componenti `kpi/`, atomi `ui/`, slide built-in inline o markup arbitrario.
+
+**AC B.2 — Sizing flessibile**
+`BentoCard` accetta sia la sintassi preset (`size="2x1"`, cols × rows) sia l'escape hatch numerico (`:col-span`, `:row-span`). I due meccanismi sono intercambiabili: il preset, se presente, ha la precedenza.
+
+**AC B.3 — Composizione libera**
+Lo slot di default di `BentoCard` accetta qualsiasi markup Vue. Gli slot `header` e `footer` permettono di sostituire eyebrow/titolo built-in e di aggiungere caption/source. Nessun vincolo sul tipo di figli.
+
+**AC B.4 — Tonal hooks**
+`BentoCard` espone una prop `tone` (`default | primary | accent | muted | dark`) che applica classi CSS pubbliche (`.bento-card--<tone>`). I temi (built-in o custom) restano liberi di restyle senza modificare il componente.
+
+**AC B.5 — Theming coerente**
+Le card bento usano le stesse CSS variables pubbliche (`--surface`, `--border`, `--slide-radius`, `--brand-*`, `--text-*`). Cambiare tema cambia anche l'aspetto delle bento senza tocchi puntuali.
+
+**AC B.6 — Standalone**
+`BentoSlide` e `BentoCard` sono importabili dall'entry point `kit-slides` e usabili in qualunque slide custom — non vincolati a un deck o a un tema specifico.
+
+---
+
 ## Multi-deck
 
 **AC M.1 — Indipendenza**
@@ -170,7 +196,7 @@ Ogni deck ha il proprio entry point, `deck.ts`, e configurazione adapter. `task 
 Il consumer può creare logica condivisa (adapter, composable, tipi) fuori dalle cartelle dei deck. Kit-slides non impone una struttura che impedisce questo.
 
 **AC M.4 — Tema per deck**
-Ogni deck può avere il proprio override del tema senza influenzare gli altri deck nello stesso repo.
+Ogni deck può avere il proprio override del tema senza influenzare gli altri deck nello stesso repo. Il `theme.css` del deck può importare un tema built-in (`@import "../../src/styles/themes/<nome>.css"`) e aggiungere override puntuali sotto, oppure restare completamente custom.
 
 ---
 
