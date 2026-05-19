@@ -1,0 +1,4 @@
+/* bento-demo usa il tema built-in corporate */
+@import "../../src/styles/themes/corporate.css";
+
+/* Override puntuali deck-specific (se necessari in futuro) */
