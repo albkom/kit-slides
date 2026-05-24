@@ -23,7 +23,9 @@ const props = defineProps<{
 
 const { pieItems, histItems, tableData, columns, geoData } = useShowcaseData();
 
-const { pieData, radarAxes, radarData, knownIssues } = useTargetServer(props.serverName);
+const { pieData, radarAxes, radarData, knownIssues } = useTargetServer(
+  props.serverName,
+);
 </script>
 
 <template>
@@ -36,21 +38,20 @@ const { pieData, radarAxes, radarData, knownIssues } = useTargetServer(props.ser
     </BentoCard>
     <BentoCard size="1x1" eyebrow="Performance" :isRow="true">
       <WidgetBase justify="center">
-        <DisplayValueBig
-          label="KPI 1"
-          :value="100"
-          :format="(v) => v.toFixed(1) + '%'"
-        />
+        <DisplayValueBig label="KPI 1" value="100%" />
         <!-- <DeltaBadge :value="0.5" unit="%" /> -->
+        <WidgetBase isRow>
+          <DisplayValueSmall label="Tier" value="A+" />
+          <DisplayValueSmall label="Ver." value="V5" />
+          <DisplayValueSmall label="Ops" value="2000" />
+        </WidgetBase>
         <DisplayValueSmall label="Performance" value="Buono" color="green" />
         <DisplayValueSmall label="Status*" value="Buono" color="green" />
       </WidgetBase>
       <WidgetRadar :axes="radarAxes" :data="radarData" :showLegend="false" />
     </BentoCard>
     <BentoCard size="1x1" eyebrow="KPI 1 per area">
-      <WidgetList
-        :items="knownIssues"
-      />
+      <WidgetList :items="knownIssues" />
     </BentoCard>
   </SlideSection>
 </template>

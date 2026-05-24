@@ -60,7 +60,7 @@ onUnmounted(() => {
   <div ref="outer" class="slide-outer">
     <div class="slide-inner" :style="{ transform: `scale(${scale})` }">
       <div
-        class="slide-topper"
+        class="slide-topper slide-note"
         v-if="props.logo || props.department || props.isCover"
       >
         Departmental Logo and Name (if any) - Slide Title (if any)

@@ -6,24 +6,24 @@
 :root {
   --font-stack:    "Inter", system-ui, sans-serif;
 
-  --txt-xs: 0.7rem;
+  /* --txt-xs: 0.7rem;
   --txt-s:  0.85rem;
   --txt-m:  1.1rem;
   --txt-l:  1.65rem;
-  --txt-xl: 2.2rem;
+  --txt-xl: 2.2rem; */
 
-  --brand-primary: #f83838;
+  /* --brand-primary: #f83838;
   --brand-accent:  #ff6f00;
   --brand-dark:    #0f172a;
-  --brand-light:   #d1d1d1;
+  --brand-light:   #d1d1d1; */
 
-  --text-primary:   #000000;
-  --text-secondary: #94a3b8;
-  --surface:        #ffffff;
-  --border:         rgba(255, 255, 255, 0.5);
+  /* --text-primary:   #000000; */
+  /* --text-secondary: #94a3b8; */
+  /* --surface:        #ffffff; */
+  /* --border:         rgba(255, 255, 255, 0.5); */
 
   /* --slide-padding:  2rem; */
-  --slide-radius:   16px;
+  /* --slide-radius:   16px; */
 }
 
 /* .slide {

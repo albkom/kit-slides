@@ -2,26 +2,55 @@
   flex: 1;
   overflow: hidden;
 
-  table { width: 100%; border-collapse: collapse; font-size: var(--txt-m); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--txt-m);
+  }
 
-  thead tr { border-bottom: 2px solid var(--brand-primary); }
+  thead tr {
+    border-bottom: 2px solid var(--brand-light);
+  }
   th {
     padding: 0.25rem 1rem;
     text-align: left;
-    font-size: var(--txt-s); font-weight: 700;
-    color: var(--text-secondary);
-    text-transform: uppercase; letter-spacing: 0.06em;
+    font-size: var(--txt-s);
+    font-weight: 700;
+    color: var(--brand-light);
+    text-transform: uppercase;
   }
   tbody tr {
     border-bottom: 1px solid var(--border);
-    &:last-child { border-bottom: none; }
-    &:hover      { background: var(--brand-light); }
+    &:last-child {
+      border-bottom: none;
+    }
+    &:hover {
+      background: var(--brand-light);
+    }
   }
-  td { padding: 0.25rem 1rem; vertical-align: middle; }
+  td {
+    padding: 0.25rem 1rem;
+    vertical-align: middle;
+  }
 
-  .col-cat   { width: 35%; }
-  .col-num   { width: 18%; text-align: right; font-variant-numeric: tabular-nums; }
-  .col-delta { width: 14%; text-align: center; }
-  .col-stato { width: 15%; text-align: center; }
-  .cat-name  { font-weight: 600; color: var(--text-primary); }
+  .col-cat {
+    width: 35%;
+  }
+  .col-num {
+    width: 18%;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .col-delta {
+    width: 14%;
+    text-align: center;
+  }
+  .col-stato {
+    width: 15%;
+    text-align: center;
+  }
+  .cat-name {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
 }

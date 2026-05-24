@@ -45,7 +45,7 @@ const showDelta = computed(() => props.delta !== null && props.delta !== undefin
 .dvm-label {
   font-size: var(--txt-s, 0.72rem);
   font-weight: 600;
-  color: var(--text-secondary, #64748b);
+  color: var(--brand-light, #64748b);
   text-transform: uppercase;
   letter-spacing: 0.07em;
 }
@@ -59,7 +59,7 @@ const showDelta = computed(() => props.delta !== null && props.delta !== undefin
 .dvm-value {
   font-size: var(--txt-xl, 1.75rem);
   font-weight: 700;
-  color: var(--text-primary, #0f172a);
+  color: var(--brand-dark, #0f172a);
   line-height: 1.1;
   letter-spacing: -0.01em;
   font-variant-numeric: tabular-nums;
@@ -67,6 +67,6 @@ const showDelta = computed(() => props.delta !== null && props.delta !== undefin
 
 .dvm-sub {
   font-size: var(--txt-s, 0.72rem);
-  color: var(--text-secondary, #64748b);
+  color: var(--brand-light, #64748b);
 }
 </style>

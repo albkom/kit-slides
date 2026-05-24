@@ -6,31 +6,33 @@
 // Vedi docs/theming.md per i dettagli.
 
 :root {
+  --background: #ffffff;
+
   /* @public — colori del brand */
-  --brand-primary: #185fa5;
+  --brand-primary: #8418a5;
   /* @public */
-  --brand-accent:  #931d9e;
+  --brand-accent: #931d9e;
   /* @public */
-  --brand-dark:    #7c0c4b;
+  --brand-dark: #7c0c4b;
   /* @public */
-  --brand-light:   #e6f1fb;
+  --brand-light: #907399;
 
   /* @public — testo e superfici */
-  --text-primary:   #1a1a1a;
+  --text-primary: #1a1a1a;
   /* @public */
   --text-secondary: #6b7280;
   /* @public */
-  --surface:        #ffffff;
+  --surface: #FEFEFF;
   /* @public */
-  --border:         rgba(0, 0, 0, 0.08);
+  --border: rgba(0, 0, 0, 0.08);
 
   /* @public — colori di stato (badge in_target / attenzione / sotto_target) */
-  --status-ok:      #1d9e75;
-  --status-ok-bg:   #e6f7f1;
-  --status-warn:    #d97706;
+  --status-ok: #1d9e75;
+  --status-ok-bg: #e6f7f1;
+  --status-warn: #d97706;
   --status-warn-bg: #fef3c7;
-  --status-bad:     #dc2626;
-  --status-bad-bg:  #fee2e2;
+  --status-bad: #dc2626;
+  --status-bad-bg: #fee2e2;
 
   /* Interne — dimensioni del canvas slide (16:9 a 1280×720). NON modificare. */
   --slide-w: 1280px;
@@ -40,15 +42,15 @@
   /* @public — gap usato nei layout a griglia (bento, table, ecc.) */
   --bento-gap: 1rem;
   /* @public — raggio dei box e delle card */
-  --slide-radius: 12px;
+  --slide-radius: 5px;
 
   /* @public — font stack (override per cambiare il typeface dell'intero kit) */
   --font-stack: "Roboto", system-ui, -apple-system, sans-serif;
 
   /* @public — text size scale */
   --txt-xs: 0.625rem;
-  --txt-s:  0.75rem;
-  --txt-m:  1rem;
-  --txt-l:  1.5rem;
+  --txt-s: 0.75rem;
+  --txt-m: 1rem;
+  --txt-l: 1.5rem;
   --txt-xl: 2rem;
 }

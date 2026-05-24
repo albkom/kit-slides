@@ -45,7 +45,7 @@ const showDelta = computed(() => props.delta !== null && props.delta !== undefin
 .dvs-label {
   font-size: var(--txt-xs, 0.65rem);
   font-weight: 600;
-  color: var(--text-secondary, #64748b);
+  color: var(--brand-light, #64748b);
   text-transform: uppercase;
   letter-spacing: 0.07em;
 }
@@ -67,6 +67,6 @@ const showDelta = computed(() => props.delta !== null && props.delta !== undefin
 
 .dvs-sub {
   font-size: var(--txt-xs, 0.65rem);
-  color: var(--text-secondary, #64748b);
+  color: var(--brand-light, #64748b);
 }
 </style>
