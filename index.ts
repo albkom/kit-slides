@@ -40,6 +40,9 @@ export type { WeeklyPoint }  from './src/components/kpi/trend/WeeklyTrend.vue'
 // Tipo pubblico — adapter marker
 export type { IAdapter } from './src/composables/types'
 
+// Utility
+export { loadCsv, loadCsvOptional } from './src/utils/csv'
+
 // Tipi pubblici — core
 export type {
   SlideDefinition,
