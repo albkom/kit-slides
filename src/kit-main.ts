@@ -1,4 +1,4 @@
 import { createApp } from 'vue'
-import './styles/main.scss'
+import 'kit-slides/styles'
 import KitApp from './kit-App.vue'
 createApp(KitApp).mount('#app')

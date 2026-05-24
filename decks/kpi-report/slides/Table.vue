@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { TableSlide, type ColumnDef } from "../../../index";
 import type { PerformanceComputed } from "../types";
+import type { ColumnDef } from "../types";
+import { TableSlide } from "kit-slides";
 
 const props = defineProps<{
   performance: PerformanceComputed[];

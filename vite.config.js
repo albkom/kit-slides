@@ -75,10 +75,11 @@ export default defineConfig(({ mode }) => ({
   ],
   base: './',
   resolve: {
-    alias: {
-      '__kit_deck__': resolve('decks', deck),
-      'kit-slides':   resolve('./index.ts'),
-    },
+    alias: [
+      { find: 'kit-slides/styles', replacement: resolve('./packages/kit-slides/src/styles/main.scss') },
+      { find: 'kit-slides',        replacement: resolve('./packages/kit-slides/index.ts') },
+      { find: '__kit_deck__',      replacement: resolve('decks', deck) },
+    ],
   },
   publicDir: existsSync(resolve(deckDir, 'public')) ? `decks/${deck}/public` : undefined,
 }))

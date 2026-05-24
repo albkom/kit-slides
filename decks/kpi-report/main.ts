@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import '../../src/styles/main.scss'
+import 'kit-slides/styles'
 // theme.css is auto-injected by vite.config.js if present
 import App from './App.vue'
 

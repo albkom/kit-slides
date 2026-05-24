@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SlideDeck } from '../index'
+import { SlideDeck } from 'kit-slides'
 import { buildSlides } from '__kit_deck__/deck'
 const slides = buildSlides()
 </script>
