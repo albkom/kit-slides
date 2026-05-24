@@ -3,24 +3,37 @@
   height: 100%;
   overflow: hidden;
   position: relative;
+  // border: solid 5px red;
 }
 
 .slide-inner {
   position: absolute;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: var(--slide-w);
   height: var(--slide-h);
   transform-origin: top left;
 }
 
 .slide {
+  min-width: 100%;
   width: 100%;
   height: 100%;
   background: var(--surface);
   display: flex;
   flex-direction: column;
   padding: var(--slide-padding);
-  gap: 1.5rem;
+  gap: 1rem;
+
+  background-image: radial-gradient(
+    circle,
+    var(--brand-light, #aaaaaa) 1px,
+    transparent 1px
+  );
+  background-size: 20px 20px;
+  background-position:
+    0 0,
+    10px 10px;
 }
 
 .slide-header {
@@ -28,10 +41,41 @@
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
+  height: 3rem;
+  border-bottom: 1px solid var(--border);
+
+  // background: #aaa;
+}
+.slide-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100% - 3rem);
+  // background: #aaa;
+}
+.slide-section {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  // background: black;
+}
+.slide-section .bento-grid {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  display: grid;
 }
 
-.slide-title { font-size: var(--txt-xl); font-weight: 700; color: var(--brand-dark); }
-.slide-meta  { font-size: var(--txt-m); color: var(--text-secondary); font-weight: 500; }
+.slide-title {
+  font-size: var(--txt-xl);
+  font-weight: 700;
+  color: var(--brand-dark);
+}
+.slide-meta {
+  font-size: var(--txt-m);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
 
 .slide-number {
   position: absolute;
@@ -43,17 +87,37 @@
   pointer-events: none;
 }
 
+.slide-topper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--slide-padding);
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  padding: 0 1.2rem 0.55rem;
+
+  color: var(--text-secondary);
+
+  .slide-logo {
+    height: calc(var(--txt-xl, 2.4rem) * 0.9);
+  }
+}
+
 .slide-footer {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  min-height: 2.8rem;
+  height: var(--slide-padding);
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   padding: 0 1.2rem 0.55rem;
   pointer-events: none;
+
+  // background: #AAAAAA;
 
   &__left {
     display: flex;
@@ -77,18 +141,6 @@
 
   .slide-logo {
     height: calc(var(--txt-xl, 2.4rem) * 1.5);
-  }
-}
-
-.slide-topper {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.6rem;
-  flex-shrink: 0;
-
-  .slide-logo {
-    height: calc(var(--txt-xl, 2.4rem) * 0.9);
   }
 }
 

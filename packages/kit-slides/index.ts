@@ -1,18 +1,22 @@
 // Motore
 export { default as SlideDeck }   from './src/components/SlideDeck.vue'
-export { default as Slide }       from './src/components/Slide.vue'
+export { default as SlideBase }       from './src/components/SlideBase.vue'
+export { default as SlideSection }   from './src/components/SlideSection.vue'
 
 // Slide generiche built-in
 export { default as CoverSlide }  from './src/components/slides/CoverSlide.vue'
 export { default as KpiSlide }    from './src/components/slides/KpiSlide.vue'
-export { default as TableSlide }  from './src/components/slides/TableSlide.vue'
 export { default as ChartSlide }  from './src/components/slides/ChartSlide.vue'
-export { default as MapSlide }    from './src/components/slides/MapSlide.vue'
 
 // UI atoms (usabili nelle slide custom dei consumer)
 export { default as KpiCard }     from './src/components/ui/KpiCard.vue'
 export { default as DeltaBadge }  from './src/components/ui/DeltaBadge.vue'
 export { default as StatusBadge } from './src/components/ui/StatusBadge.vue'
+export { default as ProgressBadge } from './src/components/ui/ProgressBadge.vue'
+export { default as WidgetTable }     from './src/components/ui/WidgetTable.vue'
+export { default as WidgetMap }       from './src/components/ui/WidgetMap.vue'
+export { default as WidgetPie }       from './src/components/ui/WidgetPie.vue'
+export { default as WidgetHistogram } from './src/components/ui/WidgetHistogram.vue'
 
 // Bento — layout componibile a card asimmetriche
 export { default as BentoSlide }  from './src/components/bento/BentoSlide.vue'
@@ -36,6 +40,8 @@ export type { RankRow }      from './src/components/kpi/comparison/RankTable.vue
 export type { BarItem }      from './src/components/kpi/comparison/BarComparison.vue'
 export type { StatusItem }   from './src/components/kpi/status/StatusGrid.vue'
 export type { WeeklyPoint }  from './src/components/kpi/trend/WeeklyTrend.vue'
+export type { PieItem }       from './src/components/ui/WidgetPie.vue'
+export type { HistogramItem } from './src/components/ui/WidgetHistogram.vue'
 
 // Tipo pubblico — adapter marker
 export type { IAdapter } from './src/composables/types'

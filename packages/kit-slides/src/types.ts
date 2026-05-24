@@ -14,6 +14,7 @@ export interface GeoDataPoint {
 export interface SlideDefinition {
   component: Component;
   props: Record<string, unknown>;
+  title?: string;
   isCover?: boolean;
   /** Optional text note displayed at the bottom-left corner of the slide. */
   note?: string;

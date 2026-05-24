@@ -48,6 +48,7 @@ function mergedProps(s: SlideDefinition): Record<string, unknown> {
         class="slide-page"
       >
         <SlideBase
+          :title="s.title"
           :slide-number="slideNumber(s, i)"
           :total-slides="s.isCover ? null : contentCount"
           :is-cover="s.isCover ?? false"

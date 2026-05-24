@@ -21,10 +21,16 @@ interface Props {
   /** numeric ISO → alpha-2 map (for tooltip lookup). */
   numericToAlpha2?: Record<string, string>;
 }
-interface TopperData { logo: string | null; department: string | null }
-const _topper = inject<ComputedRef<TopperData>>('slideTopper')
-const hasTopper = computed(() => !!(_topper?.value?.logo || _topper?.value?.department))
-const props = withDefaults(defineProps<Props>(), {  title: "",
+interface TopperData {
+  logo: string | null;
+  department: string | null;
+}
+const _topper = inject<ComputedRef<TopperData>>("slideTopper");
+const hasTopper = computed(
+  () => !!(_topper?.value?.logo || _topper?.value?.department),
+);
+const props = withDefaults(defineProps<Props>(), {
+  title: "",
   meta: "",
   topCount: 5,
   countryNames: () => ({}),
@@ -140,71 +146,93 @@ function hideTooltip() {
 
 <template>
   <div v-if="!props.data" class="slide slide-error">
-    Slide "MapSlide": prop <code>data</code> mancante.
+    Slide "WidgetMap": prop <code>data</code> mancante.
   </div>
-  <div v-else class="slide slide-map">
-    <div class="map-main">
-      <div v-if="title || meta || hasTopper" class="slide-header">
-        <h2 v-if="title" class="slide-title">{{ title }}</h2>
-        <SlideTopper />
-      </div>
-      <div class="map-content">
-        <div class="map-container">
-          <div
-            ref="mapRef"
-            class="map-frame"
-            @mousemove="moveTooltip"
-            @mouseleave="hideTooltip"
-          >
-            <svg
-              :viewBox="`0 0 ${MAP_W} ${MAP_H}`"
-              preserveAspectRatio="xMidYMid meet"
-            >
-              <path
-                v-for="p in paths"
-                :key="String(p.id)"
-                :d="p.d"
-                :fill="p.fill"
-                stroke="white"
-                stroke-width="0.5"
-                @mouseenter="showTooltip(p, $event)"
-              />
-            </svg>
+  <div class="map-content" v-else>
+    <div class="map-container">
+      <div
+        ref="mapRef"
+        class="map-frame"
+        @mousemove="moveTooltip"
+        @mouseleave="hideTooltip"
+      >
+        <svg
+          :viewBox="`0 0 ${MAP_W} ${MAP_H}`"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <path
+            v-for="p in paths"
+            :key="String(p.id)"
+            :d="p.d"
+            :fill="p.fill"
+            stroke="white"
+            stroke-width="0.5"
+            @mouseenter="showTooltip(p, $event)"
+          />
+        </svg>
 
-            <div
-              v-if="tooltip.visible"
-              class="tooltip"
-              :style="{
-                left: tooltip.x + 14 + 'px',
-                top: tooltip.y - 52 + 'px',
-              }"
-            >
-              <span class="tt-name">{{ tooltip.name }}</span>
-              <span class="tt-value">{{ tooltip.value }}</span>
-            </div>
-          </div>
-          <div class="legend">
-            <span class="legend-label">{{
-              data.length ? fmtCompact(extent.min) : ""
-            }}</span>
-            <div class="legend-bar" />
-            <span class="legend-label end">{{
-              data.length ? fmtCompact(extent.max) : ""
-            }}</span>
-          </div>
+        <div
+          v-if="tooltip.visible"
+          class="tooltip"
+          :style="{
+            left: tooltip.x + 14 + 'px',
+            top: tooltip.y - 52 + 'px',
+          }"
+        >
+          <span class="tt-name">{{ tooltip.name }}</span>
+          <span class="tt-value">{{ tooltip.value }}</span>
         </div>
-        <aside v-if="topCount > 0" class="top5">
-          <h3>Top {{ topCount }}</h3>
-          <ol v-if="topN.length">
-            <li v-for="(c, i) in topN" :key="c.code">
-              <span class="rank">{{ i + 1 }}</span>
-              <span class="name">{{ c.name }}</span>
-              <span class="value">{{ fmtCompact(c.value) }}</span>
-            </li>
-          </ol>
-          <div v-else class="empty">nessun dato</div>
-        </aside>
+      </div>
+      <div class="legend">
+        <span class="legend-label">{{
+          data.length ? fmtCompact(extent.min) : ""
+        }}</span>
+        <div class="legend-bar" />
+        <span class="legend-label end">{{
+          data.length ? fmtCompact(extent.max) : ""
+        }}</span>
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.map-content {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow: hidden;
+}
+
+.map-container {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.map-frame {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+}
+
+.legend {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 18px;
+}
+</style>

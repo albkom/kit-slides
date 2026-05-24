@@ -22,11 +22,11 @@
   --surface:        #ffffff;
   --border:         rgba(255, 255, 255, 0.5);
 
-  --slide-padding:  3.5rem;
+  /* --slide-padding:  2rem; */
   --slide-radius:   16px;
 }
 
-.slide {
+/* .slide {
   background-image: none;
 }
 
@@ -35,4 +35,4 @@
   border: 1px solid var(--border);
   border-radius: var(--slide-radius);
   padding: 1.5rem;
-}
+} */

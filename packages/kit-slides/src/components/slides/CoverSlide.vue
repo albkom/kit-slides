@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<Props>(), {
   <div v-if="!props.title" class="slide slide-error">
     Slide "CoverSlide": prop <code>title</code> mancante.
   </div>
-  <div v-else class="slide slide-cover">
+  <div v-else class="slide-body slide-cover">
     <div class="cover-content">
       <div v-if="badge" class="badge">{{ badge }}</div>
       <h1 class="title">{{ title }}</h1>

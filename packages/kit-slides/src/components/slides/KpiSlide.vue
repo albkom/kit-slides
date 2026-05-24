@@ -27,11 +27,7 @@ const props = withDefaults(defineProps<Props>(), {
   <div v-if="!props.cards || !props.cards.length" class="slide slide-error">
     Slide "KpiSlide": prop <code>cards</code> mancante o vuota.
   </div>
-  <div v-else class="slide slide-kpi">
-    <div v-if="title || meta || hasTopper" class="slide-header">
-      <h2 v-if="title" class="slide-title">{{ title }}</h2>
-      <SlideTopper />
-    </div>
+  <div v-else class="slide-body slide-kpi">
     <MetricGroup :items="[]" :columns="props.cards.length">
       <KpiCard
         v-for="(c, i) in props.cards"

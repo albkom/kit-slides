@@ -2,6 +2,7 @@
 import { ref, computed, provide, onMounted, onUnmounted } from "vue";
 
 interface Props {
+  title?: string | null;
   slideNumber?: number | null;
   totalSlides?: number | null;
   deckNote?: string | null;
@@ -58,7 +59,21 @@ onUnmounted(() => {
 <template>
   <div ref="outer" class="slide-outer">
     <div class="slide-inner" :style="{ transform: `scale(${scale})` }">
-      <slot />
+      <div
+        class="slide-topper"
+        v-if="props.logo || props.department || props.isCover"
+      >
+        Departmental Logo and Name (if any) - Slide Title (if any)
+      </div>
+      <!-- slide content -->
+      <div class="slide">
+        <div v-if="title" class="slide-header">
+          <h2 class="slide-title">{{ title }}</h2>
+        </div>
+        <div class="slide-body">
+          <slot />
+        </div>
+      </div>
       <!-- bottom-center branding: cover only -->
       <div
         v-if="props.isCover && (props.logo || props.department)"

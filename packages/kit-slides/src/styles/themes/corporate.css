@@ -26,7 +26,7 @@
     "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
 
   --slide-radius: 14px;
-  --slide-padding: 3rem;
+  --slide-padding: 2rem;
 }
 
 /* === Slide chrome === */

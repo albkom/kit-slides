@@ -2,13 +2,10 @@
 import { computed } from "vue";
 import type { PerformanceComputed } from "../types";
 import type { ColumnDef } from "../types";
-import { TableSlide } from "kit-slides";
+import { WidgetTable } from "kit-slides";
 
 const props = defineProps<{
   performance: PerformanceComputed[];
-  week: number;
-  year: number;
-  pageIndicator?: string;
 }>();
 
 const num = new Intl.NumberFormat("it-IT");
@@ -84,19 +81,8 @@ const columns: ColumnDef[] = [
 const data = computed(
   () => props.performance as unknown as Record<string, unknown>[],
 );
-const meta = computed(() => `W${props.week} · ${props.year}`);
-const title = computed(() =>
-  props.pageIndicator
-    ? `Performance per Area ${props.pageIndicator}`
-    : "Performance per Area",
-);
 </script>
 
 <template>
-  <TableSlide
-    :title="title"
-    :meta="meta"
-    :columns="columns"
-    :data="data"
-  />
+  <WidgetTable :columns="columns" :data="data" />
 </template>
