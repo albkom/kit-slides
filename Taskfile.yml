@@ -32,6 +32,20 @@ tasks:
       - cp -r templates/full decks/{{.NAME}}
       - 'echo Created decks/{{.NAME}}. Run: task dev NAME={{.NAME}}'
 
+  new:from:
+    desc: Copy an existing deck, excluding data (SOURCE=<deck> NAME=<nuovo-deck>)
+    preconditions:
+      - sh: '[ -n "{{.SOURCE}}" ] && [ -d "decks/{{.SOURCE}}" ]'
+        msg: 'Provide SOURCE=<existing-deck>, e.g. `task new:from SOURCE=kpi-report NAME=my-talk`'
+      - sh: '[ -n "{{.NAME}}" ] && [ "{{.NAME}}" != "kpi-report" ]'
+        msg: 'Provide NAME=<new-deck> (and avoid reserved names)'
+      - sh: '[ ! -d "decks/{{.NAME}}" ]'
+        msg: 'decks/{{.NAME}} already exists'
+    cmds:
+      - cp -r decks/{{.SOURCE}} decks/{{.NAME}}
+      - rm -rf decks/{{.NAME}}/public/data
+      - 'echo Created decks/{{.NAME}} from {{.SOURCE}}. Run: task dev NAME={{.NAME}}'
+
   dev:
     desc: Start dev server for a deck (NAME=<deck-folder>, default kpi-report)
     env:

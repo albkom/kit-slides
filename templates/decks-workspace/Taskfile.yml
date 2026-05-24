@@ -1,0 +1,73 @@
+version: '3'
+
+# Passa il nome del deck con NAME=... (es. `task dev NAME=my-talk`).
+vars:
+  NAME: '{{.NAME | default ""}}'
+
+tasks:
+  install:
+    desc: Install dependencies
+    cmd: pnpm install
+
+  new:
+    desc: Scaffold a minimal deck (NAME=<deck>)
+    preconditions:
+      - sh: '[ -n "{{.NAME}}" ]'
+        msg: 'Provide NAME, e.g. `task new NAME=my-deck`'
+      - sh: '[ ! -d "decks/{{.NAME}}" ]'
+        msg: 'decks/{{.NAME}} already exists'
+    cmds:
+      - cp -r node_modules/kit-slides/templates/starter decks/{{.NAME}}
+      - 'echo Created decks/{{.NAME}}. Run: task dev NAME={{.NAME}}'
+
+  new:from:
+    desc: Copy an existing deck, excluding data (SOURCE=<existing> NAME=<new>)
+    preconditions:
+      - sh: '[ -n "{{.SOURCE}}" ]'
+        msg: 'Provide SOURCE, e.g. `task new:from SOURCE=my-deck NAME=new-deck`'
+      - sh: '[ -d "decks/{{.SOURCE}}" ]'
+        msg: 'decks/{{.SOURCE}} does not exist'
+      - sh: '[ -n "{{.NAME}}" ]'
+        msg: 'Provide NAME, e.g. `task new:from SOURCE=my-deck NAME=new-deck`'
+      - sh: '[ ! -d "decks/{{.NAME}}" ]'
+        msg: 'decks/{{.NAME}} already exists'
+    cmds:
+      - cp -r decks/{{.SOURCE}} decks/{{.NAME}}
+      - rm -rf decks/{{.NAME}}/public/data
+      - 'echo Created decks/{{.NAME}} from {{.SOURCE}}. Run: task dev NAME={{.NAME}}'
+
+  dev:
+    desc: Start dev server for a deck (NAME=<deck>)
+    preconditions:
+      - sh: '[ -n "{{.NAME}}" ]'
+        msg: 'Provide NAME, e.g. `task dev NAME=my-deck`'
+    env:
+      KIT_DECK: '{{.NAME}}'
+    cmd: pnpm dev
+
+  dev:pdf:
+    desc: Dev server with PDF auto-export on save (NAME=<deck>)
+    preconditions:
+      - sh: '[ -n "{{.NAME}}" ]'
+        msg: 'Provide NAME, e.g. `task dev:pdf NAME=my-deck`'
+    env:
+      KIT_DECK: '{{.NAME}}'
+    cmd: pnpm dev:pdf
+
+  build:
+    desc: Build a deck for production (NAME=<deck>)
+    preconditions:
+      - sh: '[ -n "{{.NAME}}" ]'
+        msg: 'Provide NAME, e.g. `task build NAME=my-deck`'
+    env:
+      KIT_DECK: '{{.NAME}}'
+    cmd: pnpm build
+
+  pdf:
+    desc: Export deck to PDF (NAME=<deck>)
+    preconditions:
+      - sh: '[ -n "{{.NAME}}" ]'
+        msg: 'Provide NAME, e.g. `task pdf NAME=my-deck`'
+    env:
+      KIT_DECK: '{{.NAME}}'
+    cmd: pnpm pdf
