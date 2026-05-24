@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { ChartSlide } from '../../../index'
+import { ChartSlide } from 'kit-slides'
 import type { ChartData, ChartOptions, Plugin, TooltipItem } from 'chart.js'
 import type { KpiChannel } from '../types'
 

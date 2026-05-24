@@ -3,7 +3,7 @@ import { Doughnut } from "vue-chartjs";
 import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
 import type { ChartData, ChartOptions, TooltipItem } from "chart.js";
 import DeltaBadge from "./DeltaBadge.vue";
-import { KpiMonitor } from "@/types";
+import { KpiMonitor } from "../../types";
 
 ChartJS.register(ArcElement, Tooltip);
 

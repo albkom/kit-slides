@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { KpiSlide, type KpiCardDef } from "../../../index";
-import type { KpiChannel, KpiAreaComputed } from "../types";
+import type { KpiChannel, KpiAreaComputed, KpiCardDef } from "../types";
 import type { ChartData } from "chart.js";
+import { KpiSlide } from "kit-slides";
 
 interface Props {
   areas: KpiAreaComputed[];

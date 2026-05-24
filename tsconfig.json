@@ -16,11 +16,12 @@
     "allowSyntheticDefaultImports": true,
     "types": ["vite/client"],
     "paths": {
-      "@/*": ["./src/*"],
-      "kit-slides": ["./index.ts"],
+      "@/*": ["./packages/kit-slides/src/*"],
+      "kit-slides": ["./packages/kit-slides/index.ts"],
+      "kit-slides/styles": ["./packages/kit-slides/src/styles/main.scss"],
       "__kit_deck__/*": ["./decks/minimal-pitch/*"]
     }
   },
-  "include": ["src/**/*", "decks/**/*", "index.ts", "shims.d.ts"],
+  "include": ["src/**/*", "decks/**/*", "packages/kit-slides/**/*", "shims.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

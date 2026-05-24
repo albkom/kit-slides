@@ -1,13 +1,8 @@
 {
-  "name": "kit-slides",
+  "name": "kit-slides-app",
   "version": "2.0.0",
   "type": "module",
-  "main": "./index.ts",
-  "exports": {
-    ".": "./index.ts",
-    "./styles": "./src/styles/main.scss",
-    "./templates/*": "./templates/*"
-  },
+  "private": true,
   "scripts": {
     "dev": "vite",
     "dev:pdf": "vite --mode pdf",
@@ -17,20 +12,10 @@
     "pdf": "node scripts/export-pdf.js"
   },
   "dependencies": {
-    "chart.js": "^4.4.4",
-    "d3-geo": "^3.1.1",
-    "papaparse": "^5.4.1",
-    "topojson-client": "^3.1.0",
-    "vue": "^3.5.13",
-    "vue-chartjs": "^5.3.2",
-    "world-atlas": "^2.0.2"
+    "kit-slides": "workspace:*",
+    "vue": "^3.5.13"
   },
   "devDependencies": {
-    "@types/d3-geo": "^3.1.0",
-    "@types/geojson": "^7946.0.16",
-    "@types/papaparse": "^5.5.2",
-    "@types/topojson-client": "^3.1.5",
-    "@types/topojson-specification": "^1.0.5",
     "@vitejs/plugin-vue": "^5.2.1",
     "puppeteer": "^25.0.2",
     "sass": "^1.77.0",

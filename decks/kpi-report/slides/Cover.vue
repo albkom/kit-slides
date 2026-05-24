@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { CoverSlide } from '../../../index'
+import { CoverSlide } from 'kit-slides'
 
 interface Props {
   week: number

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { MapSlide } from "../../../index";
 import { alpha2ToNumeric, numericToAlpha2, countryNames } from "../countryData";
-import type { GeoDataPoint } from "../../../index";
+import type { GeoDataPoint } from "kit-slides";
+import { MapSlide } from "kit-slides";
 
 interface Props {
   geoData?: GeoDataPoint[];
