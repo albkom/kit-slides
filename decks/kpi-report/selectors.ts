@@ -1,4 +1,4 @@
-import type { GeoDataPoint } from "../../index";
+import type { GeoDataPoint } from "kit-slides";
 import type {
   KpiPerformance,
   PerformanceComputed,

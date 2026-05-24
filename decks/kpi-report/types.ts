@@ -1,8 +1,8 @@
 // Re-export the kit's public surface so deck code has a single import path
 // for everything it consumes from kit-slides.
-export * from "../../index";
+export * from "kit-slides";
 
-import type { IAdapter, Status } from "../../index";
+import type { IAdapter, Status } from "kit-slides";
 
 // ── Adapter contract — normalized data shapes ────────────────────────────────
 // Field names are this deck's stable contract, independent of any specific

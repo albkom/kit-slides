@@ -1,6 +1,6 @@
 import { ref, computed } from "vue";
 import type { ComputedRef, Ref } from "vue";
-import type { GeoDataPoint, Status } from "../../index";
+import type { GeoDataPoint, Status } from "kit-slides";
 import type {
   IKpiAdapter,
   AreaRow,

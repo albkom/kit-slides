@@ -1,0 +1,7 @@
+/* Override le CSS variables del kit qui per personalizzare il tuo deck.
+   Vedi src/styles/_tokens.scss per tutti i token disponibili. */
+:root {
+  /* --brand-primary: #185fa5; */
+  /* --brand-accent:  #931d9e; */
+  /* --font-stack:    "Roboto", system-ui, sans-serif; */
+}

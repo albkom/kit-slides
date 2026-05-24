@@ -11,7 +11,7 @@ tasks:
     cmd: pnpm install
 
   new:
-    desc: Scaffold a new deck from templates/starter (NAME=<deck-folder>)
+    desc: Scaffold a Schema A deck — deck.ts + Hello slide, no boilerplate (NAME=<deck-folder>)
     preconditions:
       - sh: '[ -n "{{.NAME}}" ] && [ "{{.NAME}}" != "kpi-report" ]'
         msg: 'Provide a NAME, e.g. `task new NAME=my-talk` (and avoid reserved names)'
@@ -19,6 +19,17 @@ tasks:
         msg: 'decks/{{.NAME}} already exists'
     cmds:
       - cp -r templates/starter decks/{{.NAME}}
+      - 'echo Created decks/{{.NAME}}. Run: task dev NAME={{.NAME}}'
+
+  new:full:
+    desc: Scaffold a Schema C deck with full boilerplate — main.ts, App.vue, types, adapter stubs (NAME=<deck-folder>)
+    preconditions:
+      - sh: '[ -n "{{.NAME}}" ] && [ "{{.NAME}}" != "kpi-report" ]'
+        msg: 'Provide a NAME, e.g. `task new:full NAME=my-talk` (and avoid reserved names)'
+      - sh: '[ ! -d "decks/{{.NAME}}" ]'
+        msg: 'decks/{{.NAME}} already exists'
+    cmds:
+      - cp -r templates/full decks/{{.NAME}}
       - 'echo Created decks/{{.NAME}}. Run: task dev NAME={{.NAME}}'
 
   dev:
