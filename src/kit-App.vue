@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { SlideDeck } from '../../index'
-import { buildSlides } from './deck'
-
+import { SlideDeck } from '../index'
+import { buildSlides } from '__kit_deck__/deck'
 const slides = buildSlides()
 </script>
 

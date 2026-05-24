@@ -15,7 +15,11 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "types": ["vite/client"],
-    "paths": { "@/*": ["./src/*"] }
+    "paths": {
+      "@/*": ["./src/*"],
+      "kit-slides": ["./index.ts"],
+      "__kit_deck__/*": ["./decks/minimal-pitch/*"]
+    }
   },
   "include": ["src/**/*", "decks/**/*", "index.ts", "shims.d.ts"],
   "exclude": ["node_modules", "dist"]

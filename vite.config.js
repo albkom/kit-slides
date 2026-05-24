@@ -1,10 +1,14 @@
 import { defineConfig, normalizePath } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { existsSync } from 'fs'
-import { resolve } from 'path'
+import { resolve, relative } from 'path'
 
-const deck = process.env.KIT_DECK || 'kpi-report'
-const entry = `/decks/${deck}/main.ts`
+const deck    = process.env.KIT_DECK || 'kpi-report'
+const deckDir = resolve('decks', deck)
+const deckMain = resolve(deckDir, 'main.ts')
+const kitMain  = resolve('src', 'kit-main.ts')
+const entryFile    = existsSync(deckMain) ? deckMain : kitMain
+const entryRelative = '/' + normalizePath(relative(process.cwd(), entryFile))
 
 /**
  * Vite plugin: re-export slides.pdf after every hot-module update.
@@ -35,13 +39,13 @@ function pdfOnSavePlugin() {
 
 /**
  * Inject the active deck entry into index.html.
- * Also auto-injects `import './theme.css'` at the end of the deck's main.ts
- * (via transform) so it loads after main.scss and can override kit defaults.
- * See AC M.4 — `docs/theming.md`.
+ * Also auto-injects `import '__kit_deck__/theme.css'` at the end of the
+ * entry file (deck's main.ts or kit-main.ts) so it loads after main.scss
+ * and can override kit defaults.  See AC M.4 — `docs/theming.md`.
  */
 function deckEntryPlugin() {
-  const themeAbs = normalizePath(resolve(process.cwd(), `decks/${deck}/theme.css`)) 
-  const entryAbs = normalizePath(resolve(process.cwd(), `decks/${deck}/main.ts`))
+  const themeAbs = normalizePath(resolve(deckDir, 'theme.css'))
+  const entryAbs = normalizePath(entryFile)
   return {
     name: 'kit-deck-entry',
     enforce: 'pre',
@@ -49,14 +53,15 @@ function deckEntryPlugin() {
       // Append theme import after main.scss so it wins the cascade.
       // Strip query params (e.g. ?t=...) before comparing.
       const cleanId = normalizePath(id.split('?')[0])
-      if (cleanId === entryAbs && existsSync(themeAbs) && !code.includes("import './theme.css'")) {
-        return { code: code + `\nimport './theme.css'`, map: null }
+      const alreadyImported = code.includes("import './theme.css'") || code.includes("import '__kit_deck__/theme.css'")
+      if (cleanId === entryAbs && existsSync(themeAbs) && !alreadyImported) {
+        return { code: code + `\nimport '__kit_deck__/theme.css'`, map: null }
       }
     },
     transformIndexHtml: {
       order: 'pre',
       handler(html) {
-        return html.replace('__KIT_ENTRY__', entry)
+        return html.replace('__KIT_ENTRY__', entryRelative)
       },
     },
   }
@@ -69,5 +74,11 @@ export default defineConfig(({ mode }) => ({
     ...(mode === 'pdf' ? [pdfOnSavePlugin()] : []),
   ],
   base: './',
-  publicDir: `decks/${deck}/public`,
+  resolve: {
+    alias: {
+      '__kit_deck__': resolve('decks', deck),
+      'kit-slides':   resolve('./index.ts'),
+    },
+  },
+  publicDir: existsSync(resolve(deckDir, 'public')) ? `decks/${deck}/public` : undefined,
 }))

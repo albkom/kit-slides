@@ -1,5 +1,5 @@
 import { markRaw } from "vue";
-import type { SlideDefinition } from "../../index";
+import type { SlideDefinition } from "kit-slides";
 import Cover from "./slides/Cover.vue";
 import Showcase from "./slides/Showcase.vue";
 import { deckConfig, type SlideKey } from "./deck.config";
