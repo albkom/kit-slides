@@ -1,9 +1,9 @@
-# Built-in slides
+﻿# Built-in slides
 
 Le **slide generiche** sono primitive di rendering esposte dal kit. Sono
 agnostiche al dominio: accettano dati e una `config` tipizzata, e non sanno
-nulla di fatturato, ordini, KPI, ecc. Le slide di dominio sono responsabilità
-del consumer (vedi `decks/kpi-report/slides/` per il pattern wrapper).
+nulla di fatturato, ordini, KPI, ecc. Le slide di dominio sono responsabilitÃ 
+del consumer (vedi `decks/starter/slides/` per il pattern wrapper).
 
 Tutte le slide:
 
@@ -22,10 +22,10 @@ Slide di apertura: titolo, sottotitolo, badge opzionale, riga di meta in basso.
 
 | Prop      | Tipo     | Required | Note                          |
 |-----------|----------|----------|-------------------------------|
-| `title`   | `string` | ✔        | Titolo principale             |
-| `subtitle`| `string` | —        | Riga sotto il titolo          |
-| `badge`   | `string` | —        | Pillola sopra il titolo       |
-| `meta`    | `string` | —        | Testo piccolo a fondo slide   |
+| `title`   | `string` | âœ”        | Titolo principale             |
+| `subtitle`| `string` | â€”        | Riga sotto il titolo          |
+| `badge`   | `string` | â€”        | Pillola sopra il titolo       |
+| `meta`    | `string` | â€”        | Testo piccolo a fondo slide   |
 
 ```ts
 import { markRaw } from 'vue'
@@ -36,7 +36,7 @@ export const slides = [
     component: markRaw(CoverSlide),
     props: {
       title: 'Q1 2026 Review',
-      subtitle: 'All-hands · marzo 2026',
+      subtitle: 'All-hands Â· marzo 2026',
       badge: 'Internal',
       meta: 'Generato il 17/05/2026',
     },
@@ -52,16 +52,16 @@ Griglia di 4 KPI card (auto-layout). Ogni card mostra label, valore, delta e un 
 
 | Prop     | Tipo            | Required | Note                                         |
 |----------|-----------------|----------|----------------------------------------------|
-| `cards`  | `KpiCardDef[]`  | ✔        | Tipicamente 4 elementi                       |
-| `title`  | `string`        | —        | Titolo della slide (header in alto a sinistra) |
-| `meta`   | `string`        | —        | Testo a destra dell'header (es. `W21 · 2026`) |
+| `cards`  | `KpiCardDef[]`  | âœ”        | Tipicamente 4 elementi                       |
+| `title`  | `string`        | â€”        | Titolo della slide (header in alto a sinistra) |
+| `meta`   | `string`        | â€”        | Testo a destra dell'header (es. `W21 Â· 2026`) |
 
 `KpiCardDef`:
 
 ```ts
 interface KpiCardDef {
   label: string                  // testo sopra il valore
-  value: string | number         // valore formattato (es. '€325k')
+  value: string | number         // valore formattato (es. 'â‚¬325k')
   delta?: number | null          // percentuale firmata (es. +5.2)
   icon?: string                  // emoji/simbolo opzionale
   pieData?: ChartData<'doughnut'> | null  // mini-grafico opzionale
@@ -75,12 +75,12 @@ import { KpiSlide } from 'kit-slides'
   component: markRaw(KpiSlide),
   props: {
     title: 'Riepilogo KPI',
-    meta: 'W21 · 2026',
+    meta: 'W21 Â· 2026',
     cards: [
-      { label: 'Fatturato', value: '€325.000', delta: 5.2 },
+      { label: 'Fatturato', value: 'â‚¬325.000', delta: 5.2 },
       { label: 'Ordini',    value: '2.180',    delta: 3.6 },
       { label: 'Conv.',     value: '3,9%',     delta: 2.6 },
-      { label: 'AOV',       value: '€149',     delta: -1.6 },
+      { label: 'AOV',       value: 'â‚¬149',     delta: -1.6 },
     ],
   },
 }
@@ -94,11 +94,11 @@ Tabella tipizzata; le colonne sono descritte da `ColumnDef[]`.
 
 | Prop      | Tipo                          | Required | Note                                |
 |-----------|-------------------------------|----------|-------------------------------------|
-| `data`    | `Record<string, unknown>[]`   | ✔        | Una riga per record                 |
-| `columns` | `ColumnDef[]`                 | ✔        | Definizione e formattazione         |
-| `title`   | `string`                      | —        | Header della slide                  |
-| `meta`    | `string`                      | —        | Header a destra                     |
-| `maxRows` | `number`                      | —        | Tronca a N righe (default: tutte)   |
+| `data`    | `Record<string, unknown>[]`   | âœ”        | Una riga per record                 |
+| `columns` | `ColumnDef[]`                 | âœ”        | Definizione e formattazione         |
+| `title`   | `string`                      | â€”        | Header della slide                  |
+| `meta`    | `string`                      | â€”        | Header a destra                     |
+| `maxRows` | `number`                      | â€”        | Tronca a N righe (default: tutte)   |
 
 `ColumnDef`:
 
@@ -141,12 +141,12 @@ Wrapper agnostico su [vue-chartjs](https://vue-chartjs.org/). Accetta direttamen
 
 | Prop      | Tipo              | Required | Note                                    |
 |-----------|-------------------|----------|-----------------------------------------|
-| `data`    | `ChartData<K>`    | ✔        | Dataset Chart.js                        |
-| `kind`    | `'bar'\|'line'\|'doughnut'\|'pie'` | — | Default `'bar'`            |
-| `options` | `ChartOptions<K>` | —        | Opzioni Chart.js                        |
-| `plugins` | `Plugin<K>[]`     | —        | Plugin Chart.js custom                  |
-| `title`   | `string`          | —        | Header della slide                      |
-| `meta`    | `string`          | —        | Header a destra                         |
+| `data`    | `ChartData<K>`    | âœ”        | Dataset Chart.js                        |
+| `kind`    | `'bar'\|'line'\|'doughnut'\|'pie'` | â€” | Default `'bar'`            |
+| `options` | `ChartOptions<K>` | â€”        | Opzioni Chart.js                        |
+| `plugins` | `Plugin<K>[]`     | â€”        | Plugin Chart.js custom                  |
+| `title`   | `string`          | â€”        | Header della slide                      |
+| `meta`    | `string`          | â€”        | Header a destra                         |
 
 ```ts
 import { ChartSlide } from 'kit-slides'
@@ -175,18 +175,18 @@ colorato; opzionalmente mostra una classifica Top-N a lato.
 
 | Prop              | Tipo                            | Required | Note                                  |
 |-------------------|---------------------------------|----------|---------------------------------------|
-| `data`            | `GeoDataPoint[]`                | ✔        | `{ code, value }` con alpha-2 ISO     |
-| `alpha2ToNumeric` | `Record<string, string\|number>`| (consigliato) | Mapping ISO alpha-2 → numerico  |
+| `data`            | `GeoDataPoint[]`                | âœ”        | `{ code, value }` con alpha-2 ISO     |
+| `alpha2ToNumeric` | `Record<string, string\|number>`| (consigliato) | Mapping ISO alpha-2 â†’ numerico  |
 | `numericToAlpha2` | `Record<string, string>`        | (consigliato) | Mapping inverso per il tooltip  |
-| `countryNames`    | `Record<string, string>`        | —        | Alpha-2 → nome paese                  |
-| `topCount`        | `number`                        | —        | Lunghezza classifica (default 5; 0 nasconde la lista) |
-| `formatValue`     | `(v: number) => string`         | —        | Format per tooltip                    |
-| `formatCompact`   | `(v: number) => string`         | —        | Format compatto per legenda + top-N   |
-| `title`           | `string`                        | —        |                                       |
-| `meta`            | `string`                        | —        |                                       |
+| `countryNames`    | `Record<string, string>`        | â€”        | Alpha-2 â†’ nome paese                  |
+| `topCount`        | `number`                        | â€”        | Lunghezza classifica (default 5; 0 nasconde la lista) |
+| `formatValue`     | `(v: number) => string`         | â€”        | Format per tooltip                    |
+| `formatCompact`   | `(v: number) => string`         | â€”        | Format compatto per legenda + top-N   |
+| `title`           | `string`                        | â€”        |                                       |
+| `meta`            | `string`                        | â€”        |                                       |
 
 I mapping ISO non sono inclusi nel kit (evitano un peso fisso): vedi
-`decks/kpi-report/countryData.ts` per un esempio di tabella.
+`decks/starter/countryData.ts` per un esempio di tabella.
 
 ```ts
 import { MapSlide } from 'kit-slides'
@@ -199,7 +199,7 @@ import { MapSlide } from 'kit-slides'
     alpha2ToNumeric, numericToAlpha2, countryNames,
     topCount: 5,
     formatValue:   (v) => eur.format(v),
-    formatCompact: (v) => v >= 1000 ? '€' + Math.round(v/1000) + 'K' : '€' + v,
+    formatCompact: (v) => v >= 1000 ? 'â‚¬' + Math.round(v/1000) + 'K' : 'â‚¬' + v,
   },
 }
 ```
@@ -226,36 +226,36 @@ Valore grande + label + delta opzionale.
 
 | Prop        | Tipo                              | Required | Note                          |
 |-------------|-----------------------------------|----------|-------------------------------|
-| `label`     | `string`                          | ✔        |                               |
-| `value`     | `string \| number`                | ✔        | Già formattato                |
-| `subValue`  | `string \| number`                | —        | Riga più piccola sotto        |
-| `delta`     | `number \| null`                  | —        | Percentuale firmata           |
-| `deltaUnit` | `string`                          | —        | Default `'%'`                 |
-| `align`     | `'left' \| 'center' \| 'right'`   | —        | Default `'left'`              |
+| `label`     | `string`                          | âœ”        |                               |
+| `value`     | `string \| number`                | âœ”        | GiÃ  formattato                |
+| `subValue`  | `string \| number`                | â€”        | Riga piÃ¹ piccola sotto        |
+| `delta`     | `number \| null`                  | â€”        | Percentuale firmata           |
+| `deltaUnit` | `string`                          | â€”        | Default `'%'`                 |
+| `align`     | `'left' \| 'center' \| 'right'`   | â€”        | Default `'left'`              |
 
 ```ts
 import { MetricBlock } from 'kit-slides'
 
-<MetricBlock label="Fatturato" value="€325k" :delta="5.2" />
+<MetricBlock label="Fatturato" value="â‚¬325k" :delta="5.2" />
 ```
 
 ### `MetricGroup`
 
 Griglia di `MetricBlock`. Sostituisce la grid di card nelle slide custom.
 Accetta `items[]` per il rendering automatico oppure uno slot per inserire
-componenti più ricchi (es. `KpiCard`).
+componenti piÃ¹ ricchi (es. `KpiCard`).
 
 | Prop      | Tipo                              | Required | Note                                          |
 |-----------|-----------------------------------|----------|-----------------------------------------------|
-| `items`   | `MetricItem[]`                    | ✔        | Vuoto + slot ammesso                          |
-| `columns` | `number`                          | —        | Forza il numero di colonne (default auto-fit) |
-| `align`   | `'left' \| 'center' \| 'right'`   | —        | Propagato a ogni `MetricBlock`                |
+| `items`   | `MetricItem[]`                    | âœ”        | Vuoto + slot ammesso                          |
+| `columns` | `number`                          | â€”        | Forza il numero di colonne (default auto-fit) |
+| `align`   | `'left' \| 'center' \| 'right'`   | â€”        | Propagato a ogni `MetricBlock`                |
 
 ```ts
 import { MetricGroup, type MetricItem } from 'kit-slides'
 
 const items: MetricItem[] = [
-  { label: 'Fatturato', value: '€325k', delta: 5.2 },
+  { label: 'Fatturato', value: 'â‚¬325k', delta: 5.2 },
   { label: 'Ordini',    value: '2.180', delta: 3.6 },
 ]
 
@@ -268,11 +268,11 @@ Due valori contrapposti con barra proporzionale.
 
 | Prop          | Tipo                       | Required | Note               |
 |---------------|----------------------------|----------|--------------------|
-| `leftLabel`   | `string`                   | ✔        |                    |
-| `rightLabel`  | `string`                   | ✔        |                    |
-| `leftValue`   | `number`                   | ✔        |                    |
-| `rightValue`  | `number`                   | ✔        |                    |
-| `formatValue` | `(v: number) => string`    | —        | Default `String()` |
+| `leftLabel`   | `string`                   | âœ”        |                    |
+| `rightLabel`  | `string`                   | âœ”        |                    |
+| `leftValue`   | `number`                   | âœ”        |                    |
+| `rightValue`  | `number`                   | âœ”        |                    |
+| `formatValue` | `(v: number) => string`    | â€”        | Default `String()` |
 
 ```ts
 import { RatioBar } from 'kit-slides'
@@ -290,11 +290,11 @@ Lista ordinata con valore + delta per riga.
 
 | Prop          | Tipo                       | Required | Note                       |
 |---------------|----------------------------|----------|----------------------------|
-| `rows`        | `RankRow[]`                | ✔        |                            |
-| `title`       | `string`                   | —        |                            |
-| `maxRows`     | `number`                   | —        | `0` = tutte (default)      |
-| `formatValue` | `(v: number) => string`    | —        |                            |
-| `showRank`    | `boolean`                  | —        | Default `true`             |
+| `rows`        | `RankRow[]`                | âœ”        |                            |
+| `title`       | `string`                   | â€”        |                            |
+| `maxRows`     | `number`                   | â€”        | `0` = tutte (default)      |
+| `formatValue` | `(v: number) => string`    | â€”        |                            |
+| `showRank`    | `boolean`                  | â€”        | Default `true`             |
 
 ```ts
 import { RankTable, type RankRow } from 'kit-slides'
@@ -313,9 +313,9 @@ Barre orizzontali per confronto diretto.
 
 | Prop          | Tipo                       | Required | Note                                  |
 |---------------|----------------------------|----------|---------------------------------------|
-| `items`       | `BarItem[]`                | ✔        | `{ label, value, color? }`            |
-| `max`         | `number`                   | —        | Forza il fondo scala (default = max valori) |
-| `formatValue` | `(v: number) => string`    | —        |                                       |
+| `items`       | `BarItem[]`                | âœ”        | `{ label, value, color? }`            |
+| `max`         | `number`                   | â€”        | Forza il fondo scala (default = max valori) |
+| `formatValue` | `(v: number) => string`    | â€”        |                                       |
 
 ```ts
 import { BarComparison } from 'kit-slides'
@@ -329,12 +329,12 @@ import { BarComparison } from 'kit-slides'
 
 ### `StatusGrid`
 
-Griglia di entità con indicatore di stato (`GOOD | ACCEPTABLE | WARNING | BAD`).
+Griglia di entitÃ  con indicatore di stato (`GOOD | ACCEPTABLE | WARNING | BAD`).
 
 | Prop      | Tipo            | Required | Note                                  |
 |-----------|-----------------|----------|---------------------------------------|
-| `items`   | `StatusItem[]`  | ✔        | `{ label, status, sub? }`             |
-| `columns` | `number`        | —        | Default auto-fit                      |
+| `items`   | `StatusItem[]`  | âœ”        | `{ label, status, sub? }`             |
+| `columns` | `number`        | â€”        | Default auto-fit                      |
 
 ```ts
 import { StatusGrid } from 'kit-slides'
@@ -351,13 +351,13 @@ Valore singolo posizionato su una barra a 3 zone (bad / warn / good).
 
 | Prop          | Tipo                       | Required | Note                                  |
 |---------------|----------------------------|----------|---------------------------------------|
-| `value`       | `number`                   | ✔        |                                       |
-| `min`         | `number`                   | —        | Default `0`                           |
-| `max`         | `number`                   | ✔        |                                       |
-| `warnAt`      | `number`                   | ✔        | Sotto = `WARNING`                     |
-| `badAt`       | `number`                   | ✔        | Sotto = `BAD`                         |
-| `label`       | `string`                   | —        |                                       |
-| `formatValue` | `(v: number) => string`    | —        |                                       |
+| `value`       | `number`                   | âœ”        |                                       |
+| `min`         | `number`                   | â€”        | Default `0`                           |
+| `max`         | `number`                   | âœ”        |                                       |
+| `warnAt`      | `number`                   | âœ”        | Sotto = `WARNING`                     |
+| `badAt`       | `number`                   | âœ”        | Sotto = `BAD`                         |
+| `label`       | `string`                   | â€”        |                                       |
+| `formatValue` | `(v: number) => string`    | â€”        |                                       |
 
 ```ts
 import { ThresholdMeter } from 'kit-slides'
@@ -374,11 +374,11 @@ Mini grafico lineare inline (SVG).
 
 | Prop     | Tipo        | Required | Note                              |
 |----------|-------------|----------|-----------------------------------|
-| `values` | `number[]`  | ✔        | Minimo 2 punti                    |
-| `width`  | `number`    | —        | Default `120`                     |
-| `height` | `number`    | —        | Default `32`                      |
-| `stroke` | `string`    | —        | CSS color, default brand primary  |
-| `fill`   | `boolean`   | —        | Riempi sotto la curva             |
+| `values` | `number[]`  | âœ”        | Minimo 2 punti                    |
+| `width`  | `number`    | â€”        | Default `120`                     |
+| `height` | `number`    | â€”        | Default `32`                      |
+| `stroke` | `string`    | â€”        | CSS color, default brand primary  |
+| `fill`   | `boolean`   | â€”        | Riempi sotto la curva             |
 
 ```ts
 import { Sparkline } from 'kit-slides'
@@ -392,10 +392,10 @@ Serie settimanale a barre con highlight della settimana corrente.
 
 | Prop          | Tipo                       | Required | Note                       |
 |---------------|----------------------------|----------|----------------------------|
-| `points`      | `WeeklyPoint[]`            | ✔        | `{ week, value }`          |
-| `currentWeek` | `number`                   | ✔        | Settimana evidenziata      |
-| `label`       | `string`                   | —        |                            |
-| `formatValue` | `(v: number) => string`    | —        |                            |
+| `points`      | `WeeklyPoint[]`            | âœ”        | `{ week, value }`          |
+| `currentWeek` | `number`                   | âœ”        | Settimana evidenziata      |
+| `label`       | `string`                   | â€”        |                            |
+| `formatValue` | `(v: number) => string`    | â€”        |                            |
 
 ```ts
 import { WeeklyTrend, type WeeklyPoint } from 'kit-slides'
@@ -412,19 +412,19 @@ const points: WeeklyPoint[] = [
 
 ---
 
-## Quando creare una slide custom — i tre livelli del kit
+## Quando creare una slide custom â€” i tre livelli del kit
 
-Kit-slides offre tre livelli di componenti, in ordine di granularità decrescente.
-La regola operativa è **partire dall'alto** e scendere solo se il livello sopra
+Kit-slides offre tre livelli di componenti, in ordine di granularitÃ  decrescente.
+La regola operativa Ã¨ **partire dall'alto** e scendere solo se il livello sopra
 non basta.
 
-**1 — Slide built-in (`src/components/slides/`).**
+**1 â€” Slide built-in (`src/components/slides/`).**
 Usa una slide built-in (`KpiSlide`, `TableSlide`, `ChartSlide`, ecc.) se il
-layout standard più una `config` tipizzata coprono il caso d'uso. È il livello
-più astratto: una sola prop strutturata e la slide è pronta.
+layout standard piÃ¹ una `config` tipizzata coprono il caso d'uso. Ãˆ il livello
+piÃ¹ astratto: una sola prop strutturata e la slide Ã¨ pronta.
 
-**2 — Componenti KPI (`src/components/kpi/`).**
-Se hai bisogno di un layout che non c'è tra le built-in (es. due metric block
+**2 â€” Componenti KPI (`src/components/kpi/`).**
+Se hai bisogno di un layout che non c'Ã¨ tra le built-in (es. due metric block
 sopra un sparkline accanto a uno status grid), crea una slide custom nel tuo
 deck che compone componenti `kpi/`. Esempio:
 
@@ -432,8 +432,8 @@ deck che compone componenti `kpi/`. Esempio:
 <script setup lang="ts">
 import { Slide, MetricGroup, Sparkline, type MetricItem } from 'kit-slides'
 
-const metrics: MetricItem[] = [/* … */]
-const trend: number[] = [/* … */]
+const metrics: MetricItem[] = [/* â€¦ */]
+const trend: number[] = [/* â€¦ */]
 </script>
 
 <template>
@@ -444,11 +444,12 @@ const trend: number[] = [/* … */]
 </template>
 ```
 
-**3 — Atomi `ui/` (`src/components/ui/`).**
-Solo se ti serve un controllo a granularità di singola pillola (`DeltaBadge`,
+**3 â€” Atomi `ui/` (`src/components/ui/`).**
+Solo se ti serve un controllo a granularitÃ  di singola pillola (`DeltaBadge`,
 `StatusBadge`, `KpiCard`). Tipicamente usato dentro tabelle o griglie custom.
 
-Il deck `decks/kpi-report/slides/Kpi.vue` è un esempio di livello 2 (slide
+Il deck `decks/starter/slides/Kpi.vue` Ã¨ un esempio di livello 2 (slide
 wrapper che riceve dati di dominio e li traduce in props per una slide
 built-in). Il livello 3 lo trovi dentro le celle di `TableSlide` quando una
-colonna è marcata con `badge: 'delta' | 'status' | 'progress'`.
+colonna Ã¨ marcata con `badge: 'delta' | 'status' | 'progress'`.
+

@@ -147,7 +147,7 @@ export interface KpiPerformance {
   kpi_3: number;
 }
 
-// ── CSV row shapes (internal to kpi-report) ──────────────────────────────────
+// ── CSV row shapes (internal to starter) ─────────────────────────────────────
 // Raw string-typed rows produced by PapaParse before the CSV adapter
 // normalizes them to the AreaRow/ChannelRow/... shapes above.
 

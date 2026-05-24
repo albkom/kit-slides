@@ -56,7 +56,7 @@ const slides = computed(() =>
       <p class="error-detail">{{ error }}</p>
       <p class="error-hint">
         Assicurati che i file CSV siano presenti in
-        <code>decks/kpi-report/public/data/</code>
+        <code>decks/starter/public/data/</code>
       </p>
     </div>
 

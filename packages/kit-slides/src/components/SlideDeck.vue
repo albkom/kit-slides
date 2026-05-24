@@ -29,11 +29,26 @@ function mergedProps(s: SlideDefinition): Record<string, unknown> {
   if (s.isCover) return { ...s.props, totalSlides: contentCount.value }
   return s.props
 }
+
+// Deck switcher — only visible in dev mode when multiple decks exist
+const showDeckSwitcher = import.meta.env.DEV && __KIT_DECKS__.length > 1
+const pathSegment = window.location.pathname.split('/').filter(Boolean)[0] ?? ''
+const activeDeck = __KIT_DECKS__.includes(pathSegment) ? pathSegment : __KIT_CURRENT_DECK__
+
+function switchDeck(event: Event) {
+  window.location.href = `/${(event.target as HTMLSelectElement).value}/`
+}
 </script>
 
 <template>
   <div class="deck">
     <div class="toolbar">
+      <template v-if="showDeckSwitcher">
+        <select class="deck-select" :value="activeDeck" @change="switchDeck">
+          <option v-for="d in __KIT_DECKS__" :key="d" :value="d">{{ d }}</option>
+        </select>
+        <div class="toolbar-divider" />
+      </template>
       <button class="btn-primary" @click="printPdf">⬇ Scarica PDF</button>
       <label class="toggle-label" aria-label="Modalità documento">
         <input type="checkbox" role="switch" v-model="isDocument" @change="saveView" />

@@ -1,4 +1,4 @@
-/* kpi-report — cyberpunk theme. Shapes + form only; glow effects applied later. */
+﻿/* starter â€” cyberpunk theme. Shapes + form only; glow effects applied later. */
 
 /* === Token override === */
 :root {
@@ -22,7 +22,7 @@
   --surface: #f4fdff; /* deep indigo/black */
   --border: rgba(0, 0, 0, 0.35);
 
-  /* Status — neon-tinted */
+  /* Status â€” neon-tinted */
   --status-ok: #39ff14;
   --status-ok-bg: rgba(57, 255, 20, 0.12);
   --status-warn: #ffd700;
@@ -466,4 +466,5 @@ code {
 }
 
 /* === Stili specifici del deck === */
-/* (vuoto — nessuno stile deck-specific definito al momento) */
+/* (vuoto â€” nessuno stile deck-specific definito al momento) */
+

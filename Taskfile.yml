@@ -1,9 +1,9 @@
 version: '3'
 
 # Pass the deck name with NAME=... (e.g. `task dev NAME=my-talk`).
-# Defaults to `kpi-report` when omitted.
+# Defaults to `starter` when omitted.
 vars:
-  NAME: '{{.NAME | default "kpi-report"}}'
+  NAME: '{{.NAME | default "starter"}}'
 
 tasks:
   install:
@@ -14,8 +14,8 @@ tasks:
     desc: Copy an existing deck, excluding data (SOURCE=<deck> NAME=<nuovo-deck>)
     preconditions:
       - sh: '[ -n "{{.SOURCE}}" ] && [ -d "decks/{{.SOURCE}}" ]'
-        msg: 'Provide SOURCE=<existing-deck>, e.g. `task new:from SOURCE=kpi-report NAME=my-talk`'
-      - sh: '[ -n "{{.NAME}}" ] && [ "{{.NAME}}" != "kpi-report" ]'
+        msg: 'Provide SOURCE=<existing-deck>, e.g. `task new:from SOURCE=starter NAME=my-talk`'
+      - sh: '[ -n "{{.NAME}}" ] && [ "{{.NAME}}" != "starter" ]'
         msg: 'Provide NAME=<new-deck> (and avoid reserved names)'
       - sh: '[ ! -d "decks/{{.NAME}}" ]'
         msg: 'decks/{{.NAME}} already exists'
@@ -25,7 +25,7 @@ tasks:
       - 'echo Created decks/{{.NAME}} from {{.SOURCE}}. Run: task dev NAME={{.NAME}}'
 
   dev:
-    desc: Start dev server for a deck (NAME=<deck-folder>, default kpi-report)
+    desc: Start dev server for a deck (NAME=<deck-folder>, default starter)
     env:
       KIT_DECK: '{{.NAME}}'
     cmd: pnpm dev

@@ -1,16 +1,9 @@
-<script setup lang="ts">
 import { computed } from "vue";
-import type { PerformanceComputed } from "../types";
-import type { ColumnDef } from "../types";
-import { WidgetTable } from "kit-slides";
-
-const props = defineProps<{
-  performance: PerformanceComputed[];
-}>();
+import type { PerformanceComputed, ColumnDef } from "../types";
 
 const num = new Intl.NumberFormat("it-IT");
 
-const columns: ColumnDef[] = [
+export const tableColumns: ColumnDef[] = [
   { key: "name", label: "Name", align: "left", width: "10%" },
   {
     key: "usage",
@@ -27,13 +20,7 @@ const columns: ColumnDef[] = [
     width: "10%",
     format: (v) => num.format(Number(v)),
   },
-  {
-    key: "status",
-    label: "Status",
-    align: "left",
-    width: "10%",
-    badge: "status",
-  },
+  { key: "status", label: "Status", align: "left", width: "10%", badge: "status" },
   {
     key: "kpi_1",
     label: "KPI 1",
@@ -78,11 +65,10 @@ const columns: ColumnDef[] = [
   },
 ];
 
-const data = computed(
-  () => props.performance as unknown as Record<string, unknown>[],
-);
-</script>
+export function useTableData(props: { performance: PerformanceComputed[] }) {
+  const data = computed(
+    () => props.performance as unknown as Record<string, unknown>[],
+  );
 
-<template>
-  <WidgetTable :columns="columns" :data="data" />
-</template>
+  return { columns: tableColumns, data };
+}
