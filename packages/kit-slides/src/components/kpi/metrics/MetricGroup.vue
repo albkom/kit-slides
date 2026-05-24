@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MetricBlock from "./MetricBlock.vue";
+import WidgetMetric from "../../ui/WidgetMetric.vue";
 
 export interface MetricItem {
   label: string;
@@ -25,7 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
     class="metric-group"
     :style="props.columns > 0 ? { gridTemplateColumns: `repeat(${props.columns}, minmax(0, 1fr))` } : undefined"
   >
-    <MetricBlock
+    <WidgetMetric
       v-for="(item, i) in props.items"
       :key="i"
       :label="item.label"

@@ -28,6 +28,7 @@ interface Props {
   tone?: BentoTone;
   eyebrow?: string;
   title?: string;
+  isRow?: boolean; // layout helper for horizontal stacking (e.g. side-by-side charts)
 }
 const props = withDefaults(defineProps<Props>(), {
   colSpan: 1,
@@ -65,7 +66,7 @@ const toneClass = computed(() =>
         <span v-if="title" class="bento-card__title">{{ title }}</span>
       </slot>
     </div>
-    <div v-if="$slots.default" class="bento-card__body">
+    <div v-if="$slots.default" class="bento-card__body" :class="props.isRow ? 'bento-card__body--row' : null">
       <slot />
     </div>
     <div v-if="$slots.footer" class="bento-card__footer">

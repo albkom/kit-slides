@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import DeltaBadge from "../../ui/DeltaBadge.vue";
+import DeltaBadge from "./DeltaBadge.vue";
 
-interface Props {
+export interface MetricBlockProps {
   label: string;
   value: string | number;
   subValue?: string | number;
@@ -10,7 +10,8 @@ interface Props {
   deltaUnit?: string;
   align?: "left" | "center" | "right";
 }
-const props = withDefaults(defineProps<Props>(), {
+
+const props = withDefaults(defineProps<MetricBlockProps>(), {
   subValue: "",
   delta: null,
   deltaUnit: "%",
@@ -21,9 +22,9 @@ const showDelta = computed(() => props.delta !== null && props.delta !== undefin
 </script>
 
 <template>
-  <div class="metric-block" :class="`align-${props.align}`">
-    <div class="metric-label">{{ props.label }}</div>
+  <div class="widget-metric" :class="`align-${props.align}`">
     <div class="metric-value">{{ props.value }}</div>
+    <div class="metric-label">{{ props.label }}</div>
     <div v-if="props.subValue !== ''" class="metric-sub">{{ props.subValue }}</div>
     <div v-if="showDelta" class="metric-delta">
       <DeltaBadge :value="props.delta" :unit="props.deltaUnit" />
@@ -32,7 +33,7 @@ const showDelta = computed(() => props.delta !== null && props.delta !== undefin
 </template>
 
 <style scoped>
-.metric-block {
+.widget-metric {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
@@ -50,7 +51,7 @@ const showDelta = computed(() => props.delta !== null && props.delta !== undefin
   letter-spacing: 0.04em;
 }
 .metric-value {
-  font-size: var(--txt-xxl, 2rem);
+  font-size: var(--txt-xl, 2rem);
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1.1;

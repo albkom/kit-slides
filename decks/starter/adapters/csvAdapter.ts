@@ -12,6 +12,8 @@ import type {
   RawPerformanceRow,
   RawGeoRow,
   RawDeliveryRow,
+  RawResultsDistributionRow,
+  ResultsDistributionRow,
 } from "../types";
 
 function toNum(v: string | number | null | undefined): number {
@@ -25,6 +27,15 @@ export class CsvAdapter implements IKpiAdapter {
   constructor(options: AdapterOptions = {}) {
     const base = options.basePath ?? "./data";
     this.basePath = base.replace(/\/$/, "");
+  }
+
+  async fetchResultsDistribution(): Promise<ResultsDistributionRow[]> {
+    const rows = await this._load<RawResultsDistributionRow>("ResultsDistribution.csv");
+    return rows.map((r) => ({
+      name: r.name,
+      code: r.code,
+      ops: toNum(r.ops),
+    }));
   }
 
   async fetchAreas(): Promise<AreaRow[]> {

@@ -1,48 +1,61 @@
 import { markRaw } from "vue";
 import Cover from "./slides/Cover.vue";
 import Showcase from "./slides/Showcase.vue";
+import ShowcaseObserver from "./slides/ShowcaseObserver.vue";
 import Table from "./slides/Table.vue";
-import type { SlideDefinition, GeoDataPoint } from "kit-slides";
-import type { KpiAreaComputed, KpiChannel, PerformanceComputed } from "./types";
-import { areasByName, sortByUsage } from "./selectors";
+import type { SlideDefinition } from "kit-slides";
 import { deckConfig } from "./deck.config";
 
 export interface BuildSlidesInput {
-  areas: KpiAreaComputed[];
-  channels: KpiChannel[];
-  performance: PerformanceComputed[];
-  geoData: GeoDataPoint[];
   week: number;
   year: number;
 }
 
+const serverNames = [
+  "Server-AAA",
+  "Server-BBB",
+  "Server-CCC",
+  "Server-DDD",
+  "Server-EEE",
+  "Server-FFF",
+];
+
 export function buildSlides({
-  areas,
-  channels,
-  performance,
-  geoData,
   week,
   year,
 }: BuildSlidesInput): SlideDefinition[] {
-  return [
-    {
-      component: markRaw(Cover),
-      isCover: true,
+  const slides: SlideDefinition[] = [];
+  slides.push({
+    component: markRaw(Cover),
+    isCover: true,
+    props: {
+      week,
+      year,
+      title: deckConfig.title,
+      subtitle: deckConfig.subtitle,
+      badge: deckConfig.badge,
+    },
+  });
+
+  serverNames.forEach((serverName) =>
+    slides.push({
+      component: markRaw(ShowcaseObserver),
+      title: `Performance di ${serverName}`,
       props: {
-        week,
-        year,
-        title: deckConfig.title,
-        subtitle: deckConfig.subtitle,
-        badge: deckConfig.badge,
+        serverName,
       },
-    },
-    {
-      component: markRaw(Showcase),
-      props: { geoData, areas: areasByName(areas), channels, week, year },
-    },
-    {
-      component: markRaw(Table),
-      props: { performance: sortByUsage(performance) },
-    },
-  ];
+    }),
+  );
+
+  slides.push({
+    component: markRaw(Showcase),
+    props: {},
+  });
+
+  slides.push({
+    component: markRaw(Table),
+    props: {},
+  });
+
+  return slides;
 }

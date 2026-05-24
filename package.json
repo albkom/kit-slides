@@ -12,6 +12,7 @@
     "pdf": "node scripts/export-pdf.js"
   },
   "dependencies": {
+    "chartjs-plugin-datalabels": "^2.2.0",
     "kit-slides": "workspace:*",
     "vue": "^3.5.13"
   },

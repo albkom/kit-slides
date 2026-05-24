@@ -37,6 +37,8 @@
   --slide-h: 720px;
   /* @public — padding interno della slide */
   --slide-padding: 2rem;
+  /* @public — gap usato nei layout a griglia (bento, table, ecc.) */
+  --bento-gap: 1rem;
   /* @public — raggio dei box e delle card */
   --slide-radius: 12px;
 

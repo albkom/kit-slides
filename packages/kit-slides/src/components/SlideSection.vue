@@ -26,7 +26,6 @@ const props = withDefaults(defineProps<Props>(), {
 
 const gridStyle = computed(() => ({
   "--bento-cols": String(props.columns),
-  "--bento-gap": props.gap,
 }));
 </script>
 

@@ -1,5 +1,7 @@
 import { computed } from "vue";
-import type { PerformanceComputed, ColumnDef } from "../types";
+import type { ColumnDef } from "../types";
+import { performance } from "./useDashboardStore";
+import { sortByUsage } from "../selectors";
 
 const num = new Intl.NumberFormat("it-IT");
 
@@ -65,9 +67,9 @@ export const tableColumns: ColumnDef[] = [
   },
 ];
 
-export function useTableData(props: { performance: PerformanceComputed[] }) {
+export function useTableData() {
   const data = computed(
-    () => props.performance as unknown as Record<string, unknown>[],
+    () => sortByUsage(performance.value) as unknown as Record<string, unknown>[],
   );
 
   return { columns: tableColumns, data };

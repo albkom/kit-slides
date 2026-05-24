@@ -67,7 +67,7 @@ export interface IKpiAdapter extends IAdapter {
   fetchChannels(): Promise<ChannelRow[]>;
   fetchPerformance(): Promise<PerformanceRow[]>;
   fetchGeo(): Promise<GeoRow[] | null>;
-  fetchDelivery(): Promise<DeliveryRow[] | null>;
+  fetchResultsDistribution(): Promise<ResultsDistributionRow[]>;
 }
 
 export interface AdapterOptions {
@@ -81,7 +81,7 @@ export interface WeekRef {
   year: number;
 }
 
-// ── Computed shapes — produced by useKpiData from normalized adapter rows ────
+// ── Computed shapes — produced by useData from normalized adapter rows ────────
 
 export interface KpiAreaComputed {
   week: number;
@@ -202,4 +202,15 @@ export interface RawDeliveryRow {
   env_b: string;
   env_c: string;
   env_d: string;
+}
+
+export interface RawResultsDistributionRow {
+  name: string;
+  code: string;
+  ops: string;
+}
+export interface ResultsDistributionRow {
+  name: string;
+  code: string;
+  ops: number;
 }

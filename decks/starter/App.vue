@@ -1,7 +1,15 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { SlideDeck } from "kit-slides";
-import { useKpiData } from "./useKpiData";
+import { useData } from "./composables/useData";
+import {
+  currentWeek,
+  areas,
+  channels,
+  performance,
+  geoData,
+  resultsDistribution,
+} from "./composables/useDashboardStore";
 import { buildSlides } from "./deck";
 import { createAdapter } from "./adapters/index";
 import type { AdapterType } from "./adapters/index";
@@ -18,21 +26,15 @@ const adapter = createAdapter(
 );
 
 const {
-  currentWeek,
-  areas,
-  delivery,
-  channels,
-  performance,
-  geoData,
   isLoading,
   error,
-} = useKpiData(adapter);
+} = useData(adapter);
 
 const slides = computed(() =>
   currentWeek.value && areas.value
     ? buildSlides({
         areas: areas.value,
-        delivery: delivery.value || [],
+        resultsDistribution: resultsDistribution.value || [],
         channels: channels.value,
         performance: performance.value,
         geoData: geoData.value,

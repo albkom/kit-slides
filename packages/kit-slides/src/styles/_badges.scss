@@ -6,7 +6,8 @@
   font-weight: 600;
   padding: 0.2rem 0.55rem;
   border-radius: 999px;
-
+  width: auto;
+  
   .arrow { font-size: var(--txt-xs); }
 
   &.up      { color: var(--status-ok);  background: var(--status-ok-bg); }
