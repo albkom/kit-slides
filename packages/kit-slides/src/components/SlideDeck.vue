@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import Slide from './Slide.vue'
+import SlideBase from './SlideBase.vue'
 import type { SlideDefinition } from '../types'
 
 const props = defineProps<{
@@ -47,7 +47,7 @@ function mergedProps(s: SlideDefinition): Record<string, unknown> {
         :key="i"
         class="slide-page"
       >
-        <Slide
+        <SlideBase
           :slide-number="slideNumber(s, i)"
           :total-slides="s.isCover ? null : contentCount"
           :is-cover="s.isCover ?? false"
@@ -57,7 +57,7 @@ function mergedProps(s: SlideDefinition): Record<string, unknown> {
           :department="props.department ?? null"
         >
           <component :is="s.component" v-bind="mergedProps(s)" />
-        </Slide>
+        </SlideBase>
       </div>
     </div>
   </div>
