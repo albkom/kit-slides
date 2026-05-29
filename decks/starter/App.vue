@@ -2,14 +2,7 @@
 import { computed } from "vue";
 import { SlideDeck } from "kit-slides";
 import { useData } from "./composables/useData";
-import {
-  currentWeek,
-  areas,
-  channels,
-  performance,
-  geoData,
-  resultsDistribution,
-} from "./composables/useDashboardStore";
+import { currentWeek, areas } from "./composables/useDashboardStore";
 import { buildSlides } from "./deck";
 import { createAdapter } from "./adapters/index";
 import type { AdapterType } from "./adapters/index";
@@ -25,19 +18,11 @@ const adapter = createAdapter(
   },
 );
 
-const {
-  isLoading,
-  error,
-} = useData(adapter);
+const { isLoading, error } = useData(adapter);
 
 const slides = computed(() =>
   currentWeek.value && areas.value
     ? buildSlides({
-        areas: areas.value,
-        resultsDistribution: resultsDistribution.value || [],
-        channels: channels.value,
-        performance: performance.value,
-        geoData: geoData.value,
         week: currentWeek.value.week,
         year: currentWeek.value.year,
       })

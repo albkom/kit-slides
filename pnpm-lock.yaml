@@ -8,12 +8,18 @@ importers:
 
   .:
     dependencies:
+      '@types/papaparse':
+        specifier: ^5.5.2
+        version: 5.5.2
       chartjs-plugin-datalabels:
         specifier: ^2.2.0
         version: 2.2.0(chart.js@4.5.1)
       kit-slides:
         specifier: workspace:*
         version: link:packages/kit-slides
+      papaparse:
+        specifier: ^5.5.3
+        version: 5.5.3
       vue:
         specifier: ^3.5.13
         version: 3.5.34(typescript@6.0.3)

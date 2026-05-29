@@ -1,5 +1,9 @@
 export type Status = "GOOD" | "ACCEPTABLE" | "WARNING" | "BAD";
 
+export interface IAdapter {
+  // Base interface for all data adapters
+}
+
 export interface GeoDataPoint {
   code: string;
   value: number;
