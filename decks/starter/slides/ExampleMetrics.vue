@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import {
-  SlideSection,
+  SlideBase,
   BentoCard,
   WidgetMetric,
   WidgetBase,
@@ -33,7 +33,7 @@ function toStatus(v: number): 'GOOD' | 'ACCEPTABLE' | 'WARNING' | 'BAD' {
 </script>
 
 <template>
-  <SlideSection :columns="3">
+  <SlideBase :columns="3">
     <!-- Row 1: one WidgetMetric per area -->
     <BentoCard
       v-for="a in firstAreas"
@@ -87,5 +87,5 @@ function toStatus(v: number): 'GOOD' | 'ACCEPTABLE' | 'WARNING' | 'BAD' {
         </div>
       </WidgetBase>
     </BentoCard>
-  </SlideSection>
+  </SlideBase>
 </template>

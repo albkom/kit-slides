@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import {
-  SlideSection,
+  SlideBase,
   BentoCard,
   WidgetTable,
   WidgetMap,
@@ -26,7 +26,7 @@ const alerts = computed<ListItem[]>(() =>
 </script>
 
 <template>
-  <SlideSection :columns="2">
+  <SlideBase :columns="2">
     <BentoCard size="1x2" eyebrow="Server performance">
       <WidgetTable :columns="columns" :data="data" :maxRows="8" />
     </BentoCard>
@@ -38,5 +38,5 @@ const alerts = computed<ListItem[]>(() =>
     <BentoCard size="1x1" eyebrow="Alerts">
       <WidgetList :items="alerts" />
     </BentoCard>
-  </SlideSection>
+  </SlideBase>
 </template>

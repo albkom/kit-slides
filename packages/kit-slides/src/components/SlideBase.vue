@@ -29,11 +29,15 @@ const gridStyle = computed(() => ({
   "--bento-cols": String(props.columns),
   "--bento-gap": props.gap,
 }));
+
+const showHeader = computed(
+  () => !!(props.title || props.meta || hasTopper.value),
+);
 </script>
 
 <template>
   <div class="slide slide-bento">
-    <div v-if="title || meta || hasTopper" class="slide-header">
+    <div v-if="showHeader" class="slide-header">
       <h2 v-if="title" class="slide-title">{{ title }}</h2>
       <span v-if="meta" class="slide-meta">{{ meta }}</span>
       <SlideTopper />

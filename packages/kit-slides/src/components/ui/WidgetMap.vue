@@ -214,4 +214,53 @@ function hideTooltip() {
   gap: 0.5rem;
   height: 18px;
 }
+
+.legend-bar {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(
+    to right,
+    var(--border),
+    var(--brand-primary),
+    var(--brand-accent)
+  );
+}
+
+.legend-label {
+  font-size: var(--txt-s);
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  min-width: 40px;
+
+  &.end {
+    text-align: right;
+  }
+}
+
+.tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.4rem 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  z-index: 10;
+}
+
+.tt-name {
+  font-size: var(--txt-s);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.tt-value {
+  font-size: var(--txt-s);
+  color: var(--brand-primary);
+  font-variant-numeric: tabular-nums;
+}
 </style>

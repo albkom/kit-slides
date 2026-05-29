@@ -6,7 +6,6 @@ export type { DeckSlide as SlideDefinition } from './src/components/SlideDeck.vu
 // Slides
 export { default as CoverSlide }   from './src/components/CoverSlide.vue'
 export { default as SlideBase }    from './src/components/SlideBase.vue'
-export { default as SlideSection } from './src/components/SlideSection.vue'
 
 // Cards
 export { default as BentoCard } from './src/components/CardBase.vue'

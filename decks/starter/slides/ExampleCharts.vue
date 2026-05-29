@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {
-  SlideSection,
+  SlideBase,
   BentoCard,
   WidgetPie,
   WidgetHistogram,
@@ -17,7 +17,7 @@ const totalOps = () => pieItems.value.reduce((s, p) => s + p.value, 0)
 </script>
 
 <template>
-  <SlideSection :columns="2">
+  <SlideBase title="Example Charts" :columns="2">
     <BentoCard size="1x1" eyebrow="Response distribution">
       <WidgetPie :data="pieItems" kind="doughnut" :formatValue="formatWithK" />
     </BentoCard>
@@ -49,5 +49,5 @@ const totalOps = () => pieItems.value.reduce((s, p) => s + p.value, 0)
         :showLegend="true"
       />
     </BentoCard>
-  </SlideSection>
+  </SlideBase>
 </template>
