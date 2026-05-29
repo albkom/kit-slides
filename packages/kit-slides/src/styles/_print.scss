@@ -3,14 +3,31 @@
 
   html, body, #app { background: white; height: auto; overflow: visible; }
 
+  // pdf-digital: branded background fills the full A4 page (incl. letterbox bars).
+  // Targets the data-kit-view attribute set on <html> by SlideDeck.vue so the
+  // html element itself — which paints the page background beyond the body — gets
+  // the branded colour instead of white.
+  html[data-kit-view="pdf-digital"],
+  html[data-kit-view="pdf-digital"] body,
+  html[data-kit-view="pdf-digital"] #app { background: var(--stage-bg) !important; }
+
+  html[data-kit-view="pdf-digital"] .slide-page { background: var(--stage-bg); }
+
   .app, .deck { height: auto; overflow: visible; }
 
   .toolbar { display: none !important; }
+
+  // Vite / Vue dev overlays must not appear in print
+  vite-error-overlay,
+  .__vue-devtools-container__ { display: none !important; }
 
   .stage {
     position: static;
     overflow: visible;
     height: auto;
+    // reset gap/padding so stage spacing doesn't create blank pages
+    gap: 0 !important;
+    padding: 0 !important;
   }
 
   .slide-page {
