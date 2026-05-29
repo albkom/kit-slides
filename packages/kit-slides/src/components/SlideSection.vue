@@ -1,15 +1,5 @@
 <script setup lang="ts">
-import { computed, inject } from "vue";
-import type { ComputedRef } from "vue";
-
-interface TopperData {
-  logo: string | null;
-  department: string | null;
-}
-const _topper = inject<ComputedRef<TopperData>>("slideTopper");
-const hasTopper = computed(
-  () => !!(_topper?.value?.logo || _topper?.value?.department),
-);
+import { computed } from "vue";
 
 interface Props {
   title?: string;

@@ -1,110 +1,45 @@
 <script setup lang="ts">
-import { ref, computed, provide, onMounted, onUnmounted } from "vue";
+import { computed, inject } from "vue";
+import type { ComputedRef } from "vue";
+import SlideTopper from "./SlideTopper.vue";
 
-interface Props {
-  title?: string | null;
-  slideNumber?: number | null;
-  totalSlides?: number | null;
-  deckNote?: string | null;
-  note?: string | null;
-  logo?: string | null;
-  department?: string | null;
-  isCover?: boolean;
+interface TopperData {
+  logo: string | null;
+  department: string | null;
 }
-const props = withDefaults(defineProps<Props>(), {
-  slideNumber: null,
-  totalSlides: null,
-  deckNote: null,
-  note: null,
-  logo: null,
-  department: null,
-  isCover: false,
-});
-
-provide(
-  "slideTopper",
-  computed(() => ({ logo: props.logo, department: props.department })),
+const _topper = inject<ComputedRef<TopperData>>("slideTopper");
+const hasTopper = computed(
+  () => !!(_topper?.value?.logo || _topper?.value?.department),
 );
 
-const SLIDE_W = 1280;
-const SLIDE_H = 720;
-
-const outer = ref<HTMLDivElement | null>(null);
-const scale = ref(1);
-let ro: ResizeObserver | null = null;
-
-function update() {
-  if (!outer.value) return;
-  const w = outer.value.clientWidth;
-  const h = outer.value.clientHeight;
-  if (w === 0 || h === 0) return;
-  scale.value = Math.min(w / SLIDE_W, h / SLIDE_H);
+interface Props {
+  title?: string;
+  meta?: string;
+  columns?: number;
+  gap?: string;
 }
-
-onMounted(() => {
-  ro = new ResizeObserver(update);
-  if (outer.value) ro.observe(outer.value);
-  update();
-  window.addEventListener("beforeprint", update);
-  window.addEventListener("afterprint", update);
+const props = withDefaults(defineProps<Props>(), {
+  title: "",
+  meta: "",
+  columns: 4,
+  gap: "1rem",
 });
 
-onUnmounted(() => {
-  ro?.disconnect();
-  window.removeEventListener("beforeprint", update);
-  window.removeEventListener("afterprint", update);
-});
+const gridStyle = computed(() => ({
+  "--bento-cols": String(props.columns),
+  "--bento-gap": props.gap,
+}));
 </script>
 
 <template>
-  <div ref="outer" class="slide-outer">
-    <div class="slide-inner" :style="{ transform: `scale(${scale})` }">
-      <div
-        class="slide-topper slide-note"
-        v-if="props.logo || props.department || props.isCover"
-      >
-        Departmental Logo and Name (if any) - Slide Title (if any)
-      </div>
-      <!-- slide content -->
-      <div class="slide">
-        <div v-if="title" class="slide-header">
-          <h2 class="slide-title">{{ title }}</h2>
-        </div>
-        <div class="slide-body">
-          <slot />
-        </div>
-      </div>
-      <!-- bottom-center branding: cover only -->
-      <div
-        v-if="props.isCover && (props.logo || props.department)"
-        class="slide-cover-brand"
-      >
-        <img
-          v-if="props.logo"
-          :src="props.logo"
-          class="slide-logo"
-          alt="logo"
-        />
-        <span v-if="props.department" class="slide-dep">{{
-          props.department
-        }}</span>
-      </div>
-      <div class="slide-footer">
-        <div class="slide-footer__left">
-          <span v-if="props.deckNote && !props.isCover" class="slide-note">{{
-            props.deckNote
-          }}</span>
-          <span v-if="props.note" class="slide-note slide-note--slide">{{
-            props.note
-          }}</span>
-        </div>
-        <span v-if="props.slideNumber !== null" class="slide-number"
-          >{{ props.slideNumber
-          }}<template v-if="props.totalSlides !== null">
-            / {{ props.totalSlides }}</template
-          ></span
-        >
-      </div>
+  <div class="slide slide-bento">
+    <div v-if="title || meta || hasTopper" class="slide-header">
+      <h2 v-if="title" class="slide-title">{{ title }}</h2>
+      <span v-if="meta" class="slide-meta">{{ meta }}</span>
+      <SlideTopper />
+    </div>
+    <div class="bento-grid" :style="gridStyle">
+      <slot />
     </div>
   </div>
 </template>
