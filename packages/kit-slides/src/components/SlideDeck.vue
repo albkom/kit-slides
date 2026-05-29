@@ -17,23 +17,25 @@ export interface DeckSlide {
   note?: string;
 }
 
+type ViewMode = "pdf-print" | "pdf-digital" | "dashboard";
+
 const props = withDefaults(
   defineProps<{
     slides: DeckSlide[];
     logo?: string;
     department?: string;
     deckNote?: string;
-    defaultView?: "slide" | "document";
+    defaultView?: ViewMode;
   }>(),
   {
     logo: undefined,
     department: undefined,
     deckNote: undefined,
-    defaultView: "slide",
+    defaultView: "pdf-print",
   },
 );
 
-const emit = defineEmits<{ "update:view": ["slide" | "document"] }>();
+const emit = defineEmits<{ "update:view": [ViewMode] }>();
 
 // Topper (logo + department) provided to any descendant SlideTopper.
 provide(
@@ -44,8 +46,29 @@ provide(
   })),
 );
 
-const isDocument = ref(props.defaultView === "document");
-watch(isDocument, (v) => emit("update:view", v ? "document" : "slide"));
+const LS_KEY = "kit-view-mode";
+const VALID: ViewMode[] = ["pdf-print", "pdf-digital", "dashboard"];
+
+function loadStored(): ViewMode {
+  const v = localStorage.getItem(LS_KEY) as ViewMode;
+  return VALID.includes(v) ? v : props.defaultView;
+}
+
+function applyViewAttr(v: ViewMode) {
+  document.documentElement.setAttribute("data-kit-view", v);
+}
+
+const viewMode = ref<ViewMode>(loadStored());
+
+watch(
+  viewMode,
+  (v) => {
+    localStorage.setItem(LS_KEY, v);
+    applyViewAttr(v);
+    emit("update:view", v);
+  },
+  { immediate: true },
+);
 
 function printPdf() {
   window.print();
@@ -103,6 +126,7 @@ onUnmounted(() => {
   ro?.disconnect();
   window.removeEventListener("beforeprint", update);
   window.removeEventListener("afterprint", update);
+  document.documentElement.removeAttribute("data-kit-view");
 });
 </script>
 
@@ -110,13 +134,33 @@ onUnmounted(() => {
   <div class="deck">
     <div class="toolbar">
       <button class="btn-primary" @click="printPdf">⬇ Scarica PDF</button>
-      <label class="toggle-label" aria-label="Modalità documento">
-        <input type="checkbox" role="switch" v-model="isDocument" />
-        Infinite scroll
-      </label>
+      <div class="view-mode-group" role="group" aria-label="Modalità di visualizzazione">
+        <button
+          class="view-mode-badge"
+          :class="{ 'view-mode-badge--active': viewMode === 'pdf-print' }"
+          @click="viewMode = 'pdf-print'"
+        >📄 Stampa</button>
+        <button
+          class="view-mode-badge"
+          :class="{ 'view-mode-badge--active': viewMode === 'pdf-digital' }"
+          @click="viewMode = 'pdf-digital'"
+        >🖥 Digitale</button>
+        <button
+          class="view-mode-badge"
+          :class="{ 'view-mode-badge--active': viewMode === 'dashboard' }"
+          @click="viewMode = 'dashboard'"
+        >⬡ Dashboard</button>
+      </div>
     </div>
 
-    <div class="stage" :class="{ 'stage--document': isDocument }">
+    <div
+      class="stage"
+      :class="{
+        'stage--pdf-print':   viewMode === 'pdf-print',
+        'stage--pdf-digital': viewMode === 'pdf-digital',
+        'stage--dashboard':   viewMode === 'dashboard',
+      }"
+    >
       <div v-for="(s, i) in slides" :key="i" class="slide-page">
         <div class="slide-outer" :ref="(el) => setOuter(el as Element | null, i)">
           <div class="slide-inner" :style="{ transform: `scale(${scale})` }">

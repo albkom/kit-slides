@@ -44,6 +44,9 @@
   /* @public — raggio dei box e delle card */
   --slide-radius: 5px;
 
+  /* @public — background dello stage nelle modalità digital e dashboard */
+  --stage-bg: var(--brand-dark);
+
   /* @public — font stack (override per cambiare il typeface dell'intero kit) */
   --font-stack: "Roboto", system-ui, -apple-system, sans-serif;
 
