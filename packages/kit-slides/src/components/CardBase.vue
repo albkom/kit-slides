@@ -1,34 +1,17 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
-/**
- * BentoCard — a generic, slotted card for use inside <BentoSlide>.
- *
- * Sizing:
- *   - `size="2x1"` shorthand (cols × rows) for the common case
- *   - `:col-span` / `:row-span` numeric props as an escape hatch
- *   - `size` wins over col-span/row-span if both are set
- *
- * Tone:
- *   - default | primary | accent | muted | dark — styling hooks for themes
- *
- * Composition:
- *   - `header` slot replaces the built-in eyebrow + title block
- *   - default slot is the body (charts, metrics, lists, free markup)
- *   - `footer` slot for captions / sources
- */
-
-export type BentoTone = "default" | "primary" | "accent" | "muted" | "dark";
-export type BentoSize = `${number}x${number}`;
+export type CardBaseTone = "default" | "primary" | "accent" | "muted" | "dark";
+export type CardBaseSize = `${number}x${number}`;
 
 interface Props {
-  size?: BentoSize;
+  size?: CardBaseSize;
   colSpan?: number;
   rowSpan?: number;
-  tone?: BentoTone;
+  tone?: CardBaseTone;
   eyebrow?: string;
   title?: string;
-  isRow?: boolean; // layout helper for horizontal stacking (e.g. side-by-side charts)
+  isRow?: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {
   colSpan: 1,

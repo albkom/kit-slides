@@ -12,8 +12,10 @@
     "pdf": "node scripts/export-pdf.js"
   },
   "dependencies": {
+    "@types/papaparse": "^5.5.2",
     "chartjs-plugin-datalabels": "^2.2.0",
     "kit-slides": "workspace:*",
+    "papaparse": "^5.5.3",
     "vue": "^3.5.13"
   },
   "devDependencies": {

@@ -89,7 +89,7 @@ const chartOptions = computed<ChartOptions<"radar">>(() => ({
           props.formatValue ? props.formatValue(Number(v)) : String(v),
       },
       pointLabels: {
-        font: { size: 12, weight: "600" },
+        font: { size: 12, weight: 600 },
         color: "#374151",
       },
       grid: { color: "rgba(0,0,0,0.07)" },

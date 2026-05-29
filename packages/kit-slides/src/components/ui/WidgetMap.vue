@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, ref } from "vue";
-import type { ComputedRef } from "vue";
-import SlideTopper from "../SlideTopper.vue";
+import { computed, ref } from "vue";
 import { geoNaturalEarth1, geoPath } from "d3-geo";
 import { feature } from "topojson-client";
 import type { FeatureCollection, Geometry } from "geojson";
@@ -21,14 +19,6 @@ interface Props {
   /** numeric ISO → alpha-2 map (for tooltip lookup). */
   numericToAlpha2?: Record<string, string>;
 }
-interface TopperData {
-  logo: string | null;
-  department: string | null;
-}
-const _topper = inject<ComputedRef<TopperData>>("slideTopper");
-const hasTopper = computed(
-  () => !!(_topper?.value?.logo || _topper?.value?.department),
-);
 const props = withDefaults(defineProps<Props>(), {
   title: "",
   meta: "",
@@ -107,17 +97,6 @@ const fmtValue = (v: number) =>
   props.formatValue ? props.formatValue(v) : defaultFmt.format(v);
 const fmtCompact = (v: number) =>
   props.formatCompact ? props.formatCompact(v) : defaultFmt.format(v);
-
-const topN = computed(() =>
-  [...props.data]
-    .sort((a, b) => b.value - a.value)
-    .slice(0, props.topCount)
-    .map((d) => ({
-      code: d.code,
-      name: props.countryNames[d.code] ?? d.code,
-      value: d.value,
-    })),
-);
 
 const mapRef = ref<HTMLDivElement | null>(null);
 const tooltip = ref({ visible: false, x: 0, y: 0, name: "", value: "" });
@@ -234,5 +213,54 @@ function hideTooltip() {
   align-items: center;
   gap: 0.5rem;
   height: 18px;
+}
+
+.legend-bar {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(
+    to right,
+    var(--border),
+    var(--brand-primary),
+    var(--brand-accent)
+  );
+}
+
+.legend-label {
+  font-size: var(--txt-s);
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  min-width: 40px;
+
+  &.end {
+    text-align: right;
+  }
+}
+
+.tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.4rem 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  z-index: 10;
+}
+
+.tt-name {
+  font-size: var(--txt-s);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.tt-value {
+  font-size: var(--txt-s);
+  color: var(--brand-primary);
+  font-variant-numeric: tabular-nums;
 }
 </style>

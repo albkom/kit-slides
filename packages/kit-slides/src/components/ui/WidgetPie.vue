@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import { Pie, Doughnut } from "vue-chartjs";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import type { ChartData, ChartOptions } from "chart.js";
+import type { ChartData, ChartOptions, TooltipItem } from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -66,7 +66,7 @@ const chartOptions = computed<
     },
     tooltip: {
       callbacks: {
-        label: (ctx) => {
+        label: (ctx: TooltipItem<"doughnut">) => {
           const val = ctx.parsed as number;
           return ` ${props.formatValue ? props.formatValue(val) : String(val)}`;
         },
