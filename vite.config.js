@@ -3,8 +3,8 @@ import vue from '@vitejs/plugin-vue'
 import { existsSync, readdirSync, readFileSync } from 'fs'
 import { resolve, relative } from 'path'
 
-// Discover all decks that have their own main.ts
-const decksRoot = resolve('decks')
+// Discover all examples that have their own main.ts
+const decksRoot = resolve('examples')
 const allDecks = existsSync(decksRoot)
   ? readdirSync(decksRoot, { withFileTypes: true })
       .filter(d => d.isDirectory() && existsSync(resolve(decksRoot, d.name, 'main.ts')))
@@ -12,7 +12,7 @@ const allDecks = existsSync(decksRoot)
   : []
 
 const deck    = process.env.KIT_DECK || allDecks[0] || 'starter'
-const deckDir = resolve('decks', deck)
+const deckDir = resolve('examples', deck)
 const deckMain = resolve(deckDir, 'main.ts')
 const kitMain  = resolve('src', 'kit-main.ts')
 const entryFile    = existsSync(deckMain) ? deckMain : kitMain
@@ -58,9 +58,9 @@ function deckEntryPlugin() {
       const cleanId = normalizePath(id.split('?')[0])
       // Inject theme.css for whichever deck's main.ts is being transformed
       for (const deckName of allDecks) {
-        const dMain = normalizePath(resolve('decks', deckName, 'main.ts'))
+        const dMain = normalizePath(resolve('examples', deckName, 'main.ts'))
         if (cleanId === dMain) {
-          const themeAbs = resolve('decks', deckName, 'theme.css')
+          const themeAbs = resolve('examples', deckName, 'theme.css')
           const already = code.includes("import './theme.css'") || code.includes("import '__kit_deck__/theme.css'")
           if (existsSync(themeAbs) && !already) {
             return { code: code + `\nimport '${normalizePath(themeAbs)}'`, map: null }
@@ -77,7 +77,7 @@ function deckEntryPlugin() {
         const match = url.match(/^\/([^/?#]+)(?:\/(?:index\.html)?)?(?:\?[^#]*)?$/)
         if (match && allDecks.includes(match[1]) && accept.includes('text/html')) {
           const deckName = match[1]
-          const entry = '/' + normalizePath(relative(process.cwd(), resolve('decks', deckName, 'main.ts')))
+          const entry = '/' + normalizePath(relative(process.cwd(), resolve('examples', deckName, 'main.ts')))
           const template = readFileSync(resolve('index.html'), 'utf-8')
           const html = template.replace('__KIT_ENTRY__', entry)
           server.transformIndexHtml(url, html)
@@ -112,8 +112,8 @@ export default defineConfig(({ mode }) => ({
     alias: [
       { find: 'kit-slides/styles', replacement: resolve('./packages/kit-slides/src/styles/main.scss') },
       { find: 'kit-slides',        replacement: resolve('./packages/kit-slides/index.ts') },
-      { find: '__kit_deck__',      replacement: resolve('decks', deck) },
+      { find: '__kit_deck__',      replacement: resolve('examples', deck) },
     ],
   },
-  publicDir: existsSync(resolve(deckDir, 'public')) ? `decks/${deck}/public` : undefined,
+  publicDir: existsSync(resolve(deckDir, 'public')) ? `examples/${deck}/public` : undefined,
 }))
