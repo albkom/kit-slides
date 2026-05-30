@@ -44,5 +44,9 @@
 - [x] Deck switcher rimosso dall'API pubblica (ADR-004)
 - [x] Auto-pagination TableSlide — split automatico quando dataset supera `maxTableRows`, titolo con indicatore `i/N`
 - [x] `deck.config.ts` — pattern configurazione deck separato da `deck.ts` (introdotto in kpi-report)
-- [x] `BENTO-CHEATSHEET.md` — quick reference BentoSlide/BentoCard
 - [x] `selectors.ts` — rinominati `sortByUsage`/`sortByName` (erano `topByUsage`/`deliveryByName`); conteggio righe ora responsabilità della pagination
+- [x] `docs/bento.md` — documentazione BentoSlide/BentoCard (sostituisce `BENTO-CHEATSHEET.md` eliminato)
+- [x] `docs/data-adapters.md` — documentazione CSV, `.env`, adapter pattern
+- [x] `BENTO-CHEATSHEET.md` e `CHEATSHEET.md` eliminati dalla root (contenuto migrato in `docs/`)
+- [x] `shims.d.ts` rimosso (pulizia TypeScript config)
+- [x] Skill `keeper` aggiunta in `.claude/skills/keeper/`

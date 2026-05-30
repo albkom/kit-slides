@@ -26,6 +26,7 @@ Leggi questi file prima di lavorare sul progetto:
     LABELS.md            — label e aree specifiche del progetto
   skills/
     brainstormer/SKILL.md
+    keeper/SKILL.md
   settings.local.json
 ```
 

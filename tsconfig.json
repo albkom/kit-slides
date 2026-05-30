@@ -16,11 +16,10 @@
     "allowSyntheticDefaultImports": true,
     "types": ["vite/client"],
     "paths": {
-      "@/*": ["./packages/kit-slides/src/*"],
       "kit-slides": ["./packages/kit-slides/index.ts"],
       "kit-slides/styles": ["./packages/kit-slides/src/styles/main.scss"]
     }
   },
-  "include": ["src/**/*", "examples/**/*", "packages/kit-slides/**/*", "shims.d.ts"],
+  "include": ["src/**/*", "examples/**/*", "packages/kit-slides/**/*"],
   "exclude": ["node_modules", "dist"]
 }

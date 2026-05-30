@@ -52,6 +52,8 @@ scripts/
 docs/
   slides.md               ← API delle slide built-in e dei componenti kpi/
   theming.md              ← CSS variables pubbliche + guide al theming
+  bento.md                ← BentoSlide / BentoCard — props, sizing, tone, slot, esempi
+  data-adapters.md        ← CSV, .env config, adapter pattern
 ```
 
 ## Componenti chiave
