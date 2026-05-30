@@ -3,7 +3,7 @@
 ## Cos'è
 
 Vue 3 component library per costruire deck di slide con dati, KPI e PDF export.
-Struttura **library + consumer**: `kit-slides` è la lib, ogni `decks/<nome>/` è un consumer autonomo.
+Struttura **library + consumer**: `kit-slides` è la lib, ogni `examples/<nome>/` è un consumer autonomo.
 
 Obiettivo: un senior Vue dev arriva al primo PDF funzionante in < 15 minuti.
 
@@ -37,7 +37,7 @@ kit-slides/               ← la lib (packages/kit-slides/)
     composables/
       useKpiData.ts       ← esportato da kit-slides
 
-decks/<nome>/             ← consumer (non fa parte del kit)
+examples/<nome>/             ← consumer (non fa parte del kit)
   deck.ts                 ← composizione e ordine delle slide
   theme.css               ← override CSS variables (caricato auto da Vite)
   types.ts                ← tipi di dominio + re-export da kit-slides

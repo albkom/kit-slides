@@ -37,7 +37,7 @@ task new NAME=my-talk
 task dev NAME=my-talk
 ```
 
-`task new` copia `templates/starter/` in `decks/my-talk/`. Il deck avvia con `items.csv` di esempio e una slide tabella generata automaticamente. Sostituisci `public/data/items.csv` con i tuoi dati e modifica `App.vue` per aggiungere slide.
+`task new` copia `templates/starter/` in `examples/my-talk/`. Il deck avvia con `items.csv` di esempio e una slide tabella generata automaticamente. Sostituisci `public/data/items.csv` con i tuoi dati e modifica `App.vue` per aggiungere slide.
 
 **Esporta in PDF**
 
@@ -66,9 +66,8 @@ kit-slides/
 â”‚   â”‚   â””â”€â”€ types.ts                      â† tipi adapter + data shape
 â”‚   â”œâ”€â”€ styles/                           â† SCSS + _tokens.scss (CSS vars)
 â”‚   â””â”€â”€ types.ts                          â† tipi pubblici core
-â”œâ”€â”€ decks/
+â”œâ”€â”€ examples/
 â”‚   â”œâ”€â”€ starter/                       â† deck di riferimento
-â”‚   â””â”€â”€ minimal-pitch/                    â† esempio minimale
 â”œâ”€â”€ templates/
 â”‚   â””â”€â”€ starter/                          â† copiato da `task new`
 â”œâ”€â”€ scripts/
@@ -100,7 +99,7 @@ kit-slides/
 Le slide generiche (`CoverSlide`, `KpiSlide`, `TableSlide`, `ChartSlide`, `MapSlide`) si importano da `kit-slides` e si compongono in `deck.ts`. Esempio minimo:
 
 ```ts
-// decks/my-talk/deck.ts
+// examples/my-talk/deck.ts
 import { markRaw } from "vue";
 import { CoverSlide, TableSlide } from "../../index";
 import type { SlideDefinition } from "../../index";
@@ -134,19 +133,19 @@ Per la documentazione completa di props e config, vedi [`docs/slides.md`](docs/s
 
 ## Dati: collegare i propri CSV
 
-I CSV vivono in `decks/<deck>/public/data/`. Quando `VITE_DATA_SOURCE=csv` (default), il `CsvAdapter` li carica automaticamente al boot del deck e `useKpiData` deriva da loro la settimana corrente.
+I CSV vivono in `examples/<deck>/public/data/`. Quando `VITE_DATA_SOURCE=csv` (default), il `CsvAdapter` li carica automaticamente al boot del deck e `useKpiData` deriva da loro la settimana corrente.
 
 Per cambiare sorgente dati (REST API, host locale C#) vedi le variabili in [`.env.example`](.env.example): copia il file in `.env` e decommenta la configurazione desiderata.
 
 ## Theming
 
-Crea o modifica `decks/<deck>/theme.css` e sovrascrivi le CSS variables (`--brand-primary`, `--surface`, `--font-stack`, â€¦). Il file viene auto-iniettato â€” non serve importarlo in `main.ts`.
+Crea o modifica `examples/<deck>/theme.css` e sovrascrivi le CSS variables (`--brand-primary`, `--surface`, `--font-stack`, â€¦). Il file viene auto-iniettato â€” non serve importarlo in `main.ts`.
 
 Per la lista completa dei token pubblici stabili vedi [`docs/theming.md`](docs/theming.md).
 
 ## Aggiungere una slide custom
 
-1. Crea un componente Vue in `decks/<deck>/slides/MySlide.vue`.
+1. Crea un componente Vue in `examples/<deck>/slides/MySlide.vue`.
 2. Importalo in `deck.ts`: `import MySlide from "./slides/MySlide.vue"`.
 3. Aggiungilo all'array restituito da `buildSlides`: `{ component: markRaw(MySlide), props: { â€¦ } }`.
 4. (Opzionale) Riusa atomi come `KpiCard`, `DeltaBadge`, `StatusBadge` importandoli da `kit-slides`.

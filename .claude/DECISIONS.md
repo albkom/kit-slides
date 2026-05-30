@@ -45,7 +45,7 @@
 
 **Perché:** i tipi `Raw*` (es. `RawSummaryRow`) sono artefatti del parsing CSV/REST, specifici del deck. Esportarli dal kit creava un coupling inutile e tipi pubblici che non appartengono al contratto del kit.
 **Trade-off:** ogni deck ridefinisce i propri `Raw*` internamente.
-**Regola:** i tipi di dominio normalizzati (`AreaRow`, `ChannelRow`, ecc.) vivono in `decks/<nome>/types.ts`. I tipi config pubblici del kit (`KpiCardDef`, `ColumnDef`, `ChartData<T>`) si importano da `kit-slides`.
+**Regola:** i tipi di dominio normalizzati (`AreaRow`, `ChannelRow`, ecc.) vivono in `examples/<nome>/types.ts`. I tipi config pubblici del kit (`KpiCardDef`, `ColumnDef`, `ChartData<T>`) si importano da `kit-slides`.
 
 ---
 
@@ -59,7 +59,7 @@
 
 ## ADR-008 — theme.css iniettato automaticamente da Vite
 
-**Perché:** il consumer non deve ricordarsi di importare il tema in `main.ts`. La convenzione di percorso (`decks/<deck>/theme.css`) è sufficiente.
+**Perché:** il consumer non deve ricordarsi di importare il tema in `main.ts`. La convenzione di percorso (`examples/<deck>/theme.css`) è sufficiente.
 **Trade-off:** magic implicita — il consumer deve sapere che il file viene caricato automaticamente.
 **Regola:** non importare `theme.css` manualmente nel `main.ts` del deck; viene già iniettato.
 

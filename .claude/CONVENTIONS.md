@@ -6,7 +6,7 @@
 
 - Sempre da `kit-slides`, mai da `kit-slides/src/...`
 - Import interni al kit: relativi (`../ui/KpiCard.vue`)
-- `decks/<nome>/types.ts` re-esporta tutto da `kit-slides` così il codice del deck ha un solo punto di import
+- `examples/<nome>/types.ts` re-esporta tutto da `kit-slides` così il codice del deck ha un solo punto di import
 
 ## Componenti
 
@@ -16,7 +16,7 @@
 
 ## Stili
 
-- Personalizzazione tema: solo override di CSS variables (e classi pubbliche documentate) in `decks/<nome>/theme.css`
+- Personalizzazione tema: solo override di CSS variables (e classi pubbliche documentate) in `examples/<nome>/theme.css`
 - Temi built-in: aggiungere `@import "../../src/styles/themes/<nome>.css"` come prima riga del `theme.css`, poi override puntuali sotto
 - `theme.css` viene iniettato automaticamente da Vite — non importarlo in `main.ts`
 - Mai modificare `_tokens.scss` per esigenze di un singolo deck
@@ -33,7 +33,7 @@
 
 ## Tipi
 
-- Tipi di dominio (es. `AreaRow`, `ChannelRow`) vivono in `decks/<nome>/types.ts` — mai nel kit
+- Tipi di dominio (es. `AreaRow`, `ChannelRow`) vivono in `examples/<nome>/types.ts` — mai nel kit
 - Tipi config pubblici del kit: `KpiCardDef`, `ColumnDef`, `ChartData<T>`, `MetricItem`, `RankRow`, `BarItem`, `StatusItem`, `WeeklyPoint` — sempre importati da `kit-slides`
 - Tipi di stato: `Status` esportato da `kit-slides`
 
@@ -67,5 +67,5 @@ Conventional Commits: `feat:` `fix:` `chore:` `docs:` `refactor:`
 
 ## Configurazione deck
 
-- I deck complessi possono estrarre la configurazione in `decks/<nome>/deck.config.ts` (titolo cover, ordine slide, `maxTableRows`, `topGeoCount`, ecc.)
+- I deck complessi possono estrarre la configurazione in `examples/<nome>/deck.config.ts` (titolo cover, ordine slide, `maxTableRows`, `topGeoCount`, ecc.)
 - `deck.ts` consuma `deck.config.ts` e resta dichiarativo — nessun numero magico inline

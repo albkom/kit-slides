@@ -19,25 +19,25 @@ tasks:
     preconditions:
       - sh: '[ -n "{{.NAME}}" ] && [ "{{.NAME}}" != "starter" ]'
         msg: 'Provide NAME=<deck-name> (and avoid reserved names like "starter")'
-      - sh: '[ ! -d "decks/{{.NAME}}" ]'
-        msg: 'decks/{{.NAME}} already exists'
+      - sh: '[ ! -d "examples/{{.NAME}}" ]'
+        msg: 'examples/{{.NAME}} already exists'
     cmds:
-      - cp -r templates/starter decks/{{.NAME}}
-      - 'echo Created decks/{{.NAME}}. Run: task dev NAME={{.NAME}}'
+      - cp -r templates/starter examples/{{.NAME}}
+      - 'echo Created examples/{{.NAME}}. Run: task dev NAME={{.NAME}}'
 
   new:from:
     desc: Copy an existing deck, excluding data (SOURCE=<deck> NAME=<nuovo-deck>)
     preconditions:
-      - sh: '[ -n "{{.SOURCE}}" ] && [ -d "decks/{{.SOURCE}}" ]'
+      - sh: '[ -n "{{.SOURCE}}" ] && [ -d "examples/{{.SOURCE}}" ]'
         msg: 'Provide SOURCE=<existing-deck>, e.g. `task new:from SOURCE=starter NAME=my-talk`'
       - sh: '[ -n "{{.NAME}}" ] && [ "{{.NAME}}" != "starter" ]'
         msg: 'Provide NAME=<new-deck> (and avoid reserved names)'
-      - sh: '[ ! -d "decks/{{.NAME}}" ]'
-        msg: 'decks/{{.NAME}} already exists'
+      - sh: '[ ! -d "examples/{{.NAME}}" ]'
+        msg: 'examples/{{.NAME}} already exists'
     cmds:
-      - cp -r decks/{{.SOURCE}} decks/{{.NAME}}
-      - rm -rf decks/{{.NAME}}/public/data
-      - 'echo Created decks/{{.NAME}} from {{.SOURCE}}. Run: task dev NAME={{.NAME}}'
+      - cp -r examples/{{.SOURCE}} examples/{{.NAME}}
+      - rm -rf examples/{{.NAME}}/public/data
+      - 'echo Created examples/{{.NAME}} from {{.SOURCE}}. Run: task dev NAME={{.NAME}}'
 
   dev:
     desc: Start dev server for a deck (NAME=<deck-folder>, default starter)
