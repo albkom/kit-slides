@@ -10,6 +10,21 @@ tasks:
     desc: Install dependencies
     cmd: pnpm install
 
+  playground:
+    desc: Start playground dev server (component explorer, no CSV required)
+    cmd: pnpm --filter playground dev
+
+  new:
+    desc: Scaffold a new deck from templates/starter (NAME=<deck>)
+    preconditions:
+      - sh: '[ -n "{{.NAME}}" ] && [ "{{.NAME}}" != "starter" ]'
+        msg: 'Provide NAME=<deck-name> (and avoid reserved names like "starter")'
+      - sh: '[ ! -d "decks/{{.NAME}}" ]'
+        msg: 'decks/{{.NAME}} already exists'
+    cmds:
+      - cp -r templates/starter decks/{{.NAME}}
+      - 'echo Created decks/{{.NAME}}. Run: task dev NAME={{.NAME}}'
+
   new:from:
     desc: Copy an existing deck, excluding data (SOURCE=<deck> NAME=<nuovo-deck>)
     preconditions:

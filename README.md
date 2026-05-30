@@ -18,32 +18,34 @@ cd kit-slides
 pnpm install
 ```
 
-## Guida rapida: dal clone al primo PDF
+## Come iniziare
 
-**Passo 1 â€” Avvia il deck di esempio (`starter`)**
+Scegli il percorso in base al tuo obiettivo:
 
-```bash
-task dev
-```
-
-Apri [http://localhost:5173](http://localhost:5173).
-
-**Passo 2 â€” Esporta in PDF**
+### Percorso A — Esplora i componenti (niente CSV)
 
 ```bash
-task pdf
+task playground
 ```
 
-Trovi `slides.pdf` nella root del progetto.
+Apri [http://localhost:5173](http://localhost:5173). Vedrai `SlideDeck` con slide hardcoded che mostrano tutti i componenti built-in: `CoverSlide`, `SlideBase`, `WidgetMetric`, `WidgetTable`, `WidgetPie`, `WidgetHistogram`, `WidgetRadar` e gli atomi badge.
 
-**Passo 3 â€” Crea il tuo primo deck**
+### Percorso B — Parti con i tuoi CSV
 
 ```bash
 task new NAME=my-talk
 task dev NAME=my-talk
 ```
 
-Modifica `decks/my-talk/deck.ts` per aggiungere o riordinare le slide.
+`task new` copia `templates/starter/` in `decks/my-talk/`. Il deck avvia con `items.csv` di esempio e una slide tabella generata automaticamente. Sostituisci `public/data/items.csv` con i tuoi dati e modifica `App.vue` per aggiungere slide.
+
+**Esporta in PDF**
+
+```bash
+task pdf
+```
+
+Trovi `slides.pdf` nella root del progetto.
 
 ## Struttura del progetto
 
@@ -85,8 +87,9 @@ kit-slides/
 | Comando                    | Descrizione                                          |
 |----------------------------|------------------------------------------------------|
 | `task install`             | `pnpm install`                                       |
+| `task playground`          | Dev server del component explorer (niente CSV)       |
 | `task new NAME=<deck>`     | Scaffold di un nuovo deck da `templates/starter`     |
-| `task dev NAME=<deck>`     | Dev server (default `starter`)                    |
+| `task dev NAME=<deck>`     | Dev server (default `starter`)                       |
 | `task dev:pdf NAME=<deck>` | Dev server + auto-export PDF su ogni save            |
 | `task build NAME=<deck>`   | Build di produzione in `dist/`                       |
 | `task preview`             | Preview del build                                    |

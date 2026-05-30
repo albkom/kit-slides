@@ -1,0 +1,6 @@
+name,value,category,status
+Alpha,1200,A,GOOD
+Beta,850,B,ACCEPTABLE
+Gamma,320,A,WARNING
+Delta,95,C,BAD
+Epsilon,2100,B,GOOD

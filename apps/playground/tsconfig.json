@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ESNext", "DOM"],
+    "strict": true,
+    "skipLibCheck": true,
+    "jsx": "preserve",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "types": ["vite/client"],
+    "paths": {
+      "kit-slides": ["../../packages/kit-slides/index.ts"],
+      "kit-slides/styles": ["../../packages/kit-slides/src/styles/main.scss"]
+    }
+  },
+  "include": ["src/**/*"]
+}
