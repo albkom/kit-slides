@@ -45,7 +45,9 @@
 
 ## Task
 
+- `task playground` — dev server component explorer (no CSV richiesto)
 - `task new NAME=<deck>` — scaffold nuovo deck
+- `task new:from SOURCE=<deck> NAME=<nuovo>` — copia deck esistente, esclude `public/data/`
 - `task dev NAME=<deck>` — dev server
 - `task dev:pdf NAME=<deck>` — dev server con auto-export PDF
 - `task pdf NAME=<deck>` — export PDF (exit non-zero se dati malformati o errore UI)
@@ -57,8 +59,13 @@ Conventional Commits: `feat:` `fix:` `chore:` `docs:` `refactor:`
 ## Acceptance criteria minimi
 
 - [ ] `task new` produce un deck che si avvia senza errori
-- [ ] Un senior Vue dev arriva al primo PDF in < 15 minuti usando solo il README
-- [ ] `task pdf` esce con codice non-zero se i dati sono malformati o l'UI è in stato di errore
-- [ ] Cambiare `theme.css` modifica l'aspetto senza toccare il kit
-- [ ] Nessun import da `kit-slides/src/...` nel codice del deck
-- [ ] Una slide custom, un componente KPI usato direttamente, o un adapter custom non richiedono mai di modificare file interni di kit-slides
+- [x] Un senior Vue dev arriva al primo PDF in < 15 minuti usando solo il README
+- [x] `task pdf` esce con codice non-zero se i dati sono malformati o l'UI è in stato di errore
+- [x] Cambiare `theme.css` modifica l'aspetto senza toccare il kit
+- [x] Nessun import da `kit-slides/src/...` nel codice del deck
+- [x] Una slide custom, un componente KPI usato direttamente, o un adapter custom non richiedono mai di modificare file interni di kit-slides
+
+## Configurazione deck
+
+- I deck complessi possono estrarre la configurazione in `decks/<nome>/deck.config.ts` (titolo cover, ordine slide, `maxTableRows`, `topGeoCount`, ecc.)
+- `deck.ts` consuma `deck.config.ts` e resta dichiarativo — nessun numero magico inline

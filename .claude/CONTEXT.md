@@ -95,13 +95,15 @@ task pdf NAME=my-deck
 
 ## Comandi disponibili
 
-| Comando                    | Descrizione                                       |
-|----------------------------|---------------------------------------------------|
-| `task new NAME=<deck>`     | Scaffold nuovo deck da `templates/starter`        |
-| `task dev NAME=<deck>`     | Dev server (default: `starter`)                   |
-| `task dev:pdf NAME=<deck>` | Dev server + auto-export PDF su ogni save         |
-| `task build NAME=<deck>`   | Build di produzione in `dist/`                    |
-| `task pdf NAME=<deck>`     | Export PDF one-shot (exit 1 se errore o dati malformati) |
+| Comando                                      | Descrizione                                             |
+|----------------------------------------------|---------------------------------------------------------|
+| `task playground`                            | Dev server component explorer (no CSV richiesto)        |
+| `task new NAME=<deck>`                       | Scaffold nuovo deck da `templates/starter`              |
+| `task new:from SOURCE=<deck> NAME=<nuovo>`   | Copia deck esistente, esclude `public/data/`            |
+| `task dev NAME=<deck>`                       | Dev server (default: `starter`)                         |
+| `task dev:pdf NAME=<deck>`                   | Dev server + auto-export PDF su ogni save               |
+| `task build NAME=<deck>`                     | Build di produzione in `dist/`                          |
+| `task pdf NAME=<deck>`                       | Export PDF one-shot (exit 1 se errore o dati malformati) |
 
 ## Regola fondamentale
 
